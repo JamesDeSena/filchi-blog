@@ -80,7 +80,7 @@ const AdminDashboard = () => {
                 </div>
               </div>
             ) : (
-              <Link to={`/admin/newblog`} className="link-card">
+              <Link to={`/admin/editblog/${post._id}`} className="link-card">
                 <div className="card position-relative border-0 shadow d-flex h-100">
                   <div className="card-body d-flex flex-column justify-content-between">
                     <div>
