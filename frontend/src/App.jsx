@@ -7,6 +7,7 @@ import AdminLogin from './admin/AdminLogin'
 import AdminDashboard from './admin/AdminDashboard'
 import NavBar from "./admin/adminComponents/NavBar";
 import BlogForm from "./admin/adminComponents/BlogForm";
+import BlogEdit from "./admin/adminComponents/BlogEdit";
 
 
 function App() {
@@ -48,6 +49,15 @@ function App() {
           element={
             <>
               <BlogForm/>
+            </>
+          }
+        />
+        <Route
+          exact
+          path="/admin/editblog/:id"
+          element={
+            <>
+              <BlogEdit/>
             </>
           }
         />

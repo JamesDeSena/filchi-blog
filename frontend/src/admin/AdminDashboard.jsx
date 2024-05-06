@@ -72,7 +72,7 @@ const AdminDashboard = () => {
         {blogPosts.map((post, index) => (
           <div key={index} className={`col-md-${viewMode ? '12' : '3'} mb-3`}>
             {viewMode ? (
-              <div className="card mx-5 mb-1">
+              <div className="card mb-1">
                 <div className="card-body">
                 <h4 className={`card-title ${post.title.length > 15 ? 'fade-text' : ''}`} style={{ fontWeight: "bold" }}>
                   {post.title.substring(0, 15)}
@@ -80,7 +80,7 @@ const AdminDashboard = () => {
                 </div>
               </div>
             ) : (
-              <Link to={`/admin/newblog`} className="link-card">
+              <Link to={`/admin/editblog/${post._id}`} className="link-card">
                 <div className="card position-relative border-0 shadow d-flex h-100">
                   <div className="card-body d-flex flex-column justify-content-between">
                     <div>
