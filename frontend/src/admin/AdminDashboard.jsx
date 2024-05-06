@@ -7,7 +7,7 @@ import { faThLarge, faThList } from "@fortawesome/free-solid-svg-icons";
 
 const AdminDashboard = () => {
   const [blogPosts, setBlogPosts] = useState([]);
-  const [isGridView, setIsGridView] = useState(false); // State variable for view mode
+  const [viewMode, setViewMode] = useState(false);
 
   const fetchBlogPosts = async () => {
     try {
@@ -27,30 +27,28 @@ const AdminDashboard = () => {
   }, []);
 
   const switchToListView = () => {
-    setIsGridView(false);
+    setViewMode(false);
   };
 
   const switchToCardView = () => {
-    setIsGridView(true);
+    setViewMode(true);
   };
 
   return (
-    <div className="text-center mt-3 p-3">
+    <div className="container text-center mt-3 p-3">
       <div className="card mb-2">
-        <div className="card-body ">
+        <div className="card-body">
           <div className="d-flex justify-content-between">
-          <h2 className="card-title mb-4">Blog</h2>
-          <Link to="/admin/newblog">
+            <h2 className="card-title mb-4">Blog</h2>
+            <Link to="/admin/newblog">
               <button className="btn btn-success">Create New Blog</button>
             </Link>
-            </div>
-          {/* "Create New Blog" button and view mode buttons */}
+          </div>
           <div className="d-flex justify-content-end align-items-center mb-3">
-
             <div className="d-flex align-items-center">
-              <span class="mx-2">View As:</span>
+              <span className="mx-2">View As:</span>
               <button
-                className={`mx-1 btn btn-secondary ${isGridView ? "" : "active"}`}
+                className={`mx-1 btn btn-secondary ${viewMode ? "" : "active"}`}
                 onClick={switchToListView}
                 aria-label="Grid View"
               >
@@ -58,7 +56,7 @@ const AdminDashboard = () => {
                 <span className="sr-only">Grid View</span>
               </button>
               <button
-                className={`mx-1 btn btn-secondary ml-2 ${isGridView ? "active" : ""}`}
+                className={`mx-1 btn btn-secondary ml-2 ${viewMode ? "active" : ""}`}
                 onClick={switchToCardView}
                 aria-label="List View"
               >
@@ -72,40 +70,25 @@ const AdminDashboard = () => {
 
       <div className="row">
         {blogPosts.map((post, index) => (
-          <div key={index} className={`col-md-${isGridView ? '12' : '3'} mb-3`}>
-            {isGridView ? (
-              <div className="card mx-5 mb-3">
-              <div className="card-body">
-                <h4 className="card-title">{post.title}</h4>
-                {/* <h6 className="card-subtitle mb-2 text-muted">{post.author}</h6>
-                <p className="card-text">
-                  {post.content && post.content.length > 20
-                    ? post.content.substring(0, 20) + "..."
-                    : post.content}
-                </p>
-                <p className="card-text">
-                  <small className="text-muted">{post.dateTimeCreated}</small>
-                </p> */}
+          <div key={index} className={`col-md-${viewMode ? '12' : '3'} mb-3`}>
+            {viewMode ? (
+              <div className="card mx-5 mb-1">
+                <div className="card-body">
+                <h4 className={`card-title ${post.title.length > 15 ? 'fade-text' : ''}`} style={{ fontWeight: "bold" }}>
+                  {post.title.substring(0, 15)}
+                </h4>
+                </div>
               </div>
-            </div>
-            
             ) : (
               <Link to={`/admin/newblog`} className="link-card">
                 <div className="card position-relative border-0 shadow d-flex h-100">
-
                   <div className="card-body d-flex flex-column justify-content-between">
                     <div>
-                      <h4 className="card-title" style={{ fontWeight: "bold" }}>
-                        {post.title}
+                    <div className="card-body">
+                      <h4 className={`card-title ${post.title.length > 15 ? 'fade-text' : ''}`} style={{ fontWeight: "bold" }}>
+                        {post.title.substring(0, 15)}
                       </h4>
-                      {/* <p className="card-text" style={{ fontStyle: "italic" }}>
-                        {post.author}
-                      </p>
-                      <p className="card-text">
-                        {post.content ? post.content.substring(0, 20) : ""}
-                        {post.content && post.content.length > 20 ? "..." : ""}
-                      </p> */}
-
+                    </div>
                     </div>
                     <img
                       src={post.thumbnail.link}
