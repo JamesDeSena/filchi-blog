@@ -72,9 +72,9 @@ const BlogEdit = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    
+
     // Update the form data and include the updated date
-    setFormData(prevData => ({
+    setFormData((prevData) => ({
       ...prevData,
       [name]: value,
       dateUpdated: Date.toISOString(), // Update dateUpdated with current timestamp
@@ -411,14 +411,20 @@ const BlogEdit = () => {
                   </p>
                 )}
                 <div className="preview-thumbnail">
-                {viewLink && viewLink.thumbnail && (
-                  <img
-                    src={viewLink.thumbnail.link}
-                    alt=""
-                    className="w-[200px]"
-                    style={{ objectFit: "contain", width: "800px" }}
-                  />
-                )}
+                  {thumbnail ? (
+                    <img src={URL.createObjectURL(thumbnail)} alt="Thumbnail" />
+                  ) : (
+                    <>
+                      {viewLink && viewLink.thumbnail && (
+                        <img
+                          src={viewLink.thumbnail.link}
+                          alt=""
+                          className="w-[200px]"
+                          style={{ objectFit: "contain", width: "800px" }}
+                        />
+                      )}
+                    </>
+                  )}
                 </div>
                 {formData.description && (
                   <p className="description">
