@@ -50,9 +50,12 @@ const CreateBlog = async (req, res) => {
 
     const result = await BlogModel.create({
       thumbnail: blogThumbnail,
+      imageCaption: blog.imageCaption,
       title: blog.title,
+      description: blog.description,
       content: blog.content,
       author: blog.author,
+      tags: blog.tags,
       dateCreated: new Date(),
       dateUpdated: null,
     });
@@ -98,7 +101,10 @@ const EditBlog = async (req, res) => {
           thumbnail: blogThumbnail.hasOwnProperty("id")
             ? blogThumbnail
             : blog.thumbnail,
+          imageCaption: blog.imageCaption, 
           title: blog.title,
+          description: blog.description,
+          tags: blog.tags,
           content: blog.content,
           dateUpdated: new Date(),
         }

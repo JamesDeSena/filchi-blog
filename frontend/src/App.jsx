@@ -6,6 +6,8 @@ import "react-toastify/dist/ReactToastify.css";
 import AdminLogin from './admin/AdminLogin'
 import AdminDashboard from './admin/AdminDashboard'
 import NavBar from "./admin/adminComponents/NavBar";
+import BlogForm from "./admin/adminComponents/BlogForm";
+
 
 function App() {
   return (
@@ -37,6 +39,15 @@ function App() {
             <>
               <NavBar/>
               <AdminDashboard/>
+            </>
+          }
+        />
+        <Route
+          exact
+          path="/admin/newblog"
+          element={
+            <>
+              <BlogForm/>
             </>
           }
         />

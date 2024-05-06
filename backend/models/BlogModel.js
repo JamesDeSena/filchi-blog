@@ -8,7 +8,17 @@ const BlogSchema = new Schema({
     name: {type: String},
     link: {type: String}
   },
+  imageCaption: {
+    type: String,
+    default: "",
+    required: true
+  },
   title: {
+    type: String,
+    default: "",
+    required: true
+  },
+  description: {
     type: String,
     default: "",
     required: true
@@ -19,6 +29,11 @@ const BlogSchema = new Schema({
     required: true
   },
   author: {
+    type: String,
+    default: "",
+    required: true
+  },
+  tags: {
     type: String,
     default: "",
     required: true
