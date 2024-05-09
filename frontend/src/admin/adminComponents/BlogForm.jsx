@@ -124,7 +124,7 @@ const BlogForm = () => {
           dateCreated: new Date().toLocaleDateString(),
         });
         formRef.current.reset();
-        console.log(response)
+        console.log(response);
       } else {
         toast.error("Failed to upload");
       }
@@ -137,7 +137,10 @@ const BlogForm = () => {
     <>
       <Navbar bg="light" expand="lg">
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id="basic-navbar-nav" className="justify-content-around">
+        <Navbar.Collapse
+          id="basic-navbar-nav"
+          className="justify-content-around"
+        >
           <Nav>
             <Button variant="primary" onClick={handleBack}>
               <span>Back</span>
@@ -149,8 +152,13 @@ const BlogForm = () => {
             </Button>
           </Nav>
           <Nav>
-            <NavDropdown title={<FontAwesomeIcon icon={faPaperPlaneTop} />} id="basic-nav-dropdown">
-              <NavDropdown.Item onClick={handleSignOut}>Logout</NavDropdown.Item>
+            <NavDropdown
+              title={<FontAwesomeIcon icon={faPaperPlaneTop} />}
+              id="basic-nav-dropdown"
+            >
+              <NavDropdown.Item onClick={handleSignOut}>
+                Logout
+              </NavDropdown.Item>
             </NavDropdown>
           </Nav>
         </Navbar.Collapse>
@@ -165,179 +173,182 @@ const BlogForm = () => {
               className="blog-form"
               noValidate
             >
-                <div className="form-group">
-                    <label htmlFor="title">Title</label>
-                    <input
-                        type="text"
-                        className={`form-control ${
-                            invalidFields.title ? "is-invalid" : ""
-                        }`}
-                        id="title"
-                        name="title"
-                        value={formData.title}
-                        onChange={handleChange}
-                        placeholder="Enter title"
-                        required
-                    />
-                    {invalidFields.title && (
-                        <div className="invalid-feedback">{invalidFields.title}</div>
-                    )}
-                </div>
-                <div className="form-group">
-                    <label htmlFor="description">Description</label>
-                    <input
-                        type="text"
-                        className={`form-control ${
-                            invalidFields.description ? "is-invalid" : ""
-                        }`}
-                        id="description"
-                        name="description"
-                        value={formData.description}
-                        onChange={handleChange}
-                        placeholder="Enter description"
-                        required
-                    />
-                    {invalidFields.description && (
-                        <div className="invalid-feedback">
-                            {invalidFields.description}
-                        </div>
-                    )}
-                </div>
-                <div className="form-group">
-                    <label htmlFor="thumbnail">Thumbnail</label>
-                    <input
-                        type="file"
-                        className={`form-control ${
-                            invalidFields.thumbnail ? "is-invalid" : ""
-                        }`}
-                        id="thumbnail"
-                        name="thumbnail"
-                        onChange={handleImage}
-                        accept="image/*"
-                        placeholder="Select thumbnail"
-                        required
-                    />
-                    {invalidFields.thumbnail && (
-                        <div className="invalid-feedback">
-                            {invalidFields.thumbnail}
-                        </div>
-                    )}
-                </div>
-                <div className="form-group">
-                    <label htmlFor="imageCaption">Image Caption</label>
-                    <input
-                        type="text"
-                        className={`form-control ${
-                            invalidFields.imageCaption ? "is-invalid" : ""
-                        }`}
-                        id="imageCaption"
-                        name="imageCaption"
-                        value={formData.imageCaption}
-                        onChange={handleChange}
-                        placeholder="Enter image caption"
-                        required
-                    />
-                    {invalidFields.imageCaption && (
-                        <div className="invalid-feedback">
-                            {invalidFields.imageCaption}
-                        </div>
-                    )}
-                </div>
-                <div className="form-group">
-                    <label htmlFor="author">Author</label>
-                    <input
-                        type="text"
-                        className={`form-control ${
-                            invalidFields.author ? "is-invalid" : ""
-                        }`}
-                        id="author"
-                        name="author"
-                        value={formData.author}
-                        onChange={handleChange}
-                        placeholder="Enter author name"
-                        required
-                    />
-                    {invalidFields.author && (
-                        <div className="invalid-feedback">{invalidFields.author}</div>
-                    )}
-                </div>
-                <div className="form-group">
-                    <label htmlFor="tags">Tags</label>
-                    <input
-                        type="text"
-                        className={`form-control ${
-                            invalidFields.tags ? "is-invalid" : ""
-                        }`}
-                        id="tags"
-                        name="tags"
-                        value={formData.tags}
-                        onChange={handleChange}
-                        placeholder="Enter tags"
-                        required
-                    />
-                    {invalidFields.tags && (
-                        <div className="invalid-feedback">{invalidFields.tags}</div>
-                    )}
-                </div>
-                <div className="form-group">
-                    <label htmlFor="content">Content</label>
-                    <ReactQuill
-                        theme="snow"
-                        value={formData.content}
-                        onChange={handleContentChange}
-                        modules={{
-                            toolbar: [
-                                [{ header: "1" }, { header: "2" }],
-                                [{ size: [] }],
-                                ["bold", "italic", "underline", "strike", "blockquote"],
-                                [
-                                    { list: "ordered" },
-                                    { list: "bullet" },
-                                    { indent: "-1" },
-                                    { indent: "+1" },
-                                ],
-                                ["link", "image", "video"],
-                                ["clean"],
-                            ],
-                        }}
-                        className={invalidFields.content ? "is-invalid" : ""}
-                        placeholder="Enter content"
-                    />
-                    {invalidFields.content && (
-                        <div className="invalid-feedback">{invalidFields.content}</div>
-                    )}
-                </div>
+              <div className="form-group">
+                <label htmlFor="title">Title</label>
+                <input
+                  type="text"
+                  className={`form-control ${
+                    invalidFields.title ? "is-invalid" : ""
+                  }`}
+                  id="title"
+                  name="title"
+                  value={formData.title}
+                  onChange={handleChange}
+                  placeholder="Enter title"
+                  required
+                />
+                {invalidFields.title && (
+                  <div className="invalid-feedback">{invalidFields.title}</div>
+                )}
+              </div>
+              <div className="form-group">
+                <label htmlFor="description">Description</label>
+                <input
+                  type="text"
+                  className={`form-control ${
+                    invalidFields.description ? "is-invalid" : ""
+                  }`}
+                  id="description"
+                  name="description"
+                  value={formData.description}
+                  onChange={handleChange}
+                  placeholder="Enter description"
+                  required
+                />
+                {invalidFields.description && (
+                  <div className="invalid-feedback">
+                    {invalidFields.description}
+                  </div>
+                )}
+              </div>
+              <div className="form-group">
+                <label htmlFor="thumbnail">Thumbnail</label>
+                <input
+                  type="file"
+                  className={`form-control ${
+                    invalidFields.thumbnail ? "is-invalid" : ""
+                  }`}
+                  id="thumbnail"
+                  name="thumbnail"
+                  onChange={handleImage}
+                  accept="image/*"
+                  placeholder="Select thumbnail"
+                  required
+                />
+                {invalidFields.thumbnail && (
+                  <div className="invalid-feedback">
+                    {invalidFields.thumbnail}
+                  </div>
+                )}
+              </div>
+              <div className="form-group">
+                <label htmlFor="imageCaption">Image Caption</label>
+                <input
+                  type="text"
+                  className={`form-control ${
+                    invalidFields.imageCaption ? "is-invalid" : ""
+                  }`}
+                  id="imageCaption"
+                  name="imageCaption"
+                  value={formData.imageCaption}
+                  onChange={handleChange}
+                  placeholder="Enter image caption"
+                  required
+                />
+                {invalidFields.imageCaption && (
+                  <div className="invalid-feedback">
+                    {invalidFields.imageCaption}
+                  </div>
+                )}
+              </div>
+              <div className="form-group">
+                <label htmlFor="author">Author</label>
+                <input
+                  type="text"
+                  className={`form-control ${
+                    invalidFields.author ? "is-invalid" : ""
+                  }`}
+                  id="author"
+                  name="author"
+                  value={formData.author}
+                  onChange={handleChange}
+                  placeholder="Enter author name"
+                  required
+                />
+                {invalidFields.author && (
+                  <div className="invalid-feedback">{invalidFields.author}</div>
+                )}
+              </div>
+              <div className="form-group">
+                <label htmlFor="tags">Tags</label>
+                <input
+                  type="text"
+                  className={`form-control ${
+                    invalidFields.tags ? "is-invalid" : ""
+                  }`}
+                  id="tags"
+                  name="tags"
+                  value={formData.tags}
+                  onChange={handleChange}
+                  placeholder="Enter tags"
+                  required
+                />
+                {invalidFields.tags && (
+                  <div className="invalid-feedback">{invalidFields.tags}</div>
+                )}
+              </div>
+              <div className="form-group">
+                <label htmlFor="content">Content</label>
+                <ReactQuill
+                  theme="snow"
+                  value={formData.content}
+                  onChange={handleContentChange}
+                  modules={{
+                    toolbar: [
+                      [{ header: "1" }, { header: "2" }],
+                      [{ size: [] }],
+                      ["bold", "italic", "underline", "strike", "blockquote"],
+                      [
+                        { list: "ordered" },
+                        { list: "bullet" },
+                        { indent: "-1" },
+                        { indent: "+1" },
+                      ],
+                      ["link", "image", "video"],
+                      ["clean"],
+                    ],
+                  }}
+                  className={invalidFields.content ? "is-invalid" : ""}
+                  placeholder="Enter content"
+                />
+                {invalidFields.content && (
+                  <div className="invalid-feedback">
+                    {invalidFields.content}
+                  </div>
+                )}
+              </div>
             </form>
           </div>
-<div className="col-md-6">
-  {/* Preview Section */}
-  <div className="preview-pane">
-    <div className="preview-details">
-      <h3>{formData.title}</h3>
-      {formData.author && (
-        <p className="author">
-          <strong>By: </strong> {formData.author}
-        </p>
-      )}
-      <div className="preview-thumbnail">
-        {thumbnail && <img src={URL.createObjectURL(thumbnail)} alt="Thumbnail" />}
-      </div>
-      {formData.description && (
-        <p className="description">
-          <strong>Description: </strong>
-          {formData.description}
-        </p>
-      )}
-      {formData.content && (
-        <div
-          className="content"
-          dangerouslySetInnerHTML={{ __html: formData.content }}
-        ></div>
-      )}
-    </div>
-  </div>
-</div>
-
+          <div className="col-md-6">
+            {/* Preview Section */}
+            <div className="preview-pane">
+              <div className="preview-details">
+                <h3>{formData.title}</h3>
+                {formData.author && (
+                  <p className="author">
+                    <strong>By: </strong> {formData.author}
+                  </p>
+                )}
+                <div className="preview-thumbnail">
+                  {thumbnail && (
+                    <img src={URL.createObjectURL(thumbnail)} alt="Thumbnail" />
+                  )}
+                </div>
+                {formData.description && (
+                  <p className="description">
+                    <strong>Description: </strong>
+                    {formData.description}
+                  </p>
+                )}
+                {formData.content && (
+                  <div
+                    className="content"
+                    dangerouslySetInnerHTML={{ __html: formData.content }}
+                  ></div>
+                )}
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </>

@@ -85,7 +85,7 @@ const AdminDashboard = () => {
                   <div className="card-body d-flex flex-column justify-content-between">
                     <div>
                     <div className="card-body">
-                      <h4 className={`card-title ${post.title.length > 15 ? 'fade-text' : ''}`} style={{ fontWeight: "bold" }}>
+                      <h4 className={`card-title`} style={{ fontWeight: "bold" }}>
                         {post.title.substring(0, 15)}
                       </h4>
                     </div>

@@ -127,9 +127,9 @@ const Home = () => {
                                 alt="Blog Post"
                                 className="snippet__image"
                               />
-                              <h3 className="snippet__title">
+                              <h2 className="snippet__title">
                                 <a href={`/blog/${link._id}/${link.title}`}>{link.title}</a>
-                              </h3>
+                              </h2>
                               <a
                                 href={`/blog/${link._id}/${link.title}`}
                                 className="btn btn--primary"

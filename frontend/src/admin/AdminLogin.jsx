@@ -33,7 +33,7 @@ const LoginPage = () => {
     <div className="container-fluid d-flex justify-content-center align-items-center" style={{ minHeight: '100vh' }}>
       <div className="card p-4">
         <div className="card-body">
-          <h3 className="text-center mb-4">Admin Login</h3>
+          <h4 className="text-center mb-4">Admin Login</h4>
           {error && <div className="alert alert-danger text-center">{error}</div>}
           <form onSubmit={handleSubmit}>
             <div className="mb-3">
