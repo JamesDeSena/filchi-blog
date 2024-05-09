@@ -39,7 +39,7 @@ const AdminDashboard = () => {
       <div className="card mb-2">
         <div className="card-body">
           <div className="d-flex justify-content-between">
-            <h2 className="card-title mb-4">Blog</h2>
+            <h3 className="card-title mb-4">Blog</h3>
             <Link to="/admin/newblog">
               <button className="btn btn-success">Create New Blog</button>
             </Link>
