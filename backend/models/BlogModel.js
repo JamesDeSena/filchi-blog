@@ -21,7 +21,6 @@ const BlogSchema = new Schema({
   description: {
     type: String,
     default: "",
-    required: true
   },
   content: {
     type: String,
@@ -31,7 +30,6 @@ const BlogSchema = new Schema({
   author: {
     type: String,
     default: "",
-    required: true
   },
   tags: {
     type: String,
