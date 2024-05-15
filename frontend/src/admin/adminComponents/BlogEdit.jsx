@@ -299,21 +299,13 @@ const BlogEdit = () => {
                 <label htmlFor="description">Description</label>
                 <input
                   type="text"
-                  className={`form-control ${
-                    invalidFields.description ? "is-invalid" : ""
-                  }`}
+                  className="form-control"
                   id="description"
                   name="description"
                   value={formData.description}
                   onChange={handleChange}
                   placeholder="Enter description"
-                  required
                 />
-                {invalidFields.description && (
-                  <div className="invalid-feedback">
-                    {invalidFields.description}
-                  </div>
-                )}
               </div>
               <div className="form-group">
                 <label htmlFor="thumbnail">Thumbnail</label>
@@ -359,18 +351,12 @@ const BlogEdit = () => {
                 <label htmlFor="author">Author</label>
                 <input
                   type="text"
-                  className={`form-control ${
-                    invalidFields.author ? "is-invalid" : ""
-                  }`}
+                  className="form-control"
                   id="author"
                   name="author"
-                  value={viewLink.author}
-                  placeholder="Enter author name"
+                  value={viewLink?.author}
                   disabled
                 />
-                {invalidFields.author && (
-                  <div className="invalid-feedback">{invalidFields.author}</div>
-                )}
               </div>
               <div className="form-group">
                 <label htmlFor="tags">Tags</label>
