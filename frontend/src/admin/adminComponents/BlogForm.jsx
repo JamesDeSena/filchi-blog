@@ -19,7 +19,7 @@ const BlogForm = () => {
     title: "",
     description: "",
     content: "",
-    author: "",
+    author: "PDMN",
     tags: "post",
     dateCreated: new Date().toLocaleDateString(),
   });
@@ -63,19 +63,15 @@ const BlogForm = () => {
     } else if (formData.title.length < 5) {
       errors.title = "Title must be at least 5 characters long";
     }
-    if (formData.description.length === 0) {
-      errors.description = "Please input your description";
-    } else if (formData.description.length < 5) {
-      errors.description = "Description must be at least 5 characters long";
+    if (formData.tags.length === 0) {
+      errors.description = "Please input your tags";
     }
     if (formData.content.length === 0) {
       errors.content = "Please input your content";
     } else if (formData.content.length < 20) {
       errors.content = "Content must be at least 20 characters long";
     }
-    if (formData.author.length === 0) {
-      errors.author = "Please input your name";
-    } else if (/\d/.test(formData.author)) {
+    if (/\d/.test(formData.author)) {
       errors.author = "Name cannot contain numbers";
     }
     if (!thumbnail) {

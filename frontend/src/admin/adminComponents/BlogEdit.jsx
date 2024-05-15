@@ -117,13 +117,8 @@ const BlogEdit = () => {
     } else if (formData.title.length < 5) {
       errors.title = "Title must be at least 5 characters long";
     }
-    if (formData.description.length === 0) {
-      errors.description = "Please input your description";
-    } else if (formData.description.length < 5) {
-      errors.description = "Description must be at least 5 characters long";
-    }
     if (formData.tags.length === 0) {
-      errors.description = "Please input your description";
+      errors.description = "Please input your tags";
     }
     if (formData.content.length === 0) {
       errors.content = "Please input your content";
