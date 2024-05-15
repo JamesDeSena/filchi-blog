@@ -8,6 +8,8 @@ import { Navbar, Nav, Button, NavDropdown } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPaperPlane as faPaperPlaneTop } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate, useParams } from "react-router-dom";
+import WithAuth from "../../../auth/WithAuth";
+import { VscAccount } from "react-icons/vsc";
 
 const BlogEdit = () => {
   const { id } = useParams();
@@ -77,7 +79,7 @@ const BlogEdit = () => {
     setFormData((prevData) => ({
       ...prevData,
       [name]: value,
-      dateUpdated: Date.toISOString(), // Update dateUpdated with current timestamp
+      dateUpdated: new Date().toISOString(), // Update dateUpdated with current timestamp
     }));
   };
 
@@ -86,8 +88,8 @@ const BlogEdit = () => {
   };
 
   const handleBack = () => {
-    // Navigate back to the previous page or route
-    navigate(-1); // This will navigate back one step in the history stack
+    
+    navigate(-1);
   };
 
   const handleSubmit = async (e) => {
@@ -96,7 +98,7 @@ const BlogEdit = () => {
     setInvalidFields({});
 
     const isFormDataChanged =
-      formData.imageCaption !== viewLink.title ||
+      formData.imageCaption !== viewLink.imageCaption ||
       formData.title !== viewLink.title ||
       formData.description !== viewLink.description ||
       formData.tags !== viewLink.tags ||
@@ -171,7 +173,10 @@ const BlogEdit = () => {
       );
 
       if (response && response.data) {
-        toast.success("Blog updated successfully");
+        toast.success("Blog updated successfully", {
+          autoClose: 2000,
+          onClose: () => navigate("/admin"),
+        });
       } else {
         console.log("Response data not available");
         toast.error("Failed to update blog");
@@ -179,6 +184,59 @@ const BlogEdit = () => {
     } catch (error) {
       console.error("Error during form update:", error.message);
     }
+  };
+
+  const [showConfirmationModal, setShowConfirmationModal] = useState(false); // State to control visibility of confirmation modal
+  const [showBack, setBack] = useState(false); // State to control visibility of confirmation modal
+  const deleteUser = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      const headers = {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "multipart/form-data",
+      };
+      const response = await axios.delete(
+        `http://localhost:8080/api/blog/delete/${id}`,
+        { headers }
+      );
+      if (response.status === 200) {
+        toast.success("User deleted successfully", {
+          autoClose: 2000,
+          onClose: () => navigate("/admin"),
+        });
+      }
+    } catch (error) {
+      console.error("Error deleting user:", error);
+    }
+  };
+
+  const handleDeleteConfirmation = () => {
+    setShowConfirmationModal(true);
+  };
+
+  const handleBackCon = () => {
+    const isFormDataChanged =
+      formData.imageCaption !== viewLink.imageCaption ||
+      formData.title !== viewLink.title ||
+      formData.description !== viewLink.description ||
+      formData.tags !== viewLink.tags ||
+      formData.content !== viewLink.content;
+        
+    if (!isFormDataChanged) {
+      navigate(-1);
+    }
+    else{
+      setBack(true);
+    }
+    
+  };
+
+  const handleDeleteCancel = () => {
+    setShowConfirmationModal(false);
+  };
+
+  const handleBackCan = () => {
+    setBack(false);
   };
 
   return (
@@ -191,18 +249,21 @@ const BlogEdit = () => {
           className="justify-content-around"
         >
           <Nav>
-            <Button variant="primary" onClick={handleBack}>
+            <Button variant="primary" onClick={handleBackCon}>
               <span>Back</span>
             </Button>
           </Nav>
           <Nav>
+            <Button variant="danger" onClick={handleDeleteConfirmation} style={{marginRight: "20px"}}>
+              <span>Delete</span>
+            </Button>
             <Button variant="primary" onClick={handleSubmit}>
               <span>Submit</span>
             </Button>
           </Nav>
           <Nav>
             <NavDropdown
-              title={<FontAwesomeIcon icon={faPaperPlaneTop} />}
+              title={<VscAccount size={24} />}
               id="basic-nav-dropdown"
             >
               <NavDropdown.Item onClick={handleSignOut}>
@@ -212,7 +273,6 @@ const BlogEdit = () => {
           </Nav>
         </Navbar.Collapse>
       </Navbar>
-
       <div className="container mt-5">
         <div className="row">
           <div className="preview-pane col-md-6">
@@ -310,9 +370,8 @@ const BlogEdit = () => {
                   id="author"
                   name="author"
                   value={viewLink.author}
-                  onChange={handleChange}
                   placeholder="Enter author name"
-                  required
+                  disabled
                 />
                 {invalidFields.author && (
                   <div className="invalid-feedback">{invalidFields.author}</div>
@@ -376,15 +435,8 @@ const BlogEdit = () => {
                   onChange={handleContentChange}
                   modules={{
                     toolbar: [
-                      [{ header: "1" }, { header: "2" }],
-                      [{ size: [] }],
-                      ["bold", "italic", "underline", "strike", "blockquote"],
-                      [
-                        { list: "ordered" },
-                        { list: "bullet" },
-                        { indent: "-1" },
-                        { indent: "+1" },
-                      ],
+                      [{ 'header': "1" }, { 'header': "2" }],
+                      ["bold", "italic", "underline", "strike"],
                       ["link", "image", "video"],
                       ["clean"],
                     ],
@@ -404,10 +456,10 @@ const BlogEdit = () => {
             {/* Preview Section */}
             <div className="preview-pane">
               <div className="preview-details">
-                <h3>{formData.title}</h3>
-                {formData.author && (
+                <h2 style={{ color: "#0071FD" }}>{formData.title}</h2>
+                {viewLink.author && (
                   <p className="author">
-                    <strong>By: </strong> {formData.author}
+                    <strong>By: </strong> {viewLink.author}
                   </p>
                 )}
                 <div className="preview-thumbnail">
@@ -442,9 +494,38 @@ const BlogEdit = () => {
             </div>
           </div>
         </div>
-      </div>
+      </div> 
+      {showConfirmationModal && (
+        <div className="confirmation-modal">
+          <h2>Are you sure you want to delete this user?</h2>
+          <div className="button-container">
+            <button className="mx-2" style={{backgroundColor: "#DC3545"}} onClick={deleteUser}>
+              Yes, Delete
+            </button>
+            <button className="mx-2" style={{backgroundColor: "#0D6EFD"}} onClick={handleDeleteCancel}>
+              Cancel
+            </button>
+          </div>
+        </div>
+      )}
+      {showBack && (
+        <div className="confirmation-modal">
+          <h2>There are still unsaved changes!</h2>
+          <div className="button-container">
+            <button className="mx-2" style={{backgroundColor: "#0D6EFD"}} onClick={handleSubmit}>
+              Save and Go Back
+            </button>
+            <button className="mx-2" style={{backgroundColor: "#DC3545"}} onClick={handleBack}>
+              Discard
+            </button>
+            <button className="mx-2" style={{backgroundColor: "#0D6EFD"}} onClick={handleBackCan}>
+              Cancel
+            </button>
+          </div>
+        </div>
+      )}
     </>
   );
 };
 
-export default BlogEdit;
+export default WithAuth(BlogEdit);

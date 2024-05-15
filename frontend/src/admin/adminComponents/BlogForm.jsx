@@ -8,6 +8,8 @@ import { Navbar, Nav, Button, NavDropdown } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPaperPlane as faPaperPlaneTop } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
+import WithAuth from "../../../auth/WithAuth";
+import { VscAccount } from "react-icons/vsc"; 
 
 const BlogForm = () => {
   const formRef = useRef(null);
@@ -113,18 +115,11 @@ const BlogForm = () => {
       );
 
       if (response && response.data) {
-        toast.success("Uploaded successfully");
-        setFormData({
-          imageCaption: "",
-          title: "",
-          description: "",
-          content: "",
-          author: "",
-          tags: "",
-          dateCreated: new Date().toLocaleDateString(),
+        toast.success("Uploaded successfully", {
+          autoClose: 2000,
+          onClose: () => navigate("/admin"),
         });
         formRef.current.reset();
-        console.log(response);
       } else {
         toast.error("Failed to upload");
       }
@@ -135,6 +130,7 @@ const BlogForm = () => {
 
   return (
     <>
+      <ToastContainer />
       <Navbar bg="light" expand="lg">
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse
@@ -153,7 +149,7 @@ const BlogForm = () => {
           </Nav>
           <Nav>
             <NavDropdown
-              title={<FontAwesomeIcon icon={faPaperPlaneTop} />}
+              title={<VscAccount size={24} />}
               id="basic-nav-dropdown"
             >
               <NavDropdown.Item onClick={handleSignOut}>
@@ -295,14 +291,11 @@ const BlogForm = () => {
                   onChange={handleContentChange}
                   modules={{
                     toolbar: [
-                      [{ header: "1" }, { header: "2" }],
+                      [{ 'header': "1" }, { 'header': "2" }],
                       [{ size: [] }],
                       ["bold", "italic", "underline", "strike", "blockquote"],
-                      [
-                        { list: "ordered" },
-                        { list: "bullet" },
-                        { indent: "-1" },
-                        { indent: "+1" },
+                      [{ 'list': "ordered" },{ 'list': "bullet" },
+                      { 'indent': "-1" }, { 'indent': "+1" },
                       ],
                       ["link", "image", "video"],
                       ["clean"],
@@ -323,7 +316,7 @@ const BlogForm = () => {
             {/* Preview Section */}
             <div className="preview-pane">
               <div className="preview-details">
-                <h3>{formData.title}</h3>
+                <h2 style={{color: "#000000"}}>{formData.title}</h2>
                 {formData.author && (
                   <p className="author">
                     <strong>By: </strong> {formData.author}
@@ -355,4 +348,4 @@ const BlogForm = () => {
   );
 };
 
-export default BlogForm;
+export default WithAuth(BlogForm);

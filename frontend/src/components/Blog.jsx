@@ -47,10 +47,10 @@ const Blog = () => {
         <div className="col-md-15">
           <div className="card shadow-lg">
             <div className="card-body">
-              <h1 className="card-title text-uppercase m-4 font-weight-bolder text-center">
+              <h6 className="card-title m-4 font-weight-bolder text-center" style={{color: "#0071FD", fontSize: "40px"}}>
                 {blogPost.title}
-              </h1>
-              <div className="card-text text-danger text-capitalize">
+              </h6>
+              <div className="card-text text-capitalize">
                 <div className="row justify-content-center">
                   <div className="col-md-2 text-center">
                     <p className="mb-2">
@@ -71,7 +71,7 @@ const Blog = () => {
                   <div className="col-md-2 text-center">
                     <p className="mb-2">
                       <FontAwesomeIcon icon={faTag} />
-                      <strong style={{ margin: "0 5px" }}>Link</strong>
+                      <strong style={{ margin: "0 5px" }}>{blogPost.tags}</strong>
                     </p>
                   </div>
                 </div>

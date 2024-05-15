@@ -12,7 +12,9 @@ const Home = () => {
   const originalRegButtonDisplayRef = useRef("");
 
   useEffect(() => {
-    const hideButton = () => {
+    const hideButton = (event) => {
+      event.preventDefault(); // Prevent the default anchor tag behavior
+
       originalCloseRegButtonDisplayRef.current =
         closeRegButtonRef.current.style.display;
       originalRegButtonDisplayRef.current = regButtonRef.current.style.display;
@@ -65,8 +67,13 @@ const Home = () => {
             style={{ padding: "0 5%" }}
           />
         </div>
-        <div className="about-content flex-item" data-wow-delay="0.5s">
-          <h1>Welcome to Fil-Chi Job Fair Blog!</h1>
+
+        <div
+          className="about-content flex-item"
+          style={{ color: "#666565" }}
+          data-wow-delay="0.5s"
+        >
+          <h6>Welcome to Fil-Chi Job Fair Blog!</h6>
           <p className="pa3">
             "Connecting Opportunities: Uniting Filipino-Chinese Communities in a
             Job Fair Extravaganza"
@@ -88,18 +95,27 @@ const Home = () => {
 
       <section
         id="featured-articles"
-        className="featured-articles no-underline textdec"
+        className="featured-articles no-underline"
+        style={{ backgroundColor: "#E3F4FF" }}
       >
         <div className="container flow">
-          <h2 className="section-title text-center">Featured Articles</h2>
-          <p className="text-center" style={{ marginBottom: "-100px" }}>
+          <h3
+            className="section-title text-center"
+            style={{ fontWeight: "700" }}
+          >
+            Featured Articles
+          </h3>
+          <p className="text-center">
             Explore our series of insightful articles that delve into various
             aspects of the Fil-Chi Job Fair, offering a comprehensive
             perspective on this remarkable event.
           </p>
 
           {loading ? (
-            <div className="loading-container">
+            <div
+              className="loading-container"
+              style={{ backgroundColor: "blue", color: "white" }}
+            >
               <div className="loading-spinner"></div>
               <p className="col text-center">Loading...</p>
             </div>
@@ -112,36 +128,65 @@ const Home = () => {
                   </div>
                 </div>
               ) : (
-                <div className="row gy-4">
+                <div className="row">
                   {blogData.map((link) => (
-                    <section key={link._id} className="">
-                      <div
-                        className="bg-white p-4"
-                        style={{ marginBottom: "-150px" }}
-                      >
-                        <div className="hero__content flow">
-                          <li>
-                            <article className="snippet">
-                              <img
-                                src={link.thumbnail.link}
-                                alt="Blog Post"
-                                className="snippet__image"
-                              />
-                              <h2 className="snippet__title">
-                                <a href={`/blog/${link._id}/${link.title}`}>{link.title}</a>
-                              </h2>
-                              <a
-                                href={`/blog/${link._id}/${link.title}`}
-                                className="btn btn--primary"
-                              >
-                                Continue Reading
+                    <section key={link._id} style={{ marginBottom: "-150px" }}>
+                      <div className="bg-white p-5 flex">
+                        <article className="snippet">
+                          <img
+                            src={link.thumbnail.link}
+                            alt={link.imageCaption}
+                            className="snippet__image"
+                          />
+                          <div>
+                            <h4
+                              className="snippet__title"
+                              style={{
+                                color: "#0071FD",
+                                fontWeight: "bold",
+                                fontSize: "24px",
+                              }}
+                            >
+                              <a href={`/blog/${link._id}/${link.title}`}>
+                                {link.title}
                               </a>
-                              <p className="snippet__body">
-                                {link.content.substring(0, 5)}...
-                              </p>
-                            </article>
-                          </li>
-                        </div>
+                            </h4>
+                            <span
+                              style={{
+                                color: "#666565",
+                                fontSize: "16px",
+                              }}
+                            >
+                              {new Date(link.dateCreated).toLocaleDateString(
+                                "en-US",
+                                {
+                                  month: "long",
+                                  day: "numeric",
+                                  year: "numeric",
+                                }
+                              )}{" "}
+                            </span>
+                          </div>
+                          <a
+                            href={`/blog/${link._id}/${link.title}`}
+                            className="btn btn--primary"
+                          >
+                            {" "}
+                            Continue Reading{" "}
+                          </a>
+                          <div
+                            className="snippet__body"
+                            style={{
+                              overflow: "hidden",
+                              textOverflow: "ellipsis",
+                              whiteSpace: "wrap",
+                              textAlign: "justify"
+                            }}
+                            dangerouslySetInnerHTML={{
+                              __html: truncateContent(link.content, 200),
+                            }}
+                          />
+                        </article>
                       </div>
                     </section>
                   ))}
@@ -178,5 +223,13 @@ const Home = () => {
     </>
   );
 };
+
+function truncateContent(content, maxLength) {
+  const truncatedContent =
+    content.length > maxLength
+      ? `${content.substring(0, maxLength)}...`
+      : content;
+  return truncatedContent.replace(/<[^>]+>/g, ""); // Remove HTML tags
+}
 
 export default Home;

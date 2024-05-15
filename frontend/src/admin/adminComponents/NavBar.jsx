@@ -30,9 +30,9 @@ const NavBar = () => {
           <Nav.Link href="#content" className="">
             <IoDocumentTextOutline size={24} /> Content
           </Nav.Link>
-          <Nav.Link href="#media">
+          {/* <Nav.Link href="#media">
             <GoFileMedia size={24} /> Media
-          </Nav.Link>
+          </Nav.Link> */}
         </Nav>
         {/* <div style={{ display: 'flex' }}>
         <Form inline onSubmit={handleSearch} className="">

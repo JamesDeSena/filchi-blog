@@ -1,4 +1,5 @@
 import React from "react";
+import HeaderImg from '../assets/imgheader.png';
 
 const Header = () => {
   return (
@@ -9,7 +10,7 @@ const Header = () => {
       <header className="page-header container-fluid py-1">
         <div className="header_page_parent">
           <div className="margin_header">
-            <h1 className="exhibit-text display-1 animated slideInDown text-uppercase" style={{ fontWeight: 800 }}>Blog</h1>
+            <h6 className="exhibit-text display-1 animated slideInDown text-uppercase" style={{ fontWeight: 800 }}>Blog</h6>
             <nav aria-label="breadcrumb">
               <ol className="breadcrumb headertext text-uppercase animated slideInDown">
                 <li style={{ paddingLeft: '5px', paddingRight: '5px' }}><a className="btnHeader1" style={{ textDecoration: 'none' }} href="https://www.filchi-jobfair.com/index.html">Home</a></li>

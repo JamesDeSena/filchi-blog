@@ -2,6 +2,10 @@ import React from "react";
 import { Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import 'bootstrap/dist/css/bootstrap.min.css';
+import "bootstrap-icons/font/bootstrap-icons.css";
+import 'font-awesome/css/font-awesome.min.css';
+
 
 import "./components/lib/animate/animate.min.css";
 import "./components/lib/owlcarousel/assets/owl.carousel.min.css";
@@ -13,17 +17,17 @@ import BlogForm from "./admin/adminComponents/BlogForm";
 import BlogEdit from "./admin/adminComponents/BlogEdit";
 
 
-// import Home from './components/Home';
-// import Header from './components/Header';
-// import Footer from './components/Footer';
-// import Blog from './components/Blog';
+import Home from './components/Home';
+import Header from './components/Header';
+import Footer from './components/Footer';
+import Blog from './components/Blog';
 
 function App() {
   return (
     <div>
       <ToastContainer />
       <Routes>
-        {/* <Route
+        <Route
           exact
           path="/"
           element={
@@ -44,7 +48,7 @@ function App() {
               <Footer/>
             </>
           }
-        /> */}
+        />
         <Route
           exact
           path="/admin"
