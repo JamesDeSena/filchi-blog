@@ -5,7 +5,7 @@ import { VscAccount } from "react-icons/vsc";
 import { IoDocumentTextOutline } from "react-icons/io5"; 
 import { GoFileMedia } from "react-icons/go"; 
 import { FaSearch } from "react-icons/fa"; // Importing Font Awesome icon
-import WithAuth from "../../../auth/WithAuth";
+import WithAuth from "../../auth/WithAuth";
 
 const NavBar = () => {
   const navigate = useNavigate();

@@ -8,7 +8,7 @@ import { Navbar, Nav, Button, NavDropdown } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPaperPlane as faPaperPlaneTop } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
-import WithAuth from "../../../auth/WithAuth";
+import WithAuth from "../../auth/WithAuth";
 import { VscAccount } from "react-icons/vsc"; 
 
 const BlogForm = () => {
@@ -107,7 +107,7 @@ const BlogForm = () => {
       formObject.append("dateUpdated", null);
 
       const response = await axios.post(
-        "http://localhost:8080/api/blog/create",
+        "https://filchi-blog.onrender.com/api/blog/create",
         formObject,
         {
           headers,

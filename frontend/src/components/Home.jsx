@@ -41,7 +41,7 @@ const Home = () => {
   useEffect(() => {
     const fetchLink = async () => {
       try {
-        const response = await axios.get("http://localhost:8080/api/blog/");
+        const response = await axios.get("https://filchi-blog.onrender.com/api/blog/");
 
         if (response.status === 200) {
           setBlog(response.data.reverse());

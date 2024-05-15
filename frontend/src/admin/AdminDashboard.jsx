@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import WithAuth from "../../auth/WithAuth";
+import WithAuth from "../auth/WithAuth";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faThLarge, faThList } from "@fortawesome/free-solid-svg-icons";
@@ -16,7 +16,7 @@ const AdminDashboard = () => {
 
   const fetchBlogPosts = async () => {
     try {
-      const response = await axios.get("http://localhost:8080/api/blog");
+      const response = await axios.get("https://filchi-blog.onrender.com/api/blog");
       setBlogPosts(response.data);
     } catch (error) {
       console.error("Error fetching blog data:", error);

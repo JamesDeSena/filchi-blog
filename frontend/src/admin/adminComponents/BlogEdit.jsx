@@ -8,7 +8,7 @@ import { Navbar, Nav, Button, NavDropdown } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPaperPlane as faPaperPlaneTop } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate, useParams } from "react-router-dom";
-import WithAuth from "../../../auth/WithAuth";
+import WithAuth from "../../auth/WithAuth";
 import { VscAccount } from "react-icons/vsc";
 
 const BlogEdit = () => {
@@ -40,7 +40,7 @@ const BlogEdit = () => {
     const fetchViewLink = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:8080/api/blog/${id}`
+          `https://filchi-blog.onrender.com/api/blog/${id}`
         );
         if (response.status === 200) {
           setViewLink(response.data);
@@ -165,7 +165,7 @@ const BlogEdit = () => {
       formObject.append("file", thumbnail);
 
       const response = await axios.patch(
-        `http://localhost:8080/api/blog/edit/${id}`,
+        `https://filchi-blog.onrender.com/api/blog/edit/${id}`,
         formObject,
         {
           headers,
@@ -196,7 +196,7 @@ const BlogEdit = () => {
         "Content-Type": "multipart/form-data",
       };
       const response = await axios.delete(
-        `http://localhost:8080/api/blog/delete/${id}`,
+        `https://filchi-blog.onrender.com/api/blog/delete/${id}`,
         { headers }
       );
       if (response.status === 200) {

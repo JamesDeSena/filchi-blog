@@ -15,7 +15,7 @@ const Blog = () => {
     const fetchBlogPost = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:8080/api/blog/${id}`
+          `https://filchi-blog.onrender.com/api/blog/${id}`
         );
         if (response.status === 200) {
           setBlogPost(response.data);
