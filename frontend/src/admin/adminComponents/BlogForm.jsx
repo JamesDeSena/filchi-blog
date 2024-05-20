@@ -263,9 +263,7 @@ const BlogForm = () => {
                 )}
               </div>
               <div className="mb-3">
-                <label htmlFor="dateCreated" className="form-label text-white">
-                  Date Published:
-                </label>
+              <label htmlFor="dateCreated">Date Created</label>
                 <input
                   type="text"
                   className="form-control"
