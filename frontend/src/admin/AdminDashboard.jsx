@@ -39,9 +39,11 @@ const AdminDashboard = () => {
     setViewMode(true);
   };
 
-  const filteredBlogPosts = blogPosts.filter((post) =>
-    post.title.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  const filteredBlogPosts = blogPosts
+    .filter((post) =>
+      post.title.toLowerCase().includes(searchQuery.toLowerCase())
+    )
+    .sort((a, b) => new Date(b.dateCreated) - new Date(a.dateCreated));
 
   return (
     <div className="container text-center mt-3 p-3">

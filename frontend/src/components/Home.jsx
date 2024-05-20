@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./style.css";
-
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { formatDistanceToNow } from "date-fns";
@@ -44,7 +43,11 @@ const Home = () => {
         const response = await axios.get("https://filchi-blog.onrender.com/api/blog/");
 
         if (response.status === 200) {
-          setBlog(response.data.reverse());
+          // Sort the data by dateCreated in descending order
+          const sortedData = response.data.sort(
+            (a, b) => new Date(b.dateCreated) - new Date(a.dateCreated)
+          );
+          setBlog(sortedData);
         } else {
           console.error("Did not get data", response.status);
         }
@@ -147,9 +150,9 @@ const Home = () => {
                                 fontSize: "24px",
                               }}
                             >
-                              <a href={`/blog/${link._id}/${link.title}`}>
+                              <Link to={`/blog/${link._id}/${link.title}`}>
                                 {link.title}
-                              </a>
+                              </Link>
                             </h4>
                             <span
                               style={{
@@ -167,13 +170,12 @@ const Home = () => {
                               )}{" "}
                             </span>
                           </div>
-                          <a
-                            href={`/blog/${link._id}/${link.title}`}
+                          <Link
+                            to={`/blog/${link._id}/${link.title}`}
                             className="btn btn--primary"
                           >
-                            {" "}
-                            Continue Reading{" "}
-                          </a>
+                            Continue Reading
+                          </Link>
                           <div
                             className="snippet__body"
                             style={{

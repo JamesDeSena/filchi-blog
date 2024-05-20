@@ -881,3 +881,153 @@ input:focus{
   .confirmation-modal button:hover {
     background-color: #d32f2f;
   }
+
+  .ql-editor .ql-size-small {
+    font-size: 0.75em;
+  }
+  
+  .ql-editor .ql-size-large {
+    font-size: 1.5em;
+  }
+  
+  .ql-editor .ql-size-huge {
+    font-size: 2.5em;
+  }
+
+  .form button{
+  
+    float:right;
+    padding:8px 12px;
+    margin:8px 0 0;
+    font-family: 'Poppins', sans-serif;
+    border:2px solid #78788c;
+    background:0;
+    color:#5a5a6e;
+    cursor:pointer;
+    transition:all .3s;
+    
+  }
+  .form button:hover{
+    background:#78788c;
+    color:#fff
+  }
+  .form div{
+    content:'Hi';
+    position:absolute;
+    bottom:-15px;right:-20px;
+    background:#50505a;
+    color:#fff;
+    width:320px;
+    padding:16px 4px 16px 0;
+    border-radius:6px;
+    font-size:13px;
+    box-shadow:10px 10px 40px -14px #000
+  }
+  .form span{
+    margin:0 5px 0 15px
+  }  
+  
+  .about {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    padding-top: 3%;
+    padding-bottom: 2%;
+    background-color: #FFFFFF;
+  }
+  
+  .flex-item {
+    flex: 1;
+    margin: 10px;
+    margin-right: 10px;
+  }
+  
+  .image-container1 {
+    width: auto;
+    justify-content: center;
+    align-items: center;
+  
+  }
+  
+  .about h1 {
+    font-size: 2.5em; 
+    font-weight: 900;
+    font-weight: bold; 
+    font-family: 'Poppins', sans-serif;
+  }
+  
+  
+  .about p {
+    font-size:1.5em
+  }
+  
+  .about-img {
+    max-width: 100%;
+    height: auto;
+    margin-left: 60%;
+    margin-bottom: -10%;
+  }
+  
+  .about-img4 {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: -85%;
+    margin-left: 25%;
+  }
+  
+  /* Styles for the first image */
+  .about-img1 {
+    margin-left: 30%;
+    width: 45%;
+  }
+  
+  /* Styles for the second image */
+  .about-img2 {
+    width: 23%;
+    margin-left: 20%;
+    margin-top: -80%;
+    
+  }
+  
+  /* Styles for the third image */
+  .about-img3 {
+    width: 25%;
+    margin-left: 35%;
+    margin-top: -15%;
+    
+  }
+  
+  .about-content {
+    max-width: 100%;
+    margin-right: 5%;
+    padding-right: 10%;
+  }
+  
+  @media (min-width: 1130px) {
+    .about {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        padding-top: 3%;
+        padding-bottom: 2%;
+    }
+  
+    .image-container1 {
+        width: 50%;
+        justify-content: center;
+        align-items: center;
+    
+    }
+    /* .about h1 {
+        padding-right: 10%;
+    } */
+  
+    .about-content {
+        max-width: auto;
+        margin-right: 5%;
+        padding-right: 0px;
+    }
+  
+  }
