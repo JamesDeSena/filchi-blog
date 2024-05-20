@@ -64,7 +64,7 @@ const Blog = () => {
                     {blogPost.author === "" ? (
                       <p className="mb-2">
                         <FontAwesomeIcon icon={faUser} />
-                        <strong style={{ margin: "0 5px" }}>By: Unknown</strong>
+                        <strong style={{ margin: "0 5px" }}></strong>
                       </p>
                     ) : (
                       <p className="mb-2">
