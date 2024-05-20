@@ -27,8 +27,8 @@ const BlogForm = () => {
   const navigate = useNavigate();
 
   const handleSignOut = () => {
-    // Your logout logic here
-    console.log("User signed out");
+    localStorage.removeItem("token");
+    navigate("/admin");
   };
 
   const handleImage = (e) => {
@@ -46,8 +46,7 @@ const BlogForm = () => {
   };
 
   const handleBack = () => {
-    // Navigate back to the previous page or route
-    navigate(-1); // This will navigate back one step in the history stack
+    navigate(-1);
   };
 
   const handleSubmit = async (e) => {
@@ -119,6 +118,20 @@ const BlogForm = () => {
     } catch (error) {
       console.error("Error during form submission:", error.message);
     }
+  };
+
+  const modules = {
+    toolbar: [
+      [{ header: 1 }, { header: 2 }],
+      ["bold", "italic", "underline", "strike"],
+      ["blockquote"],
+      ["link", "image", "video"],
+
+      [{ list: "ordered" }, { list: "bullet" }],
+      [{ indent: "-1" }, { indent: "+1" }],
+
+      ["clean"],
+    ],
   };
 
   return (
@@ -279,29 +292,10 @@ const BlogForm = () => {
                   theme="snow"
                   value={formData.content}
                   onChange={handleContentChange}
-                  modules={{
-                    toolbar: [
-                      [{ header: "1" }, { header: "2" }],
-                      [{ size: [] }],
-                      ["bold", "italic", "underline", "strike", "blockquote"],
-                      [
-                        { list: "ordered" },
-                        { list: "bullet" },
-                        { indent: "-1" },
-                        { indent: "+1" },
-                      ],
-                      ["link", "image", "video"],
-                      ["clean"],
-                    ],
-                  }}
-                  className={`form-control ${invalidFields.content ? "is-invalid" : ""}`}
+                  modules={modules}
+                  className={`form-control`}
                   placeholder="Enter content"
                 />
-                {invalidFields.content && (
-                  <div className="invalid-feedback">
-                    {invalidFields.content}
-                  </div>
-                )}
               </div>
             </form>
           </div>

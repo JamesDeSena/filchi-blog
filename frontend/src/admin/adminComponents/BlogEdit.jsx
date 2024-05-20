@@ -52,7 +52,6 @@ const BlogEdit = () => {
             content: response.data.content,
             dateUpdated: new Date().toISOString(),
           });
-          console.log(response.data.title)
         } else {
           console.error("Did not get data", response.status);
         }
@@ -95,7 +94,7 @@ const BlogEdit = () => {
   };
 
   const handleContentChange = (content) => {
-    setFormData({ ...formData, content });
+    setFormData({ ...formData, content, dateUpdated: new Date().toISOString(), });
   };
 
   const handleBack = () => {
@@ -243,6 +242,20 @@ const BlogEdit = () => {
 
   const handleBackCan = () => {
     setBack(false);
+  };
+
+  const modules = {
+    toolbar: [
+      [{ header: 1 }, { header: 2 }],
+      ["bold", "italic", "underline", "strike"],
+      ["blockquote"],
+      ["link", "image", "video"],
+      
+      [{ list: "ordered" }, { list: "bullet" }],
+      [{ indent: "-1" }, { indent: "+1" }],
+
+      ["clean"],
+    ],
   };
 
   return (
@@ -425,22 +438,10 @@ const BlogEdit = () => {
                   theme="snow"
                   value={formData.content}
                   onChange={handleContentChange}
-                  modules={{
-                    toolbar: [
-                      [{ 'header': "1" }, { 'header': "2" }],
-                      ["bold", "italic", "underline", "strike"],
-                      ["link", "image", "video"],
-                      ["clean"],
-                    ],
-                  }}
-                  className={invalidFields.content ? "is-invalid" : ""}
+                  modules={modules}
+                  className={`form-control`}
                   placeholder="Enter content"
                 />
-                {invalidFields.content && (
-                  <div className="invalid-feedback">
-                    {invalidFields.content}
-                  </div>
-                )}
               </div>
             </form>
           </div>
