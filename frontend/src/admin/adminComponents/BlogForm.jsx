@@ -23,6 +23,7 @@ const BlogForm = () => {
     tags: "post",
     dateCreated: new Date().toLocaleDateString(),
   });
+  console.log(formData.content)
   const [thumbnail, setThumbnail] = useState();
   const navigate = useNavigate();
 
@@ -127,7 +128,6 @@ const BlogForm = () => {
       ["link", "image", "video"],
 
       [{ list: "ordered" }, { list: "bullet" }],
-      [{ indent: "-1" }, { indent: "+1" }],
 
       ["clean"],
     ],
