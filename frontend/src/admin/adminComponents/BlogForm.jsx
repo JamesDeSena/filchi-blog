@@ -262,8 +262,8 @@ const BlogForm = () => {
                   <div className="invalid-feedback">{invalidFields.tags}</div>
                 )}
               </div>
-              <div className="mb-3">
-              <label htmlFor="dateCreated">Date Created</label>
+              <div className="form-group">
+                <label htmlFor="dateCreated">Date Created</label>
                 <input
                   type="text"
                   className="form-control"
