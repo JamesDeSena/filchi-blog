@@ -24,7 +24,7 @@ const Footer = () => {
             <a className="btn btn-link" style={{ color: '#ffffff' }} href="https://www.filchi-jobfair.com/visit.html">Visit Us</a>
             <a className="btn btn-link" style={{ color: '#ffffff' }} href="https://www.filchi-jobfair.com/gallery.html">Gallery</a>
             <a className="btn btn-link" style={{ color: '#ffffff' }} href="https://www.filchi-jobfair.com/contact.html">Contact Us</a>
-            <a className="btn btn-link" style={{ color: '#ffffff' }} target="_blank" href="https://filchi-jobfair.netlify.app/">Blog</a>
+            <a className="btn btn-link" style={{ color: '#ffffff' }} target="_blank" href="https://filchi-jobfair-blog.netlify.app/">Blog</a>
         </div>
         <div className="col-lg-3 col-md-6" style={{ marginLeft: '2%', marginTop: '20px' }}>
           <h5 className="mb-4" style={{ color: '#ffffff', fontFamily: 'Poppins, sans-serif', fontWeight:"bold" }}>Contact us!</h5>
