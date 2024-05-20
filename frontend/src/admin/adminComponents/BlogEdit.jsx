@@ -52,6 +52,7 @@ const BlogEdit = () => {
             content: response.data.content,
             dateUpdated: new Date().toISOString(),
           });
+          console.log(response.data.title)
         } else {
           console.error("Did not get data", response.status);
         }
@@ -61,6 +62,17 @@ const BlogEdit = () => {
     };
     fetchViewLink();
   }, [id]);
+
+  useEffect(() => {
+    setFormData(prevFormData => ({
+      ...prevFormData,
+      imageCaption: viewLink.imageCaption,
+      title: viewLink.title,
+      description: viewLink.description,
+      tags: viewLink.tags,
+      content: viewLink.content,
+    }));
+  }, [viewLink]);
 
   const handleSignOut = () => {
     // Your logout logic here
@@ -75,7 +87,6 @@ const BlogEdit = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
 
-    // Update the form data and include the updated date
     setFormData((prevData) => ({
       ...prevData,
       [name]: value,
