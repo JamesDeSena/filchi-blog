@@ -1,11 +1,16 @@
 import React, { useEffect, useState, useRef } from "react";
 import "./style.css";
 
-import axios from 'axios';
-import { useParams, Link } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCalendarAlt, faTag, faUser, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
-import { format } from 'date-fns';
+import axios from "axios";
+import { useParams, Link } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faCalendarAlt,
+  faTag,
+  faUser,
+  faArrowLeft,
+} from "@fortawesome/free-solid-svg-icons";
+import { format } from "date-fns";
 
 const Blog = () => {
   const { id } = useParams();
@@ -47,18 +52,28 @@ const Blog = () => {
         <div className="col-md-15">
           <div className="card shadow-lg">
             <div className="card-body">
-              <h6 className="card-title m-4 font-weight-bolder text-center" style={{color: "#0071FD", fontSize: "40px"}}>
+              <h6
+                className="card-title m-4 font-weight-bolder text-center"
+                style={{ color: "#0071FD", fontSize: "40px" }}
+              >
                 {blogPost.title}
               </h6>
               <div className="card-text text-capitalize">
                 <div className="row justify-content-center">
                   <div className="col-md-2 text-center">
-                    <p className="mb-2">
-                      <FontAwesomeIcon icon={faUser} />
-                      <strong style={{ margin: "0 5px" }}>
-                        By {blogPost.author}
-                      </strong>
-                    </p>
+                    {blogPost.author === "" ? (
+                      <p className="mb-2">
+                        <FontAwesomeIcon icon={faUser} />
+                        <strong style={{ margin: "0 5px" }}>By: Unknown</strong>
+                      </p>
+                    ) : (
+                      <p className="mb-2">
+                        <FontAwesomeIcon icon={faUser} />
+                        <strong style={{ margin: "0 5px" }}>
+                          By: {blogPost.author}
+                        </strong>
+                      </p>
+                    )}
                   </div>
                   <div className="col-md-2 text-center">
                     <p className="mb-2">
@@ -71,7 +86,9 @@ const Blog = () => {
                   <div className="col-md-2 text-center">
                     <p className="mb-2">
                       <FontAwesomeIcon icon={faTag} />
-                      <strong style={{ margin: "0 5px" }}>{blogPost.tags}</strong>
+                      <strong style={{ margin: "0 5px" }}>
+                        {blogPost.tags}
+                      </strong>
                     </p>
                   </div>
                 </div>
