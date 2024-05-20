@@ -294,7 +294,7 @@ const BlogForm = () => {
                       ["clean"],
                     ],
                   }}
-                  className={invalidFields.content ? "is-invalid" : ""}
+                  className={`form-control ${invalidFields.content ? "is-invalid" : ""}`}
                   placeholder="Enter content"
                 />
                 {invalidFields.content && (
