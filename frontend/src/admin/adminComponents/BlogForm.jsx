@@ -9,7 +9,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPaperPlane as faPaperPlaneTop } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 import WithAuth from "../../auth/WithAuth";
-import { VscAccount } from "react-icons/vsc"; 
+import { VscAccount } from "react-icons/vsc";
 
 const BlogForm = () => {
   const formRef = useRef(null);
@@ -262,6 +262,19 @@ const BlogForm = () => {
                   <div className="invalid-feedback">{invalidFields.tags}</div>
                 )}
               </div>
+              <div className="mb-3">
+                <label htmlFor="dateCreated" className="form-label text-white">
+                  Date Published:
+                </label>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="dateCreated"
+                  name="dateCreated"
+                  value={formData.dateCreated}
+                  disabled
+                />
+              </div>
               <div className="form-group">
                 <label htmlFor="content">Content</label>
                 <ReactQuill
@@ -270,11 +283,14 @@ const BlogForm = () => {
                   onChange={handleContentChange}
                   modules={{
                     toolbar: [
-                      [{ 'header': "1" }, { 'header': "2" }],
+                      [{ header: "1" }, { header: "2" }],
                       [{ size: [] }],
                       ["bold", "italic", "underline", "strike", "blockquote"],
-                      [{ 'list': "ordered" },{ 'list': "bullet" },
-                      { 'indent': "-1" }, { 'indent': "+1" },
+                      [
+                        { list: "ordered" },
+                        { list: "bullet" },
+                        { indent: "-1" },
+                        { indent: "+1" },
                       ],
                       ["link", "image", "video"],
                       ["clean"],
@@ -295,7 +311,7 @@ const BlogForm = () => {
             {/* Preview Section */}
             <div className="preview-pane">
               <div className="preview-details">
-                <h2 style={{color: "#000000"}}>{formData.title}</h2>
+                <h2 style={{ color: "#000000" }}>{formData.title}</h2>
                 {formData.author && (
                   <p className="author">
                     <strong>By: </strong> {formData.author}
