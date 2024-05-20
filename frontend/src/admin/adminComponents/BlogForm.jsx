@@ -124,7 +124,6 @@ const BlogForm = () => {
     toolbar: [
       [{ header: 1 }, { header: 2 }],
       ["bold", "italic", "underline", "strike"],
-      ["blockquote"],
       ["link", "image", "video"],
 
       [{ list: "ordered" }, { list: "bullet" }],

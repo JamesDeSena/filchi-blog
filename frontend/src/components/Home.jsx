@@ -77,11 +77,11 @@ const Home = () => {
           data-wow-delay="0.5s"
         >
           <h6>Welcome to Fil-Chi Job Fair Blog!</h6>
-          <p className="pa3">
+          <p className="pa3 py-3">
             "Connecting Opportunities: Uniting Filipino-Chinese Communities in a
             Job Fair Extravaganza"
           </p>
-          <p className="pa4">
+          <p className="pa4 py-3">
             Explore our comprehensive blog/article page dedicated to the
             Filipino-Chinese Job Fair, where synergy between two vibrant
             cultures fosters career avenues. Delve into insightful event
@@ -89,7 +89,7 @@ const Home = () => {
             talented individuals with flourishing opportunities while
             celebrating the fusion of Filipino and Chinese heritage.{" "}
           </p>
-          <p className="pa4">
+          <p className="pa4 py-3">
             Discover a world of possibilities where diversity, culture, and
             career growth intertwine seamlessly.
           </p>
@@ -103,7 +103,7 @@ const Home = () => {
       >
         <div className="container flow">
           <h3
-            className="section-title text-center"
+            className="section-title text-center py-4"
             style={{ fontWeight: "700" }}
           >
             Featured Articles
