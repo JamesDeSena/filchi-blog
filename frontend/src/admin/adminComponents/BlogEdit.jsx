@@ -572,7 +572,7 @@ const BlogEdit = () => {
       )}
       {showBack && (
         <div className="confirmation-modal">
-          <h2>There are still unsaved changes!</h2>
+          <h2 style={{ color: "#000000" }}>There are still unsaved changes!</h2>
           <div className="button-container">
             <button
               className="mx-2"
