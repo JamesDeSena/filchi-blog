@@ -511,7 +511,7 @@ const BlogEdit = () => {
             {/* Preview Section */}
             <div className="preview-pane">
               <div className="preview-details">
-                <h2 style={{ color: "#0071FD" }}>{formData.title}</h2>
+                <h2 style={{ color: "#000000" }}>{formData.title}</h2>
                 {viewLink.author && (
                   <p className="author">
                     <strong>By: </strong> {viewLink.author}
@@ -574,7 +574,7 @@ const BlogEdit = () => {
       )}
       {showBack && (
         <div className="confirmation-modal">
-          <h2 style={{ color: "#000000" }}>There are still unsaved changes!</h2>
+          <h2>There are still unsaved changes!</h2>
           <div className="button-container">
             <button
               className="mx-2"
