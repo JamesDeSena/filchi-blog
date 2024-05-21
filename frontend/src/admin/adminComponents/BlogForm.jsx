@@ -19,7 +19,7 @@ const BlogForm = () => {
     title: "",
     description: "",
     content: "",
-    author: "PDMN",
+    author: "Fil-Chi Job Fair Team",
     tags: "post",
     dateCreated: new Date().toLocaleDateString(),
   });
