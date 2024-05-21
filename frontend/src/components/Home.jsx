@@ -14,23 +14,28 @@ const Home = () => {
     const hideButton = (event) => {
       event.preventDefault(); // Prevent the default anchor tag behavior
 
-      originalCloseRegButtonDisplayRef.current =
-        closeRegButtonRef.current.style.display;
-      originalRegButtonDisplayRef.current = regButtonRef.current.style.display;
-      closeRegButtonRef.current.style.display = "none";
-      regButtonRef.current.style.display = "none";
-      setTimeout(() => {
-        closeRegButtonRef.current.style.display =
-          originalCloseRegButtonDisplayRef.current;
-        regButtonRef.current.style.display =
-          originalRegButtonDisplayRef.current;
-      }, 30000);
+      if (closeRegButtonRef.current && regButtonRef.current) {
+        originalCloseRegButtonDisplayRef.current = closeRegButtonRef.current.style.display;
+        originalRegButtonDisplayRef.current = regButtonRef.current.style.display;
+        closeRegButtonRef.current.style.display = "none";
+        regButtonRef.current.style.display = "none";
+        setTimeout(() => {
+          if (closeRegButtonRef.current && regButtonRef.current) {
+            closeRegButtonRef.current.style.display = originalCloseRegButtonDisplayRef.current;
+            regButtonRef.current.style.display = originalRegButtonDisplayRef.current;
+          }
+        }, 30000);
+      }
     };
 
-    closeRegButtonRef.current.addEventListener("click", hideButton);
+    if (closeRegButtonRef.current) {
+      closeRegButtonRef.current.addEventListener("click", hideButton);
+    }
 
     return () => {
-      closeRegButtonRef.current.removeEventListener("click", hideButton);
+      if (closeRegButtonRef.current) {
+        closeRegButtonRef.current.removeEventListener("click", hideButton);
+      }
     };
   }, []);
 
@@ -208,6 +213,7 @@ const Home = () => {
             href="https://merged.filchi-jobfair.com/products/registration"
             className="regButton"
             style={{ textDecoration: "none" }}
+            target="_blank"
           >
             Register <br /> Now!
           </a>
