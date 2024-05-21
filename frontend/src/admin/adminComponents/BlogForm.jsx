@@ -110,6 +110,7 @@ const BlogForm = () => {
       if (response && response.data) {
         toast.success("Uploaded successfully", {
           autoClose: 1500,
+          pauseOnFocusLoss: false,
           onClose: () => navigate("/admin"),
         });
         formRef.current.reset();

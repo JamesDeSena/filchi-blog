@@ -189,6 +189,7 @@ const BlogEdit = () => {
       if (response && response.data) {
         toast.success("Blog updated successfully", {
           autoClose: 1500,
+          pauseOnFocusLoss: false,
           onClose: () => navigate("/admin"),
         });
         setLoading(false);
@@ -222,6 +223,7 @@ const BlogEdit = () => {
       if (response.status === 200) {
         toast.success("User deleted successfully", {
           autoClose: 1500,
+          pauseOnFocusLoss: false,
           onClose: () => navigate("/admin"),
         });
         setLoading2(false);
