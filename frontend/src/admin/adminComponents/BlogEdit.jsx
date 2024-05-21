@@ -136,7 +136,7 @@ const BlogEdit = () => {
       errors.content = "Content must be at least 20 characters long";
     }
 
-    const maxSizeInBytes = 1 * 1024 * 1024; // 1MB
+    const maxSizeInBytes = 5 * 1024 * 1024; // 5MB
     if (thumbnail?.size > maxSizeInBytes) {
       errors.thumbnail = "Image size exceeds the maximum allowed size (1MB)";
     }

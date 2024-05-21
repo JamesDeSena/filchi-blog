@@ -74,7 +74,7 @@ const BlogForm = () => {
     if (!thumbnail) {
       errors.thumbnail = "Please upload an image";
     } else {
-      const maxSizeInBytes = 1 * 1024 * 1024; // 1MB
+      const maxSizeInBytes = 5 * 1024 * 1024; // 5MB
 
       if (thumbnail.size > maxSizeInBytes) {
         errors.thumbnail = "Image size exceeds the maximum allowed size (1MB)";
