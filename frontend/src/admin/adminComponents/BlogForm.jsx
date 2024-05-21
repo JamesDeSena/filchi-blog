@@ -23,9 +23,9 @@ const BlogForm = () => {
     tags: "post",
     dateCreated: new Date().toLocaleDateString(),
   });
-  console.log(formData.content)
   const [thumbnail, setThumbnail] = useState();
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
 
   const handleSignOut = () => {
     localStorage.removeItem("token");
@@ -51,6 +51,7 @@ const BlogForm = () => {
   };
 
   const handleSubmit = async (e) => {
+    setLoading(true);
     e.preventDefault();
 
     setInvalidFields({});
@@ -68,8 +69,6 @@ const BlogForm = () => {
     }
     if (formData.content.length === 0) {
       errors.content = "Please input your content";
-    } else if (formData.content.length < 20) {
-      errors.content = "Content must be at least 20 characters long";
     }
     if (!thumbnail) {
       errors.thumbnail = "Please upload an image";
@@ -84,6 +83,7 @@ const BlogForm = () => {
     setInvalidFields(errors);
 
     if (Object.keys(errors).length > 0) {
+      setLoading(false);
       return;
     }
 
@@ -109,15 +109,18 @@ const BlogForm = () => {
 
       if (response && response.data) {
         toast.success("Uploaded successfully", {
-          autoClose: 2000,
+          autoClose: 1500,
           onClose: () => navigate("/admin"),
         });
         formRef.current.reset();
+        setLoading(false);
       } else {
         toast.error("Failed to upload");
+        setLoading(false);
       }
     } catch (error) {
       console.error("Error during form submission:", error.message);
+      setLoading(false);
     }
   };
 
@@ -148,8 +151,25 @@ const BlogForm = () => {
             </Button>
           </Nav>
           <Nav>
-            <Button variant="primary" onClick={handleSubmit}>
-              <span>Submit</span>
+            <Button variant="primary" onClick={handleSubmit} disabled={loading}>
+              {loading ? (
+                <div className="d-flex align-items-center">
+                  <div
+                    className="spinner-grow"
+                    role="status"
+                    style={{
+                      width: "1rem",
+                      height: "1rem",
+                      marginRight: "0.5rem",
+                    }}
+                  >
+                    <span className="sr-only">Loading...</span>
+                  </div>
+                  <span>Loading...</span>
+                </div>
+              ) : (
+                <span>Submit</span>
+              )}
             </Button>
           </Nav>
           <Nav>
@@ -292,9 +312,16 @@ const BlogForm = () => {
                   value={formData.content}
                   onChange={handleContentChange}
                   modules={modules}
-                  className={`form-control`}
+                  className={`form-control ${
+                    invalidFields.tags ? "is-invalid" : ""
+                  }`}
                   placeholder="Enter content"
                 />
+                {invalidFields.content && (
+                  <div className="invalid-feedback">
+                    {invalidFields.content}
+                  </div>
+                )}
               </div>
             </form>
           </div>

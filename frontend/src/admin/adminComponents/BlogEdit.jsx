@@ -6,7 +6,10 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { Navbar, Nav, Button, NavDropdown } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPaperPlane as faPaperPlaneTop } from "@fortawesome/free-solid-svg-icons";
+import {
+  faLessThanEqual,
+  faPaperPlane as faPaperPlaneTop,
+} from "@fortawesome/free-solid-svg-icons";
 import { useNavigate, useParams } from "react-router-dom";
 import WithAuth from "../../auth/WithAuth";
 import { VscAccount } from "react-icons/vsc";
@@ -35,6 +38,8 @@ const BlogEdit = () => {
   });
   const [invalidFields, setInvalidFields] = useState({});
   const [thumbnail, setThumbnail] = useState();
+  const [loading, setLoading] = useState(false);
+  const [loading2, setLoading2] = useState(false);
 
   useEffect(() => {
     const fetchViewLink = async () => {
@@ -63,7 +68,7 @@ const BlogEdit = () => {
   }, [id]);
 
   useEffect(() => {
-    setFormData(prevFormData => ({
+    setFormData((prevFormData) => ({
       ...prevFormData,
       imageCaption: viewLink.imageCaption,
       title: viewLink.title,
@@ -94,15 +99,19 @@ const BlogEdit = () => {
   };
 
   const handleContentChange = (content) => {
-    setFormData({ ...formData, content, dateUpdated: new Date().toISOString(), });
+    setFormData({
+      ...formData,
+      content,
+      dateUpdated: new Date().toISOString(),
+    });
   };
 
   const handleBack = () => {
-    
     navigate(-1);
   };
 
   const handleSubmit = async (e) => {
+    setLoading(true);
     e.preventDefault();
 
     setInvalidFields({});
@@ -117,6 +126,7 @@ const BlogEdit = () => {
     const errors = {};
     if (!isFormDataChanged) {
       toast.error("No changes have been made");
+      setLoading(false);
       return;
     }
     if (formData.imageCaption.length === 0) {
@@ -132,8 +142,6 @@ const BlogEdit = () => {
     }
     if (formData.content.length === 0) {
       errors.content = "Please input your content";
-    } else if (formData.content.length < 20) {
-      errors.content = "Content must be at least 20 characters long";
     }
 
     const maxSizeInBytes = 5 * 1024 * 1024; // 5MB
@@ -144,6 +152,7 @@ const BlogEdit = () => {
     setInvalidFields(errors);
 
     if (Object.keys(errors).length > 0) {
+      setLoading(false);
       return;
     }
 
@@ -179,15 +188,20 @@ const BlogEdit = () => {
 
       if (response && response.data) {
         toast.success("Blog updated successfully", {
-          autoClose: 2000,
+          autoClose: 1500,
           onClose: () => navigate("/admin"),
         });
+        setLoading(false);
+        setBack(false);
       } else {
         console.log("Response data not available");
         toast.error("Failed to update blog");
+        setLoading(false);
+        setBack(false);
       }
     } catch (error) {
       console.error("Error during form update:", error.message);
+      setLoading(false);
     }
   };
 
@@ -195,6 +209,7 @@ const BlogEdit = () => {
   const [showBack, setBack] = useState(false); // State to control visibility of confirmation modal
   const deleteUser = async () => {
     try {
+      setLoading2(true);
       const token = localStorage.getItem("token");
       const headers = {
         Authorization: `Bearer ${token}`,
@@ -206,12 +221,15 @@ const BlogEdit = () => {
       );
       if (response.status === 200) {
         toast.success("User deleted successfully", {
-          autoClose: 2000,
+          autoClose: 1500,
           onClose: () => navigate("/admin"),
         });
+        setLoading2(false);
+        setShowConfirmationModal(false);
       }
     } catch (error) {
       console.error("Error deleting user:", error);
+      setLoading2(false);
     }
   };
 
@@ -226,14 +244,12 @@ const BlogEdit = () => {
       formData.description !== viewLink.description ||
       formData.tags !== viewLink.tags ||
       formData.content !== viewLink.content;
-        
+
     if (!isFormDataChanged) {
       navigate(-1);
-    }
-    else{
+    } else {
       setBack(true);
     }
-    
   };
 
   const handleDeleteCancel = () => {
@@ -249,7 +265,7 @@ const BlogEdit = () => {
       [{ header: 1 }, { header: 2 }],
       ["bold", "italic", "underline", "strike"],
       ["link", "image", "video"],
-      
+
       [{ list: "ordered" }, { list: "bullet" }],
 
       ["clean"],
@@ -271,11 +287,50 @@ const BlogEdit = () => {
             </Button>
           </Nav>
           <Nav>
-            <Button variant="danger" onClick={handleDeleteConfirmation} style={{marginRight: "20px"}}>
-              <span>Delete</span>
+            <Button
+              variant="danger"
+              onClick={handleDeleteConfirmation}
+              style={{ marginRight: "20px" }}
+              disabled={loading2}
+            >
+              {loading2 ? (
+                <div className="d-flex align-items-center">
+                  <div
+                    className="spinner-grow"
+                    role="status"
+                    style={{
+                      width: "1rem",
+                      height: "1rem",
+                      marginRight: "0.5rem",
+                    }}
+                  >
+                    <span className="sr-only">Loading...</span>
+                  </div>
+                  <span>Loading...</span>
+                </div>
+              ) : (
+                <span>Delete</span>
+              )}
             </Button>
-            <Button variant="primary" onClick={handleSubmit}>
-              <span>Submit</span>
+            <Button variant="primary" onClick={handleSubmit} disabled={loading}>
+              {loading ? (
+                <div className="d-flex align-items-center">
+                  <div
+                    className="spinner-grow"
+                    role="status"
+                    style={{
+                      width: "1rem",
+                      height: "1rem",
+                      marginRight: "0.5rem",
+                    }}
+                  >
+                    <span className="sr-only">Loading...</span>
+                  </div>
+                  <span>Loading...</span>
+                </div>
+              ) : (
+                <span>Submit</span>
+              )}
             </Button>
           </Nav>
           <Nav>
@@ -437,9 +492,16 @@ const BlogEdit = () => {
                   value={formData.content}
                   onChange={handleContentChange}
                   modules={modules}
-                  className={`form-control`}
+                  className={`form-control ${
+                    invalidFields.tags ? "is-invalid" : ""
+                  }`}
                   placeholder="Enter content"
                 />
+                {invalidFields.content && (
+                  <div className="invalid-feedback">
+                    {invalidFields.content}
+                  </div>
+                )}
               </div>
             </form>
           </div>
@@ -485,15 +547,24 @@ const BlogEdit = () => {
             </div>
           </div>
         </div>
-      </div> 
+      </div>
       {showConfirmationModal && (
         <div className="confirmation-modal">
           <h2>Are you sure you want to delete this user?</h2>
           <div className="button-container">
-            <button className="mx-2" style={{backgroundColor: "#DC3545"}} onClick={deleteUser}>
+            <button
+              className="mx-2"
+              style={{ backgroundColor: "#DC3545" }}
+              onClick={deleteUser}
+              disabled={loading2}
+            >
               Yes, Delete
             </button>
-            <button className="mx-2" style={{backgroundColor: "#0D6EFD"}} onClick={handleDeleteCancel}>
+            <button
+              className="mx-2"
+              style={{ backgroundColor: "#0D6EFD" }}
+              onClick={handleDeleteCancel}
+            >
               Cancel
             </button>
           </div>
@@ -503,13 +574,26 @@ const BlogEdit = () => {
         <div className="confirmation-modal">
           <h2>There are still unsaved changes!</h2>
           <div className="button-container">
-            <button className="mx-2" style={{backgroundColor: "#0D6EFD"}} onClick={handleSubmit}>
+            <button
+              className="mx-2"
+              style={{ backgroundColor: "#0D6EFD" }}
+              onClick={handleSubmit}
+              disabled={loading}
+            >
               Save and Go Back
             </button>
-            <button className="mx-2" style={{backgroundColor: "#DC3545"}} onClick={handleBack}>
+            <button
+              className="mx-2"
+              style={{ backgroundColor: "#DC3545" }}
+              onClick={handleBack}
+            >
               Discard
             </button>
-            <button className="mx-2" style={{backgroundColor: "#0D6EFD"}} onClick={handleBackCan}>
+            <button
+              className="mx-2"
+              style={{ backgroundColor: "#0D6EFD" }}
+              onClick={handleBackCan}
+            >
               Cancel
             </button>
           </div>
