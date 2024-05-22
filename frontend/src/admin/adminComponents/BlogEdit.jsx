@@ -221,7 +221,7 @@ const BlogEdit = () => {
         { headers }
       );
       if (response.status === 200) {
-        toast.success("User deleted successfully", {
+        toast.success("Blog deleted successfully", {
           autoClose: 1500,
           pauseOnFocusLoss: false,
           onClose: () => navigate("/admin"),
@@ -230,7 +230,7 @@ const BlogEdit = () => {
         setShowConfirmationModal(false);
       }
     } catch (error) {
-      console.error("Error deleting user:", error);
+      console.error("Error deleting blog:", error);
       setLoading2(false);
     }
   };
