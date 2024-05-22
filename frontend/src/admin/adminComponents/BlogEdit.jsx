@@ -552,7 +552,7 @@ const BlogEdit = () => {
       </div>
       {showConfirmationModal && (
         <div className="confirmation-modal">
-          <h2>Are you sure you want to delete this user?</h2>
+          <h2>Are you sure you want to delete this blog?</h2>
           <div className="button-container">
             <button
               className="mx-2"
