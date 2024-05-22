@@ -56,9 +56,6 @@ const BlogForm = () => {
 
     setInvalidFields({});
     const errors = {};
-    if (formData.imageCaption.length === 0) {
-      errors.imageCaption = "Please input your image caption";
-    }
     if (formData.title.length === 0) {
       errors.title = "Please input your title";
     } else if (formData.title.length < 5) {
@@ -249,21 +246,13 @@ const BlogForm = () => {
                 <label htmlFor="imageCaption">Image Caption</label>
                 <input
                   type="text"
-                  className={`form-control ${
-                    invalidFields.imageCaption ? "is-invalid" : ""
-                  }`}
+                  className={`form-control`}
                   id="imageCaption"
                   name="imageCaption"
                   value={formData.imageCaption}
                   onChange={handleChange}
                   placeholder="Enter image caption"
-                  required
                 />
-                {invalidFields.imageCaption && (
-                  <div className="invalid-feedback">
-                    {invalidFields.imageCaption}
-                  </div>
-                )}
               </div>
               <div className="form-group">
                 <label htmlFor="author">Author</label>

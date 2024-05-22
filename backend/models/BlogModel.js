@@ -11,7 +11,6 @@ const BlogSchema = new Schema({
   imageCaption: {
     type: String,
     default: "",
-    required: true
   },
   title: {
     type: String,
