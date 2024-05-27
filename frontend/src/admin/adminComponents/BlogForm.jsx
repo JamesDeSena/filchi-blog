@@ -53,7 +53,7 @@ const BlogForm = () => {
   const handleSubmit = async (e) => {
     setLoading(true);
     e.preventDefault();
-
+  
     setInvalidFields({});
     const errors = {};
     if (formData.title.length === 0) {
@@ -67,35 +67,26 @@ const BlogForm = () => {
     if (formData.content.length === 0) {
       errors.content = "Please input your content";
     }
-    if (!thumbnail) {
-      errors.thumbnail = "Please upload an image";
-    } else {
-      const maxSizeInBytes = 5 * 1024 * 1024; // 5MB
-
-      if (thumbnail.size > maxSizeInBytes) {
-        errors.thumbnail = "Image size exceeds the maximum allowed size (5MB)";
-      }
-    }
-
+  
     setInvalidFields(errors);
-
+  
     if (Object.keys(errors).length > 0) {
       setLoading(false);
       return;
     }
-
+  
     try {
       const token = localStorage.getItem("token");
       const headers = {
         Authorization: `Bearer ${token}`,
         "Content-Type": "multipart/form-data",
       };
-
+  
       const formObject = new FormData();
       formObject.append("file", thumbnail);
       formObject.append("blog", JSON.stringify(formData));
       formObject.append("dateUpdated", null);
-
+  
       const response = await axios.post(
         "https://filchi-blog.onrender.com/api/blog/create",
         formObject,
@@ -103,7 +94,7 @@ const BlogForm = () => {
           headers,
         }
       );
-
+  
       if (response && response.data) {
         toast.success("Uploaded successfully", {
           autoClose: 1500,
@@ -117,10 +108,12 @@ const BlogForm = () => {
         setLoading(false);
       }
     } catch (error) {
-      console.error("Error during form submission:", error.message);
+      console.error("Error during form submission:", error.response ? error.response.data : error.message);
+      toast.error(`Failed to upload: ${error.response ? error.response.data.message : error.message}`);
       setLoading(false);
     }
   };
+  
 
   const modules = {
     toolbar: [
