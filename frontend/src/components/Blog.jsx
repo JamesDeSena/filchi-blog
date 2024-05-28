@@ -117,7 +117,8 @@ const Blog = () => {
                 }}
               />
               <div
-                className="card-text m-4 text-justify"
+                className="card-text text-justify"
+                style={{margin: '8%'}}
                 dangerouslySetInnerHTML={{ __html: processContent(blogPost.content) }}
               />
             </div>

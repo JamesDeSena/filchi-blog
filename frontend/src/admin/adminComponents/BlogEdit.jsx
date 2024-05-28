@@ -292,6 +292,15 @@ const BlogEdit = () => {
     ],
   };
 
+  const processContent = (content) => {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(content, 'text/html');
+    const images = doc.querySelectorAll('img');
+    images.forEach(img => img.classList.add('center-image'));
+    return doc.body.innerHTML;
+  };
+
+
   return (
     <>
       <ToastContainer />
@@ -553,7 +562,7 @@ const BlogEdit = () => {
                 {formData.content && (
                   <div
                     className="content"
-                    dangerouslySetInnerHTML={{ __html: formData.content }}
+                    dangerouslySetInnerHTML={{ __html: processContent(formData.content) }}
                   ></div>
                 )}
               </div>
