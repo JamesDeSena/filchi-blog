@@ -1175,16 +1175,6 @@ p:before{
     text-align: justify;
   }
 
-  .ql-size-small{
-    font-size: 9.75;
-  }
-  .ql-size-large{
-    font-size: 19.5px;
-  }
-  .ql-size-huge{
-    font-size: 32.5px;
-  }
-
   .center-image {
     display: block;
     margin-left: auto;
@@ -1195,6 +1185,16 @@ p:before{
 .ql-picker.ql-size .ql-picker-label::before,
 .ql-picker.ql-size .ql-picker-item::before {
 	content: attr(data-value) !important;
+}
+
+.ql-size-small{
+  font-size: 9.75;
+}
+.ql-size-large{
+  font-size: 19.5px;
+}
+.ql-size-huge{
+  font-size: 32.5px;
 }
 
 .ql-bubble .ql-picker.ql-size {
