@@ -1175,9 +1175,62 @@ p:before{
     text-align: justify;
   }
 
+  .ql-size-small{
+    font-size: 9.75;
+  }
+  .ql-size-large{
+    font-size: 19.5px;
+  }
+  .ql-size-huge{
+    font-size: 32.5px;
+  }
+
   .center-image {
     display: block;
     margin-left: auto;
     margin-right: auto;
   }
   
+  
+.ql-picker.ql-size .ql-picker-label::before,
+.ql-picker.ql-size .ql-picker-item::before {
+	content: attr(data-value) !important;
+}
+
+.ql-bubble .ql-picker.ql-size {
+  width: 98px;
+}
+.ql-bubble .ql-picker.ql-size .ql-picker-label::before,
+.ql-bubble .ql-picker.ql-size .ql-picker-item::before {
+  content: 'Normal';
+}
+.ql-bubble .ql-picker.ql-size .ql-picker-label[data-value=small]::before,
+.ql-bubble .ql-picker.ql-size .ql-picker-item[data-value=small]::before {
+  content: 'Small';
+}
+.ql-bubble .ql-picker.ql-size .ql-picker-label[data-value=large]::before,
+.ql-bubble .ql-picker.ql-size .ql-picker-item[data-value=large]::before {
+  content: 'Large';
+}
+.ql-bubble .ql-picker.ql-size .ql-picker-label[data-value=huge]::before,
+.ql-bubble .ql-picker.ql-size .ql-picker-item[data-value=huge]::before {
+  content: 'Huge';
+}
+.ql-bubble .ql-picker.ql-size .ql-picker-item[data-value=small]::before {
+  font-size: 10px;
+}
+.ql-bubble .ql-picker.ql-size .ql-picker-item[data-value=large]::before {
+  font-size: 18px;
+}
+.ql-bubble .ql-picker.ql-size .ql-picker-item[data-value=huge]::before {
+  font-size: 32px;
+}
+
+.ql-bubble .ql-picker.ql-header .ql-picker-label[data-label]:not([data-label=''])::before,
+.ql-bubble .ql-picker.ql-font .ql-picker-label[data-label]:not([data-label=''])::before,
+.ql-bubble .ql-picker.ql-size .ql-picker-label[data-label]:not([data-label=''])::before,
+.ql-bubble .ql-picker.ql-header .ql-picker-item[data-label]:not([data-label=''])::before,
+.ql-bubble .ql-picker.ql-font .ql-picker-item[data-label]:not([data-label=''])::before,
+.ql-bubble .ql-picker.ql-size .ql-picker-item[data-label]:not([data-label=''])::before {
+  content: attr(data-label);
+}

@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import ReactQuill from "react-quill";
+import ReactQuill, { Quill } from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { Navbar, Nav, Button, NavDropdown } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -277,9 +277,30 @@ const BlogEdit = () => {
     "align",
   ];
 
+  const fontSizeArr = [
+    "8px",
+    "9px",
+    "10px",
+    "12px",
+    "14px",
+    "16px",
+    "20px",
+    "24px",
+    "32px",
+    "42px",
+    "54px",
+    "68px",
+    "84px",
+    "98px",
+  ];
+
+  var Size = Quill.import("attributors/style/size");
+  Size.whitelist = fontSizeArr;
+  Quill.register(Size, true);
+
   const modules = {
     toolbar: [
-      [{ header: 1 }, { header: 2 }],
+      [{ size: fontSizeArr }],
       ["bold", "italic", "underline", "strike"],
       [{ list: "ordered" }, { list: "bullet" }],
       ["link", "image", "video"],
@@ -289,17 +310,61 @@ const BlogEdit = () => {
         { align: "right" },
         { align: "justify" },
       ],
+      [
+        {
+          color: [
+            { value: "color-picker", title: "Color Picker" },
+            "#000000",
+            "#e60000",
+            "#ff9900",
+            "#ffff00",
+            "#008a00",
+            "#006699",
+            "#1a1ae0",
+            "#990099",
+            "#ffffff",
+            "#facccc",
+            "#ffebcc",
+            "#ffffcc",
+            "#cce8cc",
+            "#cce0f5",
+            "#ebd6ff",
+            "#bbbbbb",
+            "#f06666",
+            "#ffc266",
+            "#ffff66",
+            "#66b966",
+            "#66a3e0",
+            "#c285ff",
+            "#888888",
+            "#a10000",
+            "#b26b00",
+            "#b2b200",
+            "#006100",
+            "#0047b2",
+            "#6b24b2",
+            "#444444",
+            "#5c0000",
+            "#663d00",
+            "#666600",
+            "#003700",
+            "#002966",
+            "#3d1466",
+          ],
+        },
+      ],
+
+      ["clean"],
     ],
   };
 
   const processContent = (content) => {
     const parser = new DOMParser();
-    const doc = parser.parseFromString(content, 'text/html');
-    const images = doc.querySelectorAll('img');
-    images.forEach(img => img.classList.add('center-image'));
+    const doc = parser.parseFromString(content, "text/html");
+    const images = doc.querySelectorAll("img");
+    images.forEach((img) => img.classList.add("center-image"));
     return doc.body.innerHTML;
   };
-
 
   return (
     <>
@@ -385,8 +450,7 @@ const BlogEdit = () => {
             >
               <div className="form-group">
                 <label htmlFor="title">Title</label>
-                <input
-                  type="text"
+                <textarea
                   className={`form-control ${
                     invalidFields.title ? "is-invalid" : ""
                   }`}
@@ -531,7 +595,7 @@ const BlogEdit = () => {
             {/* Preview Section */}
             <div className="preview-pane">
               <div className="preview-details">
-                <h2 style={{ color: "#000000" }}>{formData.title}</h2>
+                <h2 style={{ color: "#000000", whiteSpace: "pre-wrap" }}>{formData.title}</h2>
                 {viewLink.author && (
                   <p className="author">
                     <strong>By: </strong> {viewLink.author}
@@ -562,7 +626,9 @@ const BlogEdit = () => {
                 {formData.content && (
                   <div
                     className="content"
-                    dangerouslySetInnerHTML={{ __html: processContent(formData.content) }}
+                    dangerouslySetInnerHTML={{
+                      __html: processContent(formData.content),
+                    }}
                   ></div>
                 )}
               </div>

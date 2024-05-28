@@ -153,6 +153,7 @@ const Home = () => {
                                 color: "#0071FD",
                                 fontWeight: "bold",
                                 fontSize: "24px",
+                                whiteSpace: "pre-wrap"
                               }}
                             >
                               <Link to={`/blog/${link._id}/${link.title}`}>

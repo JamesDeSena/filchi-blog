@@ -64,10 +64,28 @@ const Blog = () => {
             <div className="card-body">
               <h6
                 className="card-title m-4 font-weight-bolder text-center"
-                style={{ color: "#0071FD", fontSize: "40px" }}
+                style={{ color: "#0071FD", fontSize: "40px", whiteSpace: "pre-wrap"}}
               >
                 {blogPost.title}
               </h6>
+              <img
+                src={blogPost.thumbnail.link}
+                className="card-img-top mb-4 rounded"
+                alt={blogPost.title}
+                style={{
+                  margin: "auto",
+                  display: "block",
+                  objectFit: "contain",
+                  maxWidth: "700px",
+                  border: "2px solid gray",
+                  maxHeight: "450px",
+                }}
+              />
+              <div
+                className="card-text text-justify"
+                style={{margin: '8%'}}
+                dangerouslySetInnerHTML={{ __html: processContent(blogPost.content) }}
+              />
               <div className="card-text text-capitalize">
                 <div className="row justify-content-center">
                   <div className="col-md-2 text-center">
@@ -103,24 +121,6 @@ const Blog = () => {
                   </div>
                 </div>
               </div>
-              <img
-                src={blogPost.thumbnail.link}
-                className="card-img-top mb-4 rounded"
-                alt={blogPost.title}
-                style={{
-                  margin: "auto",
-                  display: "block",
-                  objectFit: "contain",
-                  maxWidth: "700px",
-                  border: "2px solid gray",
-                  maxHeight: "450px",
-                }}
-              />
-              <div
-                className="card-text text-justify"
-                style={{margin: '8%'}}
-                dangerouslySetInnerHTML={{ __html: processContent(blogPost.content) }}
-              />
             </div>
           </div>
         </div>
