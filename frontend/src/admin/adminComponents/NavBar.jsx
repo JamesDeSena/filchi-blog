@@ -12,13 +12,13 @@ const NavBar = () => {
   const [searchQuery, setSearchQuery] = useState("");
 
   const handleSignOut = () => {
-    localStorage.removeItem("token");
+    localStorage.clear();
     navigate("/admin"); 
   };
 
   const handleSearch = (event) => {
     // Implement your search functionality here
-    console.log("Search query:", searchQuery);
+    // console.log("Search query:", searchQuery);
     // You can perform search operations using the 'searchQuery' state
   };
 

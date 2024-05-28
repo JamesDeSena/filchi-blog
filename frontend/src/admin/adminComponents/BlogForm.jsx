@@ -28,7 +28,7 @@ const BlogForm = () => {
   const [loading, setLoading] = useState(false);
 
   const handleSignOut = () => {
-    localStorage.removeItem("token");
+    localStorage.clear();
     navigate("/admin");
   };
 
@@ -53,7 +53,7 @@ const BlogForm = () => {
   const handleSubmit = async (e) => {
     setLoading(true);
     e.preventDefault();
-  
+
     setInvalidFields({});
     const errors = {};
     if (formData.title.length === 0) {
@@ -67,26 +67,26 @@ const BlogForm = () => {
     if (formData.content.length === 0) {
       errors.content = "Please input your content";
     }
-  
+
     setInvalidFields(errors);
-  
+
     if (Object.keys(errors).length > 0) {
       setLoading(false);
       return;
     }
-  
+
     try {
       const token = localStorage.getItem("token");
       const headers = {
         Authorization: `Bearer ${token}`,
         "Content-Type": "multipart/form-data",
       };
-  
+
       const formObject = new FormData();
       formObject.append("file", thumbnail);
       formObject.append("blog", JSON.stringify(formData));
       formObject.append("dateUpdated", null);
-  
+
       const response = await axios.post(
         "https://filchi-blog.onrender.com/api/blog/create",
         formObject,
@@ -94,7 +94,7 @@ const BlogForm = () => {
           headers,
         }
       );
-  
+
       if (response && response.data) {
         toast.success("Uploaded successfully", {
           autoClose: 1500,
@@ -108,23 +108,59 @@ const BlogForm = () => {
         setLoading(false);
       }
     } catch (error) {
-      console.error("Error during form submission:", error.response ? error.response.data : error.message);
-      toast.error(`Failed to upload: ${error.response ? error.response.data.message : error.message}`);
+      console.error(
+        "Error during form submission:",
+        error.response ? error.response.data : error.message
+      );
+      toast.error(
+        `Failed to upload: ${
+          error.response ? error.response.data.message : error.message
+        }`
+      );
       setLoading(false);
     }
   };
-  
+
+  const formats = [
+    "header",
+    "font",
+    "size",
+    "color",
+    "bold",
+    "italic",
+    "underline",
+    "strike",
+    "blockquote",
+    "list",
+    "bullet",
+    "indent",
+    "link",
+    "image",
+    "video",
+    "align",
+  ];
 
   const modules = {
     toolbar: [
       [{ header: 1 }, { header: 2 }],
       ["bold", "italic", "underline", "strike"],
-      ["link", "image", "video"],
-
       [{ list: "ordered" }, { list: "bullet" }],
-
-      ["clean"],
+      ["link", "image", "video"],
+      [
+        { align: "" },
+        { align: "center" },
+        { align: "right" },
+        { align: "justify" },
+      ],
     ],
+  };
+
+  const processContent = (content) => {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(content, 'text/html');
+    const images = doc.querySelectorAll('img');
+    images.forEach(img => img.classList.add('center-image'));
+    return doc.body.innerHTML;
   };
 
   return (
@@ -295,8 +331,9 @@ const BlogForm = () => {
                   value={formData.content}
                   onChange={handleContentChange}
                   modules={modules}
+                  formats={formats}
                   className={`form-control ${
-                    invalidFields.tags ? "is-invalid" : ""
+                    invalidFields.content ? "is-invalid" : ""
                   }`}
                   placeholder="Enter content"
                 />
@@ -331,8 +368,7 @@ const BlogForm = () => {
                 )}
                 {formData.content && (
                   <div
-                    className="content"
-                    dangerouslySetInnerHTML={{ __html: formData.content }}
+                    dangerouslySetInnerHTML={{ __html: processContent(formData.content) }}
                   ></div>
                 )}
               </div>

@@ -1164,3 +1164,20 @@ p:before{
   .confirmation-modal button:hover {
     background-color: #d32f2f;
   }
+
+  .ql-align-right {
+    text-align: right;
+  }
+  .ql-align-center {
+    text-align: center;
+  }
+  .ql-align-justify {
+    text-align: justify;
+  }
+
+  .center-image {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  

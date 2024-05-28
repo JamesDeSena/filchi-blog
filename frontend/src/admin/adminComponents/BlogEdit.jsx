@@ -79,8 +79,7 @@ const BlogEdit = () => {
   }, [viewLink]);
 
   const handleSignOut = () => {
-    // Your logout logic here
-    console.log("User signed out");
+    localStorage.clear();
   };
 
   const handleImage = (e) => {
@@ -259,15 +258,37 @@ const BlogEdit = () => {
     setBack(false);
   };
 
+  const formats = [
+    "header",
+    "font",
+    "size",
+    "color",
+    "bold",
+    "italic",
+    "underline",
+    "strike",
+    "blockquote",
+    "list",
+    "bullet",
+    "indent",
+    "link",
+    "image",
+    "video",
+    "align",
+  ];
+
   const modules = {
     toolbar: [
       [{ header: 1 }, { header: 2 }],
       ["bold", "italic", "underline", "strike"],
-      ["link", "image", "video"],
-
       [{ list: "ordered" }, { list: "bullet" }],
-
-      ["clean"],
+      ["link", "image", "video"],
+      [
+        { align: "" },
+        { align: "center" },
+        { align: "right" },
+        { align: "justify" },
+      ],
     ],
   };
 
@@ -483,6 +504,7 @@ const BlogEdit = () => {
                   value={formData.content}
                   onChange={handleContentChange}
                   modules={modules}
+                  formats={formats}
                   className={`form-control ${
                     invalidFields.tags ? "is-invalid" : ""
                   }`}

@@ -39,6 +39,16 @@ const Blog = () => {
   }
 
   const formattedDate = format(new Date(blogPost.dateCreated), "MMMM dd, yyyy");
+
+  const processContent = (content) => {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(content, 'text/html');
+    const images = doc.querySelectorAll('img');
+    images.forEach(img => img.classList.add('center-image'));
+    return doc.body.innerHTML;
+  };
+  
+
   return (
     <div className="container my-5">
       <Link
@@ -108,7 +118,7 @@ const Blog = () => {
               />
               <div
                 className="card-text m-4 text-justify"
-                dangerouslySetInnerHTML={{ __html: blogPost.content }}
+                dangerouslySetInnerHTML={{ __html: processContent(blogPost.content) }}
               />
             </div>
           </div>
