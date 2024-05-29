@@ -3,6 +3,7 @@ import "./style.css";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { formatDistanceToNow } from "date-fns";
+import { Carousel } from "react-bootstrap";
 
 const Home = () => {
   const closeRegButtonRef = useRef(null);
@@ -15,14 +16,18 @@ const Home = () => {
       event.preventDefault(); // Prevent the default anchor tag behavior
 
       if (closeRegButtonRef.current && regButtonRef.current) {
-        originalCloseRegButtonDisplayRef.current = closeRegButtonRef.current.style.display;
-        originalRegButtonDisplayRef.current = regButtonRef.current.style.display;
+        originalCloseRegButtonDisplayRef.current =
+          closeRegButtonRef.current.style.display;
+        originalRegButtonDisplayRef.current =
+          regButtonRef.current.style.display;
         closeRegButtonRef.current.style.display = "none";
         regButtonRef.current.style.display = "none";
         setTimeout(() => {
           if (closeRegButtonRef.current && regButtonRef.current) {
-            closeRegButtonRef.current.style.display = originalCloseRegButtonDisplayRef.current;
-            regButtonRef.current.style.display = originalRegButtonDisplayRef.current;
+            closeRegButtonRef.current.style.display =
+              originalCloseRegButtonDisplayRef.current;
+            regButtonRef.current.style.display =
+              originalRegButtonDisplayRef.current;
           }
         }, 30000);
       }
@@ -45,7 +50,9 @@ const Home = () => {
   useEffect(() => {
     const fetchLink = async () => {
       try {
-        const response = await axios.get("https://filchi-blog.onrender.com/api/blog/");
+        const response = await axios.get(
+          "https://filchi-blog.onrender.com/api/blog/"
+        );
 
         if (response.status === 200) {
           // Sort the data by dateCreated in descending order
@@ -69,11 +76,29 @@ const Home = () => {
     <>
       <div className="about wow fadeIn" data-wow-delay="0.1s">
         <div className="image-container1">
-          <img
-            src="https://i.imgur.com/LXJFjWM.jpg"
-            alt=""
-            style={{ padding: "0 5%" }}
-          />
+          <Carousel interval={3000}>
+            <Carousel.Item>
+              <img
+                src="https://i.imgur.com/LXJFjWM.jpg"
+                alt="Slide 1"
+                style={{ width: "100%", padding: "0 5%" }}
+              />
+            </Carousel.Item>
+            <Carousel.Item>
+              <img
+                src="https://i.imgur.com/another-image.jpg"
+                alt="Slide 2"
+                style={{ width: "100%", padding: "0 5%" }}
+              />
+            </Carousel.Item>
+            <Carousel.Item>
+              <img
+                src="https://i.imgur.com/another-image2.jpg"
+                alt="Slide 3"
+                style={{ width: "100%", padding: "0 5%" }}
+              />
+            </Carousel.Item>
+          </Carousel>
         </div>
 
         <div
@@ -92,7 +117,7 @@ const Home = () => {
             cultures fosters career avenues. Delve into insightful event
             coverage as we showcase how this job fair acts as a bridge, linking
             talented individuals with flourishing opportunities while
-            celebrating the fusion of Filipino and Chinese heritage.{" "}
+            celebrating the fusion of Filipino and Chinese heritage.
           </p>
           <p className="pa4 py-3">
             Discover a world of possibilities where diversity, culture, and
@@ -100,7 +125,6 @@ const Home = () => {
           </p>
         </div>
       </div>
-
       <section
         id="featured-articles"
         className="featured-articles no-underline"
@@ -153,7 +177,7 @@ const Home = () => {
                                 color: "#0071FD",
                                 fontWeight: "bold",
                                 fontSize: "24px",
-                                whiteSpace: "pre-wrap"
+                                whiteSpace: "pre-wrap",
                               }}
                             >
                               <Link to={`/blog/${link._id}/${link.title}`}>
@@ -188,7 +212,7 @@ const Home = () => {
                               overflow: "hidden",
                               textOverflow: "ellipsis",
                               whiteSpace: "wrap",
-                              textAlign: "justify"
+                              textAlign: "justify",
                             }}
                             dangerouslySetInnerHTML={{
                               __html: truncateContent(link.content, 200),
