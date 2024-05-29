@@ -161,10 +161,21 @@ section,
   Footer
   /////////////////////// */
 
-.botlogo img {
+  .botlogo img {
     height: 50%;
-    width: 406px; 
+    width: 406px;
     margin-left: 74px;
+}
+
+/* Media query for smaller screens */
+@media only screen and (max-width: 600px) {
+    .botlogo img {
+        height: 30%;
+        max-width: 70%;
+        margin: 0 auto;
+        display: block;
+        margin-bottom: 10%;
+    }
 }
 
 .footer .btn.btn-social {

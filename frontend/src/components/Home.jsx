@@ -15,6 +15,15 @@ const Home = () => {
   const regButtonRef = useRef(null);
   const originalCloseRegButtonDisplayRef = useRef("");
   const originalRegButtonDisplayRef = useRef("");
+  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    const handleResize = () => setScreenWidth(window.innerWidth);
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
 
   useEffect(() => {
     const hideButton = (event) => {
@@ -84,11 +93,12 @@ const Home = () => {
           <Carousel interval={3000}>
             <Carousel.Item>
               <img
+                className="carImg"
                 src="https://i.imgur.com/LXJFjWM.jpg"
                 alt="Slide 1"
                 style={{
                   width: "100%",
-                  height: "32em", // Fixed height for all images
+                  height: screenWidth <= 768 ? "20em" : "32em",
                   objectFit: "cover", // This will cover the area, maintaining aspect ratio but cropping if necessary
                   padding: "0 5%",
                 }}
@@ -96,11 +106,12 @@ const Home = () => {
             </Carousel.Item>
             <Carousel.Item>
               <img
+                className="carImg"
                 src={image1}
                 alt="Slide 2"
                 style={{
                   width: "100%",
-                  height: "32em",
+                  height: screenWidth <= 768 ? "20em" : "32em",
                   objectFit: "cover",
                   padding: "0 5%",
                 }}
@@ -108,11 +119,12 @@ const Home = () => {
             </Carousel.Item>
             <Carousel.Item>
               <img
+                className="carImg"
                 src={image2}
                 alt="Slide 3"
                 style={{
                   width: "100%",
-                  height: "32em",
+                  height: screenWidth <= 768 ? "20em" : "32em",
                   objectFit: "cover",
                   padding: "0 5%",
                 }}
@@ -120,11 +132,12 @@ const Home = () => {
             </Carousel.Item>
             <Carousel.Item>
               <img
+                className="carImg"
                 src={image3}
-                alt="Slide 3"
+                alt="Slide 4"
                 style={{
                   width: "100%",
-                  height: "32em",
+                  height: screenWidth <= 768 ? "20em" : "32em",
                   objectFit: "cover",
                   padding: "0 5%",
                 }}
@@ -132,11 +145,12 @@ const Home = () => {
             </Carousel.Item>
             <Carousel.Item>
               <img
+                className="carImg"
                 src={image4}
-                alt="Slide 3"
+                alt="Slide 5"
                 style={{
                   width: "100%",
-                  height: "32em",
+                  height: screenWidth <= 768 ? "20em" : "32em",
                   objectFit: "cover",
                   padding: "0 5%",
                 }}
@@ -144,11 +158,12 @@ const Home = () => {
             </Carousel.Item>
             <Carousel.Item>
               <img
+                className="carImg"
                 src={image5}
-                alt="Slide 3"
+                alt="Slide 6"
                 style={{
                   width: "100%",
-                  height: "32em",
+                  height: screenWidth <= 768 ? "20em" : "32em",
                   objectFit: "cover",
                   padding: "0 5%",
                 }}
@@ -162,7 +177,7 @@ const Home = () => {
           style={{ color: "#666565" }}
           data-wow-delay="0.5s"
         >
-          <h6>Welcome to Fil-Chi Job Fair Blog!</h6>
+          <h6 style={{fontSize: screenWidth <= 768 ? '32px' : "40px"}}>Welcome to Fil-Chi Job Fair Blog!</h6>
           <p className="pa3 py-3">
             "Connecting Opportunities: Uniting Filipino-Chinese Communities in a
             Job Fair Extravaganza"
