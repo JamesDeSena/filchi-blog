@@ -4,6 +4,11 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import { formatDistanceToNow } from "date-fns";
 import { Carousel } from "react-bootstrap";
+import image1 from "../assets/carouselimg/Job Fair 2023-157.jpg";
+import image2 from "../assets/carouselimg/Job Fair 2023-331.jpg";
+import image3 from "../assets/carouselimg/Job Fair 2023-504.jpg";
+import image4 from "../assets/carouselimg/Job Fair 2023-1218.jpg";
+import image5 from "../assets/carouselimg/Job Fair 2023-1291.jpg";
 
 const Home = () => {
   const closeRegButtonRef = useRef(null);
@@ -81,21 +86,72 @@ const Home = () => {
               <img
                 src="https://i.imgur.com/LXJFjWM.jpg"
                 alt="Slide 1"
-                style={{ width: "100%", padding: "0 5%" }}
+                style={{
+                  width: "100%",
+                  height: "32em", // Fixed height for all images
+                  objectFit: "cover", // This will cover the area, maintaining aspect ratio but cropping if necessary
+                  padding: "0 5%",
+                }}
               />
             </Carousel.Item>
             <Carousel.Item>
               <img
-                src="https://i.imgur.com/another-image.jpg"
+                src={image1}
                 alt="Slide 2"
-                style={{ width: "100%", padding: "0 5%" }}
+                style={{
+                  width: "100%",
+                  height: "32em",
+                  objectFit: "cover",
+                  padding: "0 5%",
+                }}
               />
             </Carousel.Item>
             <Carousel.Item>
               <img
-                src="https://i.imgur.com/another-image2.jpg"
+                src={image2}
                 alt="Slide 3"
-                style={{ width: "100%", padding: "0 5%" }}
+                style={{
+                  width: "100%",
+                  height: "32em",
+                  objectFit: "cover",
+                  padding: "0 5%",
+                }}
+              />
+            </Carousel.Item>
+            <Carousel.Item>
+              <img
+                src={image3}
+                alt="Slide 3"
+                style={{
+                  width: "100%",
+                  height: "32em",
+                  objectFit: "cover",
+                  padding: "0 5%",
+                }}
+              />
+            </Carousel.Item>
+            <Carousel.Item>
+              <img
+                src={image4}
+                alt="Slide 3"
+                style={{
+                  width: "100%",
+                  height: "32em",
+                  objectFit: "cover",
+                  padding: "0 5%",
+                }}
+              />
+            </Carousel.Item>
+            <Carousel.Item>
+              <img
+                src={image5}
+                alt="Slide 3"
+                style={{
+                  width: "100%",
+                  height: "32em",
+                  objectFit: "cover",
+                  padding: "0 5%",
+                }}
               />
             </Carousel.Item>
           </Carousel>
