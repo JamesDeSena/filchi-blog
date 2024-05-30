@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./style.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 
@@ -9,6 +9,15 @@ import BossJob from "../assets/bossjob_logo.png";
 import { Favicon } from "react-favicon";
 
 const Footer = () => {
+  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    const handleResize = () => setScreenWidth(window.innerWidth);
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
   return (
     <div
       className="footer wow fadeIn"
@@ -175,7 +184,7 @@ const Footer = () => {
           <div className="row" style={{ color: "#ffff" }}>
             <div
               className="col-lg-5 col-md-6 mb-3 mb-md-0"
-              style={{ textAlign: "start", margin: "2% 0" }}
+              style={{ textAlign: screenWidth <= 768 ? "center" : "start", margin: "2% 0" }}
             >
               <a style={{ color: "#ffffff" }}>
                 All Rights Reserved &#169; 2023 <br className="d-md-none" />{" "}
@@ -185,19 +194,20 @@ const Footer = () => {
             <br className="d-md-none" />
             <br className="d-md-none" />
             <div
-              className="col-lg-2 col-md-6  text-md-start mb-3 mb-md-0"
+              className="col-lg-2 col-md-6 text-md-start mt-2 mb-3 mb-md-0"
               style={{ marginLeft: "-10px" }}
             >
               <a href="https://www.flw.ph/">
                 <img
-                  className="img-fluid flex-shrink-0 rounded"
+                  className="mx-auto flex-shrink-0 rounded"
                   src={PDMNLogo}
                   alt="PDMN Logo"
                   style={{ width: "180px", height: "60px" }}
                 />
               </a>
             </div>
-            <div className="col-lg-2 col-md-6 text-md-start mt-2 mb-3 mb-md-0">
+            <div 
+              className="col-lg-2 col-md-6 text-md-start mt-2 mb-3 mb-md-0">
               <a href="https://bossjob.ph/">
                 <img
                   className="mx-auto flex-shrink-0 rounded"
@@ -207,7 +217,7 @@ const Footer = () => {
                 />
               </a>
             </div>
-            <div className="col-lg-2 col-md-6 ">
+            <div className="col-lg-2 col-md-6 " style={{textAlign: 'center'}}>
               <br />
               <a
                 style={{ color: "#ffffff", textDecoration: "none" }}

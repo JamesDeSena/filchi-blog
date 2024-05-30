@@ -17,6 +17,10 @@ const BlogSchema = new Schema({
     default: "",
     required: true
   },
+  titleDesc: {
+    type: String,
+    default: ""
+  },
   description: {
     type: String,
     default: "",

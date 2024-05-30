@@ -17,6 +17,7 @@ const BlogForm = () => {
   const [formData, setFormData] = useState({
     imageCaption: "",
     title: "",
+    titleDesc: "",
     description: "",
     content: "",
     author: "Fil-Chi Job Fair Team",
@@ -39,7 +40,8 @@ const BlogForm = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    const newValue = name === 'titleDesc' ? value.replace(/\s+/g, '-') : value;
+    setFormData({ ...formData, [name]: newValue });
   };
 
   const handleContentChange = (content) => {
@@ -303,6 +305,18 @@ const BlogForm = () => {
                 {invalidFields.title && (
                   <div className="invalid-feedback">{invalidFields.title}</div>
                 )}
+              </div>
+              <div className="form-group">
+                <label htmlFor="titleDesc">Preview Link</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="titleDesc"
+                  name="titleDesc"
+                  value={formData.titleDesc}
+                  onChange={handleChange}
+                  placeholder="Enter Preview Link"
+                />
               </div>
               <div className="form-group">
                 <label htmlFor="description">Description</label>

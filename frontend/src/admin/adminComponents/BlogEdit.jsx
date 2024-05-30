@@ -166,6 +166,7 @@ const BlogEdit = () => {
           ...viewLink,
           imageCaption: formData.imageCaption,
           title: formData.title,
+          titleDesc: formData.titleDesc,
           description: formData.description,
           tags: formData.tags,
           content: formData.content,
@@ -464,6 +465,18 @@ const BlogEdit = () => {
                 {invalidFields.title && (
                   <div className="invalid-feedback">{invalidFields.title}</div>
                 )}
+              </div>
+              <div className="form-group">
+                <label htmlFor="titleDesc">Preview Link</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="titleDesc"
+                  name="titleDesc"
+                  value={formData.titleDesc}
+                  onChange={handleChange}
+                  placeholder="Enter Preview Link"
+                />
               </div>
               <div className="form-group">
                 <label htmlFor="description">Description</label>

@@ -19,9 +19,9 @@ const Home = () => {
 
   useEffect(() => {
     const handleResize = () => setScreenWidth(window.innerWidth);
-    window.addEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
     return () => {
-      window.removeEventListener('resize', handleResize);
+      window.removeEventListener("resize", handleResize);
     };
   }, []);
 
@@ -86,89 +86,44 @@ const Home = () => {
     fetchLink();
   }, []);
 
+  const [index, setIndex] = useState(0);
+
+    const handleSelect = (selectedIndex, e) => {
+        setIndex(selectedIndex);
+    };
+
+  const images = [
+    "https://i.imgur.com/LXJFjWM.jpg",
+    image1,
+    image2,
+    image3,
+    image4,
+    image5
+];
+
+  const imageHeight = screenWidth <= 768 ? "20em" : "32em";
+  const imageContainer = screenWidth <= 768 ? "40em" : ""
+
   return (
     <>
       <div className="about wow fadeIn" data-wow-delay="0.1s">
-        <div className="image-container1">
-          <Carousel interval={3000}>
-            <Carousel.Item>
-              <img
-                className="carImg"
-                src="https://i.imgur.com/LXJFjWM.jpg"
-                alt="Slide 1"
-                style={{
-                  width: "100%",
-                  height: screenWidth <= 768 ? "20em" : "32em",
-                  objectFit: "cover", // This will cover the area, maintaining aspect ratio but cropping if necessary
-                  padding: "0 5%",
-                }}
-              />
-            </Carousel.Item>
-            <Carousel.Item>
-              <img
-                className="carImg"
-                src={image1}
-                alt="Slide 2"
-                style={{
-                  width: "100%",
-                  height: screenWidth <= 768 ? "20em" : "32em",
-                  objectFit: "cover",
-                  padding: "0 5%",
-                }}
-              />
-            </Carousel.Item>
-            <Carousel.Item>
-              <img
-                className="carImg"
-                src={image2}
-                alt="Slide 3"
-                style={{
-                  width: "100%",
-                  height: screenWidth <= 768 ? "20em" : "32em",
-                  objectFit: "cover",
-                  padding: "0 5%",
-                }}
-              />
-            </Carousel.Item>
-            <Carousel.Item>
-              <img
-                className="carImg"
-                src={image3}
-                alt="Slide 4"
-                style={{
-                  width: "100%",
-                  height: screenWidth <= 768 ? "20em" : "32em",
-                  objectFit: "cover",
-                  padding: "0 5%",
-                }}
-              />
-            </Carousel.Item>
-            <Carousel.Item>
-              <img
-                className="carImg"
-                src={image4}
-                alt="Slide 5"
-                style={{
-                  width: "100%",
-                  height: screenWidth <= 768 ? "20em" : "32em",
-                  objectFit: "cover",
-                  padding: "0 5%",
-                }}
-              />
-            </Carousel.Item>
-            <Carousel.Item>
-              <img
-                className="carImg"
-                src={image5}
-                alt="Slide 6"
-                style={{
-                  width: "100%",
-                  height: screenWidth <= 768 ? "20em" : "32em",
-                  objectFit: "cover",
-                  padding: "0 5%",
-                }}
-              />
-            </Carousel.Item>
+        <div className="image-container1" style={{ width: imageContainer}}>
+          <Carousel activeIndex={index} onSelect={handleSelect} interval={3000}>
+            {images.map((src, idx) => (
+              <Carousel.Item key={idx}>
+                <img
+                  className="carImg"
+                  src={src}
+                  alt={`Slide ${idx + 1}`}
+                  style={{
+                    width: "100%",
+                    height: imageHeight,
+                    objectFit: "contain",
+                    padding: "0 5%",
+                  }}
+                />
+              </Carousel.Item>
+            ))}
           </Carousel>
         </div>
 
@@ -177,7 +132,9 @@ const Home = () => {
           style={{ color: "#666565" }}
           data-wow-delay="0.5s"
         >
-          <h6 style={{fontSize: screenWidth <= 768 ? '32px' : "40px"}}>Welcome to Fil-Chi Job Fair Blog!</h6>
+          <h6 style={{ fontSize: screenWidth <= 768 ? "32px" : "40px" }}>
+            Welcome to Fil-Chi Job Fair Blog!
+          </h6>
           <p className="pa3 py-3">
             "Connecting Opportunities: Uniting Filipino-Chinese Communities in a
             Job Fair Extravaganza"
@@ -251,7 +208,11 @@ const Home = () => {
                                 whiteSpace: "pre-wrap",
                               }}
                             >
-                              <Link to={`/blog/${link._id}/${link.title}`}>
+                              <Link
+                                to={`/blog/${link._id}/${
+                                  link.titleDesc ? link.titleDesc : link.title
+                                }`}
+                              >
                                 {link.title}
                               </Link>
                             </h4>
@@ -272,7 +233,9 @@ const Home = () => {
                             </span>
                           </div>
                           <Link
-                            to={`/blog/${link._id}/${link.title}`}
+                            to={`/blog/${link._id}/${
+                              link.titleDesc ? link.titleDesc : link.title
+                            }`}
                             className="btn btn--primary"
                           >
                             Continue Reading
