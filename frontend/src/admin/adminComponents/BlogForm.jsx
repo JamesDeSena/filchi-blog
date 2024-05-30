@@ -40,9 +40,15 @@ const BlogForm = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    const newValue = name === 'titleDesc' ? value.replace(/\s+/g, '-') : value;
+    let newValue;
+    if (name === 'titleDesc') {
+      newValue = value.replace(/\s+/g, '-').replace(/[^a-zA-Z0-9-]/g, '');
+    } else {
+      newValue = value;
+    }
     setFormData({ ...formData, [name]: newValue });
   };
+  
 
   const handleContentChange = (content) => {
     setFormData({ ...formData, content });

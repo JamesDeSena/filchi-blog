@@ -72,6 +72,7 @@ const BlogEdit = () => {
       ...prevFormData,
       imageCaption: viewLink.imageCaption,
       title: viewLink.title,
+      titleDesc: viewLink.titleDesc,
       description: viewLink.description,
       tags: viewLink.tags,
       content: viewLink.content,
@@ -89,10 +90,16 @@ const BlogEdit = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+    let newValue;
+    if (name === 'titleDesc') {
+      newValue = value.replace(/\s+/g, '-').replace(/[^a-zA-Z0-9-]/g, '');
+    } else {
+      newValue = value;
+    }
 
     setFormData((prevData) => ({
       ...prevData,
-      [name]: value,
+      [name]: newValue,
       dateUpdated: new Date().toISOString(), // Update dateUpdated with current timestamp
     }));
   };
@@ -120,7 +127,9 @@ const BlogEdit = () => {
       formData.title !== viewLink.title ||
       formData.description !== viewLink.description ||
       formData.tags !== viewLink.tags ||
-      formData.content !== viewLink.content;
+      formData.content !== viewLink.content ||
+      (formData.titleDesc !== viewLink.titleDesc &&
+        (formData.titleDesc || viewLink.titleDesc));
 
     const errors = {};
     if (!isFormDataChanged) {
@@ -242,7 +251,9 @@ const BlogEdit = () => {
       formData.title !== viewLink.title ||
       formData.description !== viewLink.description ||
       formData.tags !== viewLink.tags ||
-      formData.content !== viewLink.content;
+      formData.content !== viewLink.content ||
+      (formData.titleDesc !== viewLink.titleDesc &&
+        (formData.titleDesc || viewLink.titleDesc));
 
     if (!isFormDataChanged) {
       navigate(-1);
@@ -608,7 +619,9 @@ const BlogEdit = () => {
             {/* Preview Section */}
             <div className="preview-pane">
               <div className="preview-details">
-                <h2 style={{ color: "#000000", whiteSpace: "pre-wrap" }}>{formData.title}</h2>
+                <h2 style={{ color: "#000000", whiteSpace: "pre-wrap" }}>
+                  {formData.title}
+                </h2>
                 {viewLink.author && (
                   <p className="author">
                     <strong>By: </strong> {viewLink.author}

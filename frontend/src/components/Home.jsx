@@ -88,9 +88,9 @@ const Home = () => {
 
   const [index, setIndex] = useState(0);
 
-    const handleSelect = (selectedIndex, e) => {
-        setIndex(selectedIndex);
-    };
+  const handleSelect = (selectedIndex, e) => {
+    setIndex(selectedIndex);
+  };
 
   const images = [
     "https://i.imgur.com/LXJFjWM.jpg",
@@ -98,16 +98,16 @@ const Home = () => {
     image2,
     image3,
     image4,
-    image5
-];
+    image5,
+  ];
 
   const imageHeight = screenWidth <= 768 ? "20em" : "32em";
-  const imageContainer = screenWidth <= 768 ? "40em" : ""
+  const imageContainer = screenWidth <= 768 ? "40em" : "";
 
   return (
     <>
       <div className="about wow fadeIn" data-wow-delay="0.1s">
-        <div className="image-container1" style={{ width: imageContainer}}>
+        <div className="image-container1" style={{ width: imageContainer }}>
           <Carousel activeIndex={index} onSelect={handleSelect} interval={3000}>
             {images.map((src, idx) => (
               <Carousel.Item key={idx}>
@@ -210,7 +210,9 @@ const Home = () => {
                             >
                               <Link
                                 to={`/blog/${link._id}/${
-                                  link.titleDesc ? link.titleDesc : link.title
+                                  link.titleDesc && link.titleDesc !== ""
+                                    ? link.titleDesc
+                                    : link.title
                                 }`}
                               >
                                 {link.title}
@@ -234,7 +236,9 @@ const Home = () => {
                           </div>
                           <Link
                             to={`/blog/${link._id}/${
-                              link.titleDesc ? link.titleDesc : link.title
+                              link.titleDesc && link.titleDesc !== ""
+                                ? link.titleDesc
+                                : link.title
                             }`}
                             className="btn btn--primary"
                           >
