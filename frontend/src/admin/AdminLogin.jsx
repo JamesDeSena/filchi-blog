@@ -13,7 +13,7 @@ const LoginPage = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post('https://filchi-blog-6c4c.onrender.com/api/auth/login', {
+      const response = await axios.post('https://filchi-blog-7hwt.onrender.com/api/auth/login', {
         userName,
         passWord,
       });

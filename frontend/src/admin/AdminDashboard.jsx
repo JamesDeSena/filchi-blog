@@ -16,7 +16,7 @@ const AdminDashboard = () => {
 
   const fetchBlogPosts = async () => {
     try {
-      const response = await axios.get("https://filchi-blog-6c4c.onrender.com/api/blog");
+      const response = await axios.get("https://filchi-blog-7hwt.onrender.com/api/blog");
       setBlogPosts(response.data);
     } catch (error) {
       console.error("Error fetching blog data:", error);
