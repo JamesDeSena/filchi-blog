@@ -104,6 +104,8 @@ const Home = () => {
   const imageHeight = screenWidth <= 768 ? "20em" : "32em";
   const imageContainer = screenWidth <= 768 ? "40em" : "";
 
+  const fontZ = screenWidth <= 768 ? "18px" : "24px";
+
   return (
     <>
       <div className="about wow fadeIn" data-wow-delay="0.1s">
@@ -204,7 +206,7 @@ const Home = () => {
                               style={{
                                 color: "#0071FD",
                                 fontWeight: "bold",
-                                fontSize: "24px",
+                                fontSize: fontZ,
                                 whiteSpace: "pre-wrap",
                               }}
                             >

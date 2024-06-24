@@ -16,6 +16,16 @@ const Blog = () => {
   const { id } = useParams();
   const [blogPost, setBlogPost] = useState(null);
 
+  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    const handleResize = () => setScreenWidth(window.innerWidth);
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
   useEffect(() => {
     const fetchBlogPost = async () => {
       try {
@@ -48,6 +58,7 @@ const Blog = () => {
     return doc.body.innerHTML;
   };
   
+  const fontZ = screenWidth <= 768 ? "18px" : "24px";
 
   return (
     <div className="container my-5">
@@ -64,7 +75,7 @@ const Blog = () => {
             <div className="card-body">
               <h6
                 className="card-title m-4 font-weight-bolder text-center"
-                style={{ color: "#0071FD", fontSize: "40px", whiteSpace: "pre-wrap"}}
+                style={{ color: "#0071FD", fontSize: fontZ, whiteSpace: "pre-wrap"}}
               >
                 {blogPost.title}
               </h6>
