@@ -65,7 +65,7 @@ const Home = () => {
     const fetchLink = async () => {
       try {
         const response = await axios.get(
-          "https://filchi-blog-7hwt.onrender.com/api/blog/"
+          "https://filchi-blog-tka0.onrender.com/api/blog/"
         );
 
         if (response.status === 200) {

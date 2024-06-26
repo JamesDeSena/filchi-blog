@@ -96,7 +96,7 @@ const BlogForm = () => {
       formObject.append("dateUpdated", null);
 
       const response = await axios.post(
-        "https://filchi-blog-7hwt.onrender.com/api/blog/create",
+        "https://filchi-blog-tka0.onrender.com/api/blog/create",
         formObject,
         {
           headers,
