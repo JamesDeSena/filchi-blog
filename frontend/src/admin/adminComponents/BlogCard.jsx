@@ -8,7 +8,7 @@ const BlogCard = () => {
 
   const fetchBlogPosts = async () => {
     try {
-      const response = await axios.get("https://filchi-blog-tka0.onrender.com/api/blog");
+      const response = await axios.get("https://filchi-blog-1.onrender.com/api/blog");
       setBlogPosts(response.data); // Update the entire blogPosts state with the fetched data
     } catch (error) {
       console.error("Error fetching blog data:", error);
@@ -31,7 +31,7 @@ const BlogCard = () => {
 //   const deleteUser = async () => {
 //     try {
 //       const response = await axios.delete(
-//         `https://filchi-blog-tka0.onrender.com/api/blog/delete/${id}`
+//         `https://filchi-blog-1.onrender.com/api/blog/delete/${id}`
 //       );
 //       if (response.status === 200) {
 //         console.log("User deleted successfully");

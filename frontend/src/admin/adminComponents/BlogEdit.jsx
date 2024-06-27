@@ -45,7 +45,7 @@ const BlogEdit = () => {
     const fetchViewLink = async () => {
       try {
         const response = await axios.get(
-          `https://filchi-blog-tka0.onrender.com/api/blog/${id}`
+          `https://filchi-blog-1.onrender.com/api/blog/${id}`
         );
         if (response.status === 200) {
           setViewLink(response.data);
@@ -185,7 +185,7 @@ const BlogEdit = () => {
       formObject.append("file", thumbnail);
 
       const response = await axios.patch(
-        `https://filchi-blog-tka0.onrender.com/api/blog/edit/${id}`,
+        `https://filchi-blog-1.onrender.com/api/blog/edit/${id}`,
         formObject,
         {
           headers,
@@ -223,7 +223,7 @@ const BlogEdit = () => {
         "Content-Type": "multipart/form-data",
       };
       const response = await axios.delete(
-        `https://filchi-blog-tka0.onrender.com/api/blog/delete/${id}`,
+        `https://filchi-blog-1.onrender.com/api/blog/delete/${id}`,
         { headers }
       );
       if (response.status === 200) {

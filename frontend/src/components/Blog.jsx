@@ -30,7 +30,7 @@ const Blog = () => {
     const fetchBlogPost = async () => {
       try {
         const response = await axios.get(
-          `https://filchi-blog-tka0.onrender.com/api/blog/${id}`
+          `https://filchi-blog-1.onrender.com/api/blog/${id}`
         );
         if (response.status === 200) {
           setBlogPost(response.data);
