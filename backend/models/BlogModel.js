@@ -39,6 +39,10 @@ const BlogSchema = new Schema({
     default: "",
     required: true
   },
+  tier: {
+    type: String,
+    default: ""
+  },
   dateCreated:{
     type: Date,
     default: Date.now

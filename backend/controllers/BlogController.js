@@ -52,6 +52,7 @@ const CreateBlog = async (req, res) => {
       content: blog.content,
       author: blog.author,
       tags: blog.tags,
+      tier: blog.tier,
       dateCreated: new Date(),
       dateUpdated: null,
     });
@@ -99,6 +100,7 @@ const EditBlog = async (req, res) => {
         titleDesc: blog.titleDesc,
         description: blog.description,
         tags: blog.tags,
+        tier: blog.tier,
         content: blog.content,
         dateUpdated: new Date(),
       },
