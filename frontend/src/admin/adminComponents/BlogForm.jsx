@@ -22,6 +22,7 @@ const BlogForm = () => {
     content: "",
     author: "Fil-Chi Job Fair Team",
     tags: "post",
+    tier: "Normal",
     dateCreated: new Date().toLocaleDateString(),
   });
   const [thumbnail, setThumbnail] = useState();
@@ -397,6 +398,24 @@ const BlogForm = () => {
                 {invalidFields.tags && (
                   <div className="invalid-feedback">{invalidFields.tags}</div>
                 )}
+              </div>
+              <div className="form-group">
+                <label htmlFor="tier">Tier</label>
+
+                <select
+                  className={`form-control ${
+                    invalidFields.tier ? "is-invalid" : ""
+                  }`}
+                  id="tier"
+                  name="tier"
+                  value={formData.tier}
+                  onChange={handleChange}
+                  required
+                  >
+                  <option value="Gold">Gold</option>
+                  <option value="Silver">Silver</option>
+                  <option value="Normal">Normal</option>
+                </select>
               </div>
               <div className="form-group">
                 <label htmlFor="dateCreated">Date Created</label>

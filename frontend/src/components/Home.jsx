@@ -1,9 +1,9 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useCallback } from "react";
 import "./style.css";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { formatDistanceToNow } from "date-fns";
-import { Carousel } from "react-bootstrap";
+import { Carousel, Spinner, Button, Card } from "react-bootstrap";
 import image1 from "../assets/carouselimg/Job Fair 2023-157.jpg";
 import image2 from "../assets/carouselimg/Job Fair 2023-331.jpg";
 import image3 from "../assets/carouselimg/Job Fair 2023-504.jpg";
@@ -59,7 +59,10 @@ const Home = () => {
   }, []);
 
   const [blogData, setBlog] = useState([]);
-  const [loading, setLoading] = useState(true); // Add loading state
+  const [loading, setLoading] = useState(true);
+  const [visibleCount, setVisibleCount] = useState(10); // State to keep track of visible documents
+  const [loadingMore, setLoadingMore] = useState(false); // Separate state for loading more
+  const loaderRef = useRef(null); // Ref for the loader element
 
   useEffect(() => {
     const fetchLink = async () => {
@@ -105,6 +108,40 @@ const Home = () => {
   const imageContainer = screenWidth <= 768 ? "40em" : "";
 
   const fontZ = screenWidth <= 768 ? "18px" : "24px";
+
+  // Intersection Observer for lazy loading
+  const loadMore = useCallback(() => {
+    if (!loadingMore && visibleCount < blogData.length) {
+      setLoadingMore(true);
+      setTimeout(() => {
+        setVisibleCount((prev) => prev + 10);
+        setLoadingMore(false);
+      }, 1000);
+    }
+  }, [loadingMore, visibleCount, blogData.length]);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          loadMore();
+        }
+      },
+      {
+        threshold: 1.0,
+      }
+    );
+
+    if (loaderRef.current) {
+      observer.observe(loaderRef.current);
+    }
+
+    return () => {
+      if (loaderRef.current) {
+        observer.unobserve(loaderRef.current);
+      }
+    };
+  }, [loadMore]);
 
   return (
     <>
@@ -174,99 +211,256 @@ const Home = () => {
           </p>
 
           {loading ? (
-            <div
-              className="loading-container"
-              style={{ backgroundColor: "blue", color: "white" }}
-            >
-              <div className="loading-spinner"></div>
-              <p className="col text-center">Loading...</p>
+            <div className="flex justify-center items-center h-screen mt-5">
+              <div className="text-center">
+                <Spinner animation="border" role="status" variant="primary">
+                  <span className="visually-hidden">Loading...</span>
+                </Spinner>
+              </div>
+            </div>
+          ) : blogData.length === 0 ? (
+            <div className="row">
+              <div className="col text-center no-links-message">
+                <p>No links found</p>
+              </div>
             </div>
           ) : (
-            <div>
-              {blogData.length === 0 ? (
-                <div className="row">
-                  <div className="col text-center no-links-message">
-                    <p>No links found</p>
-                  </div>
-                </div>
-              ) : (
-                <div className="row">
-                  {blogData.map((link) => (
-                    <section key={link._id} style={{ marginBottom: "-150px" }}>
-                      <div className="bg-white p-5 flex">
-                        <article className="snippet">
-                          <img
-                            src={link.thumbnail.link}
-                            alt={link.imageCaption}
-                            className="snippet__image"
-                          />
-                          <div>
-                            <h4
-                              className="snippet__title"
-                              style={{
-                                color: "#0071FD",
-                                fontWeight: "bold",
-                                fontSize: fontZ,
-                                whiteSpace: "pre-wrap",
-                              }}
-                            >
-                              <Link
-                                to={`/blog/${link._id}/${
-                                  link.titleDesc && link.titleDesc !== ""
-                                    ? link.titleDesc
-                                    : link.title
-                                }`}
-                              >
-                                {link.title}
-                              </Link>
-                            </h4>
-                            <span
-                              style={{
-                                color: "#666565",
-                                fontSize: "16px",
-                              }}
-                            >
-                              {new Date(link.dateCreated).toLocaleDateString(
-                                "en-US",
-                                {
-                                  month: "long",
-                                  day: "numeric",
-                                  year: "numeric",
-                                }
-                              )}{" "}
-                            </span>
-                          </div>
-                          <Link
-                            to={`/blog/${link._id}/${
-                              link.titleDesc && link.titleDesc !== ""
-                                ? link.titleDesc
-                                : link.title
-                            }`}
-                            className="btn btn--primary"
-                          >
-                            Continue Reading
-                          </Link>
-                          <div
-                            className="snippet__body"
+            <div className="row">
+              {blogData
+                .slice(0, visibleCount)
+                .filter((link) => link.tier === "Gold")
+                .map((link) => (
+                  <section key={link._id} style={{ marginBottom: "-150px" }}>
+                    <div className="bg-white p-5 flex">
+                      <article className="snippet">
+                        <img
+                          src={link.thumbnail.link}
+                          alt={link.imageCaption}
+                          className="snippet__image"
+                        />
+                        <div>
+                          <h4
+                            className="snippet__title"
                             style={{
-                              overflow: "hidden",
-                              textOverflow: "ellipsis",
-                              whiteSpace: "wrap",
-                              textAlign: "justify",
+                              color: "#0071FD",
+                              fontWeight: "bold",
+                              fontSize: fontZ,
+                              whiteSpace: "pre-wrap",
                             }}
-                            dangerouslySetInnerHTML={{
-                              __html: truncateContent(link.content, 200),
+                          >
+                            <Link
+                              to={`/blog/${link._id}/${
+                                link.titleDesc && link.titleDesc !== ""
+                                  ? link.titleDesc
+                                  : link.title
+                              }`}
+                            >
+                              {link.title}
+                            </Link>
+                          </h4>
+                          <span
+                            style={{
+                              color: "#666565",
+                              fontSize: "16px",
                             }}
-                          />
-                        </article>
-                      </div>
-                    </section>
-                  ))}
-                </div>
-              )}
+                          >
+                            {new Date(link.dateCreated).toLocaleDateString(
+                              "en-US",
+                              {
+                                month: "long",
+                                day: "numeric",
+                                year: "numeric",
+                              }
+                            )}{" "}
+                          </span>
+                        </div>
+                        <Link
+                          to={`/blog/${link._id}/${
+                            link.titleDesc && link.titleDesc !== ""
+                              ? link.titleDesc
+                              : link.title
+                          }`}
+                          className="btn btn--primary"
+                        >
+                          Continue Reading
+                        </Link>
+                        <div
+                          className="snippet__body"
+                          style={{
+                            overflow: "hidden",
+                            textOverflow: "ellipsis",
+                            whiteSpace: "wrap",
+                            textAlign: "justify",
+                          }}
+                          dangerouslySetInnerHTML={{
+                            __html: truncateContent(link.content, 200),
+                          }}
+                        />
+                      </article>
+                    </div>
+                  </section>
+                ))}
+              {blogData
+                .slice(0, visibleCount)
+                .filter((link) => link.tier === "Silver")
+                .map((link) => (
+                  <section key={link._id} style={{ marginBottom: "-150px" }}>
+                    <div className="bg-white p-5 flex">
+                      <article className="snippet">
+                        <img
+                          src={link.thumbnail.link}
+                          alt={link.imageCaption}
+                          className="snippet__image"
+                        />
+                        <div>
+                          <h4
+                            className="snippet__title"
+                            style={{
+                              color: "#0071FD",
+                              fontWeight: "bold",
+                              fontSize: fontZ,
+                              whiteSpace: "pre-wrap",
+                            }}
+                          >
+                            <Link
+                              to={`/blog/${link._id}/${
+                                link.titleDesc && link.titleDesc !== ""
+                                  ? link.titleDesc
+                                  : link.title
+                              }`}
+                            >
+                              {link.title}
+                            </Link>
+                          </h4>
+                          <span
+                            style={{
+                              color: "#666565",
+                              fontSize: "16px",
+                            }}
+                          >
+                            {new Date(link.dateCreated).toLocaleDateString(
+                              "en-US",
+                              {
+                                month: "long",
+                                day: "numeric",
+                                year: "numeric",
+                              }
+                            )}{" "}
+                          </span>
+                        </div>
+                        <Link
+                          to={`/blog/${link._id}/${
+                            link.titleDesc && link.titleDesc !== ""
+                              ? link.titleDesc
+                              : link.title
+                          }`}
+                          className="btn btn--primary"
+                        >
+                          Continue Reading
+                        </Link>
+                        <div
+                          className="snippet__body"
+                          style={{
+                            overflow: "hidden",
+                            textOverflow: "ellipsis",
+                            whiteSpace: "wrap",
+                            textAlign: "justify",
+                          }}
+                          dangerouslySetInnerHTML={{
+                            __html: truncateContent(link.content, 200),
+                          }}
+                        />
+                      </article>
+                    </div>
+                  </section>
+                ))}
+              {blogData
+                .slice(0, visibleCount)
+                .filter((link) => link.tier === "Normal")
+                .map((link) => (
+                  <section key={link._id} style={{ marginBottom: "-150px" }}>
+                    <div className="bg-white p-5 flex">
+                      <article className="snippet">
+                        <img
+                          src={link.thumbnail.link}
+                          alt={link.imageCaption}
+                          className="snippet__image"
+                        />
+                        <div>
+                          <h4
+                            className="snippet__title"
+                            style={{
+                              color: "#0071FD",
+                              fontWeight: "bold",
+                              fontSize: fontZ,
+                              whiteSpace: "pre-wrap",
+                            }}
+                          >
+                            <Link
+                              to={`/blog/${link._id}/${
+                                link.titleDesc && link.titleDesc !== ""
+                                  ? link.titleDesc
+                                  : link.title
+                              }`}
+                            >
+                              {link.title}
+                            </Link>
+                          </h4>
+                          <span
+                            style={{
+                              color: "#666565",
+                              fontSize: "16px",
+                            }}
+                          >
+                            {new Date(link.dateCreated).toLocaleDateString(
+                              "en-US",
+                              {
+                                month: "long",
+                                day: "numeric",
+                                year: "numeric",
+                              }
+                            )}{" "}
+                          </span>
+                        </div>
+                        <Link
+                          to={`/blog/${link._id}/${
+                            link.titleDesc && link.titleDesc !== ""
+                              ? link.titleDesc
+                              : link.title
+                          }`}
+                          className="btn btn--primary"
+                        >
+                          Continue Reading
+                        </Link>
+                        <div
+                          className="snippet__body"
+                          style={{
+                            overflow: "hidden",
+                            textOverflow: "ellipsis",
+                            whiteSpace: "wrap",
+                            textAlign: "justify",
+                          }}
+                          dangerouslySetInnerHTML={{
+                            __html: truncateContent(link.content, 200),
+                          }}
+                        />
+                      </article>
+                    </div>
+                  </section>
+                ))}
             </div>
           )}
 
+          <div ref={loaderRef} className="loading-container">
+            {loadingMore && (
+              <p
+                className="col text-center"
+                style={{ backgroundColor: "blue", color: "white" }}
+              >
+                Loading more...
+              </p>
+            )}
+          </div>
           <a
             href="#"
             className="btn btn-lg btn-primary btn-lg-square back-to-top"

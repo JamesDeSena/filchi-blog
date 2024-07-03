@@ -1,6 +1,8 @@
 import React, { useEffect, useState, useRef } from "react";
 import "./style.css";
 
+import { Spinner } from "react-bootstrap";
+
 import axios from "axios";
 import { useParams, Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -45,7 +47,13 @@ const Blog = () => {
   }, [id]);
 
   if (!blogPost) {
-    return <div className="container text-center mt-5">Loading...</div>;
+    return <div className="flex justify-center items-center h-screen m-5">
+    <div className="text-center">
+      <Spinner animation="border" role="status" variant="primary">
+        <span className="visually-hidden">Loading...</span>
+      </Spinner>
+    </div>
+  </div>;
   }
 
   const formattedDate = format(new Date(blogPost.dateCreated), "MMMM dd, yyyy");

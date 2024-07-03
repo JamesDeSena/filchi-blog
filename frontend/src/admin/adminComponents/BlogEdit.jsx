@@ -26,6 +26,7 @@ const BlogEdit = () => {
     content: "",
     author: "",
     tags: "",
+    tier: "",
     dateCreated: new Date().toISOString(),
   });
   const [formData, setFormData] = useState({
@@ -33,6 +34,7 @@ const BlogEdit = () => {
     title: "",
     description: "",
     tags: "",
+    tier: "",
     content: "",
     dateUpdated: new Date().toISOString(),
   });
@@ -54,6 +56,7 @@ const BlogEdit = () => {
             title: response.data.title,
             description: response.data.description,
             tags: response.data.tags,
+            tier: response.data.tier,
             content: response.data.content,
             dateUpdated: new Date().toISOString(),
           });
@@ -75,6 +78,7 @@ const BlogEdit = () => {
       titleDesc: viewLink.titleDesc,
       description: viewLink.description,
       tags: viewLink.tags,
+      tier: viewLink.tier,
       content: viewLink.content,
     }));
   }, [viewLink]);
@@ -178,6 +182,7 @@ const BlogEdit = () => {
           titleDesc: formData.titleDesc,
           description: formData.description,
           tags: formData.tags,
+          tier: formData.tier,
           content: formData.content,
           dateUpdated: formData.dateUpdated,
         })
@@ -251,6 +256,7 @@ const BlogEdit = () => {
       formData.title !== viewLink.title ||
       formData.description !== viewLink.description ||
       formData.tags !== viewLink.tags ||
+      formData.tier !== viewLink.tier ||
       formData.content !== viewLink.content ||
       (formData.titleDesc !== viewLink.titleDesc &&
         (formData.titleDesc || viewLink.titleDesc));
@@ -561,6 +567,24 @@ const BlogEdit = () => {
                 {invalidFields.tags && (
                   <div className="invalid-feedback">{invalidFields.tags}</div>
                 )}
+              </div>
+              <div className="form-group">
+                <label htmlFor="tier">Tier</label>
+
+                <select
+                  className={`form-control ${
+                    invalidFields.tier ? "is-invalid" : ""
+                  }`}
+                  id="tier"
+                  name="tier"
+                  value={formData.tier}
+                  onChange={handleChange}
+                  required
+                  >
+                  <option value="Gold">Gold</option>
+                  <option value="Silver">Silver</option>
+                  <option value="Normal">Normal</option>
+                </select>
               </div>
               <div className="form-group">
                 <label htmlFor="dateCreated">Date Published</label>
