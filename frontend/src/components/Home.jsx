@@ -226,239 +226,205 @@ const Home = () => {
             </div>
           ) : (
             <div className="row">
-              {blogData
-                .slice(0, visibleCount)
-                .filter((link) => link.tier === "Gold")
-                .map((link) => (
-                  <section key={link._id} style={{ marginBottom: "-150px" }}>
-                    <div className="bg-white p-5 flex">
-                      <article className="snippet">
-                        <img
-                          src={link.thumbnail.link}
-                          alt={link.imageCaption}
-                          className="snippet__image"
-                        />
-                        <div>
-                          <h4
-                            className="snippet__title"
-                            style={{
-                              color: "#0071FD",
-                              fontWeight: "bold",
-                              fontSize: fontZ,
-                              whiteSpace: "pre-wrap",
-                            }}
+              <div className="row">
+                {blogData
+                  .slice(0, visibleCount)
+                  .filter((link) => link.tier === "Gold")
+                  .map((link) => (
+                    <section key={link._id} className="mb-4">
+                      <div className="bg-white p-5">
+                        <article className="snippet">
+                          <img
+                            src={link.thumbnail.link}
+                            alt={link.imageCaption}
+                            className="snippet__image"
+                          />
+                          <div>
+                            <h4
+                              className="snippet__title"
+                              style={{
+                                color: "#0071FD",
+                                fontWeight: "bold",
+                                fontSize: fontZ,
+                              }}
+                            >
+                              <Link
+                                to={`/blog/${link._id}/${
+                                  link.titleDesc || link.title
+                                }`}
+                              >
+                                {link.title}
+                              </Link>
+                            </h4>
+                            <span
+                              style={{ color: "#666565", fontSize: "16px" }}
+                            >
+                              {new Date(link.dateCreated).toLocaleDateString(
+                                "en-US",
+                                {
+                                  month: "long",
+                                  day: "numeric",
+                                  year: "numeric",
+                                }
+                              )}
+                            </span>
+                          </div>
+                          <Link
+                            to={`/blog/${link._id}/${
+                              link.titleDesc || link.title
+                            }`}
+                            className="btn btn--primary"
                           >
+                            Continue Reading
+                          </Link>
+                          <div
+                            className="snippet__body"
+                            style={{
+                              overflow: "hidden",
+                              textOverflow: "ellipsis",
+                              whiteSpace: "wrap",
+                              textAlign: "justify",
+                            }}
+                            dangerouslySetInnerHTML={{
+                              __html: truncateContent(link.content, 200),
+                            }}
+                          />
+                        </article>
+                      </div>
+                    </section>
+                  ))}
+              </div>
+
+              <div className="row">
+                {blogData
+                  .slice(0, visibleCount)
+                  .filter((link) => link.tier === "Silver")
+                  .map((link) => (
+                    <section key={link._id} className="mb-4">
+                      <div className="bg-white p-5">
+                        <article className="snippet">
+                          <img
+                            src={link.thumbnail.link}
+                            alt={link.imageCaption}
+                            className="snippet__image"
+                          />
+                          <div>
+                            <h4
+                              className="snippet__title"
+                              style={{
+                                color: "#0071FD",
+                                fontWeight: "bold",
+                                fontSize: fontZ,
+                              }}
+                            >
+                              <Link
+                                to={`/blog/${link._id}/${
+                                  link.titleDesc || link.title
+                                }`}
+                              >
+                                {link.title}
+                              </Link>
+                            </h4>
+                            <span
+                              style={{ color: "#666565", fontSize: "16px" }}
+                            >
+                              {new Date(link.dateCreated).toLocaleDateString(
+                                "en-US",
+                                {
+                                  month: "long",
+                                  day: "numeric",
+                                  year: "numeric",
+                                }
+                              )}
+                            </span>
+                          </div>
+                          <Link
+                            to={`/blog/${link._id}/${
+                              link.titleDesc || link.title
+                            }`}
+                            className="btn btn--primary"
+                          >
+                            Continue Reading
+                          </Link>
+                          <div
+                            className="snippet__body"
+                            style={{
+                              overflow: "hidden",
+                              textOverflow: "ellipsis",
+                              whiteSpace: "wrap",
+                              textAlign: "justify",
+                            }}
+                            dangerouslySetInnerHTML={{
+                              __html: truncateContent(link.content, 200),
+                            }}
+                          />
+                        </article>
+                      </div>
+                    </section>
+                  ))}
+              </div>
+
+              <div className="row">
+                {blogData
+                  .slice(0, visibleCount)
+                  .filter((link) => link.tier === "Normal")
+                  .map((link) => (
+                    <div key={link._id} className="col-md-4 mb-4">
+                      <div className="card position-relative border-0 shadow d-flex h-100">
+                        <div className="card-body d-flex flex-column justify-content-between">
+                          <div>
+                            <div className="card-body">
+                              <h4
+                                className="card-title"
+                                style={{ fontWeight: "bold", fontSize: "18px" }}
+                              >
+                                <Link
+                                  to={`/admin/editblog/${link._id}`}
+                                  className="link-card"
+                                  style={{ textDecoration: "none" }}
+                                >
+                                  {link.title}
+                                </Link>
+                              </h4>
+                            </div>
+                          </div>
+                          <img
+                            src={link.thumbnail.link}
+                            className="card-img-top img-thumbnail"
+                            alt="Blog Post"
+                            style={{
+                              objectFit: "contain",
+                              width: "100%",
+                              height: "200px",
+                            }}
+                          />
+                          <div className="text-center mt-3">
                             <Link
                               to={`/blog/${link._id}/${
-                                link.titleDesc && link.titleDesc !== ""
-                                  ? link.titleDesc
-                                  : link.title
+                                link.titleDesc || link.title
                               }`}
+                              className="btn btn--primary"
                             >
-                              {link.title}
+                              Continue Reading
                             </Link>
-                          </h4>
-                          <span
-                            style={{
-                              color: "#666565",
-                              fontSize: "16px",
-                            }}
-                          >
-                            {new Date(link.dateCreated).toLocaleDateString(
-                              "en-US",
-                              {
-                                month: "long",
-                                day: "numeric",
-                                year: "numeric",
-                              }
-                            )}{" "}
-                          </span>
+                          </div>
                         </div>
-                        <Link
-                          to={`/blog/${link._id}/${
-                            link.titleDesc && link.titleDesc !== ""
-                              ? link.titleDesc
-                              : link.title
-                          }`}
-                          className="btn btn--primary"
-                        >
-                          Continue Reading
-                        </Link>
-                        <div
-                          className="snippet__body"
-                          style={{
-                            overflow: "hidden",
-                            textOverflow: "ellipsis",
-                            whiteSpace: "wrap",
-                            textAlign: "justify",
-                          }}
-                          dangerouslySetInnerHTML={{
-                            __html: truncateContent(link.content, 200),
-                          }}
-                        />
-                      </article>
+                      </div>
                     </div>
-                  </section>
-                ))}
-              {blogData
-                .slice(0, visibleCount)
-                .filter((link) => link.tier === "Silver")
-                .map((link) => (
-                  <section key={link._id} style={{ marginBottom: "-150px" }}>
-                    <div className="bg-white p-5 flex">
-                      <article className="snippet">
-                        <img
-                          src={link.thumbnail.link}
-                          alt={link.imageCaption}
-                          className="snippet__image"
-                        />
-                        <div>
-                          <h4
-                            className="snippet__title"
-                            style={{
-                              color: "#0071FD",
-                              fontWeight: "bold",
-                              fontSize: fontZ,
-                              whiteSpace: "pre-wrap",
-                            }}
-                          >
-                            <Link
-                              to={`/blog/${link._id}/${
-                                link.titleDesc && link.titleDesc !== ""
-                                  ? link.titleDesc
-                                  : link.title
-                              }`}
-                            >
-                              {link.title}
-                            </Link>
-                          </h4>
-                          <span
-                            style={{
-                              color: "#666565",
-                              fontSize: "16px",
-                            }}
-                          >
-                            {new Date(link.dateCreated).toLocaleDateString(
-                              "en-US",
-                              {
-                                month: "long",
-                                day: "numeric",
-                                year: "numeric",
-                              }
-                            )}{" "}
-                          </span>
-                        </div>
-                        <Link
-                          to={`/blog/${link._id}/${
-                            link.titleDesc && link.titleDesc !== ""
-                              ? link.titleDesc
-                              : link.title
-                          }`}
-                          className="btn btn--primary"
-                        >
-                          Continue Reading
-                        </Link>
-                        <div
-                          className="snippet__body"
-                          style={{
-                            overflow: "hidden",
-                            textOverflow: "ellipsis",
-                            whiteSpace: "wrap",
-                            textAlign: "justify",
-                          }}
-                          dangerouslySetInnerHTML={{
-                            __html: truncateContent(link.content, 200),
-                          }}
-                        />
-                      </article>
-                    </div>
-                  </section>
-                ))}
-              {blogData
-                .slice(0, visibleCount)
-                .filter((link) => link.tier === "Normal")
-                .map((link) => (
-                  <section key={link._id} style={{ marginBottom: "-150px" }}>
-                    <div className="bg-white p-5 flex">
-                      <article className="snippet">
-                        <img
-                          src={link.thumbnail.link}
-                          alt={link.imageCaption}
-                          className="snippet__image"
-                        />
-                        <div>
-                          <h4
-                            className="snippet__title"
-                            style={{
-                              color: "#0071FD",
-                              fontWeight: "bold",
-                              fontSize: fontZ,
-                              whiteSpace: "pre-wrap",
-                            }}
-                          >
-                            <Link
-                              to={`/blog/${link._id}/${
-                                link.titleDesc && link.titleDesc !== ""
-                                  ? link.titleDesc
-                                  : link.title
-                              }`}
-                            >
-                              {link.title}
-                            </Link>
-                          </h4>
-                          <span
-                            style={{
-                              color: "#666565",
-                              fontSize: "16px",
-                            }}
-                          >
-                            {new Date(link.dateCreated).toLocaleDateString(
-                              "en-US",
-                              {
-                                month: "long",
-                                day: "numeric",
-                                year: "numeric",
-                              }
-                            )}{" "}
-                          </span>
-                        </div>
-                        <Link
-                          to={`/blog/${link._id}/${
-                            link.titleDesc && link.titleDesc !== ""
-                              ? link.titleDesc
-                              : link.title
-                          }`}
-                          className="btn btn--primary"
-                        >
-                          Continue Reading
-                        </Link>
-                        <div
-                          className="snippet__body"
-                          style={{
-                            overflow: "hidden",
-                            textOverflow: "ellipsis",
-                            whiteSpace: "wrap",
-                            textAlign: "justify",
-                          }}
-                          dangerouslySetInnerHTML={{
-                            __html: truncateContent(link.content, 200),
-                          }}
-                        />
-                      </article>
-                    </div>
-                  </section>
-                ))}
+                  ))}
+              </div>
             </div>
           )}
 
           <div ref={loaderRef} className="loading-container">
             {loadingMore && (
-              <p
-                className="col text-center"
-                style={{ backgroundColor: "blue", color: "white" }}
-              >
-                Loading more...
-              </p>
+              <div className="flex justify-center items-center h-screen mt-5">
+                <div className="text-center">
+                  <Spinner animation="border" role="status" variant="primary">
+                    <span className="visually-hidden">Loading...</span>
+                  </Spinner>
+                </div>
+              </div>
             )}
           </div>
           <a
