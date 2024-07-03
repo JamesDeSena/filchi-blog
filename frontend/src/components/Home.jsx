@@ -225,13 +225,13 @@ const Home = () => {
               </div>
             </div>
           ) : (
-            <div className="row">
+            <div className="row mt-5">
               <div className="row">
                 {blogData
                   .slice(0, visibleCount)
                   .filter((link) => link.tier === "Gold")
                   .map((link) => (
-                    <section key={link._id} className="mb-4">
+                    <section key={link._id} className="mb-2">
                       <div className="bg-white p-5">
                         <article className="snippet">
                           <img
@@ -300,7 +300,7 @@ const Home = () => {
                   .slice(0, visibleCount)
                   .filter((link) => link.tier === "Silver")
                   .map((link) => (
-                    <section key={link._id} className="mb-4">
+                    <section key={link._id} className="mb-2">
                       <div className="bg-white p-5">
                         <article className="snippet">
                           <img
@@ -369,7 +369,7 @@ const Home = () => {
                   .slice(0, visibleCount)
                   .filter((link) => link.tier === "Normal")
                   .map((link) => (
-                    <div key={link._id} className="col-md-4 mb-4">
+                    <div key={link._id} className="col-md-4 mb-4 mt-4">
                       <div className="card position-relative border-0 shadow d-flex h-100">
                         <div className="card-body d-flex flex-column justify-content-between">
                           <div>
