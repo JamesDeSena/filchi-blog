@@ -1,10 +1,10 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import "./style.css";
 
 import { Spinner } from "react-bootstrap";
 
 import axios from "axios";
-import { useParams, Link } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCalendarAlt,
@@ -17,8 +17,8 @@ import { format } from "date-fns";
 const Blog = () => {
   const { id } = useParams();
   const [blogPost, setBlogPost] = useState(null);
-
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleResize = () => setScreenWidth(window.innerWidth);
@@ -47,43 +47,52 @@ const Blog = () => {
   }, [id]);
 
   if (!blogPost) {
-    return <div className="flex justify-center items-center h-screen m-5">
-    <div className="text-center">
-      <Spinner animation="border" role="status" variant="primary">
-        <span className="visually-hidden">Loading...</span>
-      </Spinner>
-    </div>
-  </div>;
+    return (
+      <div className="flex justify-center items-center h-screen m-5">
+        <div className="text-center">
+          <Spinner animation="border" role="status" variant="primary">
+            <span className="visually-hidden">Loading...</span>
+          </Spinner>
+        </div>
+      </div>
+    );
   }
 
   const formattedDate = format(new Date(blogPost.dateCreated), "MMMM dd, yyyy");
 
   const processContent = (content) => {
     const parser = new DOMParser();
-    const doc = parser.parseFromString(content, 'text/html');
-    const images = doc.querySelectorAll('img');
-    images.forEach(img => img.classList.add('center-image'));
+    const doc = parser.parseFromString(content, "text/html");
+    const images = doc.querySelectorAll("img");
+    images.forEach((img) => img.classList.add("center-image"));
     return doc.body.innerHTML;
   };
-  
+
   const fontZ = screenWidth <= 768 ? "18px" : "24px";
+
+  const handleClick = () => {
+    navigate('/');
+  };
 
   return (
     <div className="container my-5">
-      <Link
-        to="#"
+      <button
         className="btn btn-outline-primary mb-3"
-        onClick={() => window.history.back()}
+        onClick={handleClick}
       >
         <FontAwesomeIcon icon={faArrowLeft} className="mr-2" /> Back
-      </Link>
+      </button>
       <div className="row justify-content-center">
         <div className="col-md-15">
           <div className="card shadow-lg">
             <div className="card-body">
               <h6
                 className="card-title m-4 font-weight-bolder text-center"
-                style={{ color: "#0071FD", fontSize: fontZ, whiteSpace: "pre-wrap"}}
+                style={{
+                  color: "#0071FD",
+                  fontSize: fontZ,
+                  whiteSpace: "pre-wrap",
+                }}
               >
                 {blogPost.title}
               </h6>
@@ -102,8 +111,10 @@ const Blog = () => {
               />
               <div
                 className="card-text text-justify"
-                style={{margin: '8%'}}
-                dangerouslySetInnerHTML={{ __html: processContent(blogPost.content) }}
+                style={{ margin: "8%" }}
+                dangerouslySetInnerHTML={{
+                  __html: processContent(blogPost.content),
+                }}
               />
               <div className="card-text text-capitalize">
                 <div className="row justify-content-center">
@@ -144,22 +155,6 @@ const Blog = () => {
           </div>
         </div>
       </div>
-      {/* <div className="mt-5 card shadow-lg p-3">
-        <h3 className="mb-3">Leave a Comment</h3>
-        <form onSubmit={handleSubmitComment}>
-          <div className="form-group">
-            <textarea
-              className="form-control"
-              rows="3"
-              placeholder="Write your comment here"
-              value={comment}
-              onChange={(e) => setComment(e.target.value)}
-              required
-            ></textarea>
-          </div>
-          <button type="submit" className="mt-3 btn btn-primary">Submit</button>
-        </form>
-      </div> */}
     </div>
   );
 };

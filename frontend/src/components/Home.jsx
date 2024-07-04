@@ -72,11 +72,7 @@ const Home = () => {
         );
 
         if (response.status === 200) {
-          // Sort the data by dateCreated in descending order
-          const sortedData = response.data.sort(
-            (a, b) => new Date(b.dateCreated) - new Date(a.dateCreated)
-          );
-          setBlog(sortedData);
+          setBlog(response.data);
         } else {
           console.error("Did not get data", response.status);
         }
