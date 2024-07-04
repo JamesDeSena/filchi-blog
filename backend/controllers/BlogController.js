@@ -32,7 +32,7 @@ const DispAllSilver = async (req, res) => {
 
 const FirstDisp = async (req, res) => {
   try {
-    const result = await BlogModel.find({ tier: 'Normal' }).sort({ dateCreated: -1 }).limit(6);
+    const result = await BlogModel.find({ tier: 'Normal' }).sort({ dateCreated: -1 }).limit(3);
     res.status(200).json(result);
   } catch (err) {
     res.status(500).json({ message: err.message });
@@ -41,7 +41,7 @@ const FirstDisp = async (req, res) => {
 
 const DispAll = async (req, res) => {
   try {
-    const result = await BlogModel.find({ tier: 'Normal' }).sort({ dateCreated: -1 }).skip(6);
+    const result = await BlogModel.find({ tier: 'Normal' }).sort({ dateCreated: -1 }).skip(3);
     res.status(200).json(result);
   } catch (err) {
     res.status(500).json({ message: err.message });
