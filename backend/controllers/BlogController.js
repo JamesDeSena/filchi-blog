@@ -5,12 +5,49 @@ const requireAuth = require('../utils/authToken');
 
 const GetAllBlog = async (req, res) => {
   try {
-    const result = await BlogModel.find({});
+    const result = await BlogModel.find({}).sort({ dateCreated: -1 });;
     res.status(200).json(result);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 };
+
+const DispAllGold = async (req, res) => {
+  try {
+    const result = await BlogModel.find({ tier: 'Gold' }).sort({ dateCreated: -1 });;
+    res.status(200).json(result);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+const DispAllSilver = async (req, res) => {
+  try {
+    const result = await BlogModel.find({ tier: 'Silver' }).sort({ dateCreated: -1 });;
+    res.status(200).json(result);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+const FirstDisp = async (req, res) => {
+  try {
+    const result = await BlogModel.find({ tier: 'Normal' }).sort({ dateCreated: -1 }).limit(6);
+    res.status(200).json(result);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+const DispAll = async (req, res) => {
+  try {
+    const result = await BlogModel.find({ tier: 'Normal' }).sort({ dateCreated: -1 }).skip(6);
+    res.status(200).json(result);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
 
 const GetSpecificBlog = async (req, res) => {
   try {
@@ -163,4 +200,8 @@ module.exports = {
   CreateBlogWithAuth,
   EditBlogWithAuth,
   DeleteBlogWithAuth,
+  DispAllGold,
+  DispAllSilver,
+  FirstDisp,
+  DispAll
 };

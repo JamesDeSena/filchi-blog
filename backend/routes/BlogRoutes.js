@@ -8,11 +8,19 @@ const {
   GetSpecificBlog,
   CreateBlogWithAuth,
   EditBlogWithAuth,
-  DeleteBlogWithAuth
+  DeleteBlogWithAuth,
+  DispAllGold,
+  DispAllSilver,
+  FirstDisp,
+  DispAll
 } = require("../controllers/BlogController.js");
 
 // Routes for Service
 router.get("/", GetAllBlog);
+router.get("/gold", DispAllGold);
+router.get("/silver", DispAllSilver);
+router.get("/normal", FirstDisp);
+router.get("/all", DispAll);
 router.get("/:id", GetSpecificBlog);
 router.use(authToken)
 router.post("/create", upload.single("file"), CreateBlogWithAuth);
