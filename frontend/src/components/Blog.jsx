@@ -25,9 +25,7 @@ const Blog = () => {
   useEffect(() => {
     const fetchBlogPost = async () => {
       try {
-        const response = await axios.get(
-          `https://filchi-blog-1.onrender.com/api/blog/${id}`
-        );
+        const response = await axios.get(`https://filchi-blog-1.onrender.com/api/blog/${id}`);
         if (response.status === 200) {
           setBlogPost(response.data);
         } else {
@@ -75,7 +73,7 @@ const Blog = () => {
         <meta property="og:title" content={blogPost.title} />
         <meta property="og:description" content={blogPost.description || "No description available"} />
         <meta property="og:image" content={blogPost.thumbnail.link} />
-        <meta property="og:url" content={`https://filchi-jobfair-blog.netlify.app/blog/${blogPost._id}/${blogPost.titleDesc || blogPost.title}`} />
+        <meta property="og:url" content={`https://filchi-jobfair-blog.netlify.app/blog/${blogPost.id}/${blogPost.titleDesc || blogPost.title}`} />
       </Helmet>
       <button className="btn btn-outline-primary mb-3" onClick={handleClick}>
         <FontAwesomeIcon icon={faArrowLeft} className="mr-2" /> Back
