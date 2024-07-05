@@ -1,7 +1,6 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
-import { HelmetProvider } from "react-helmet-async";
 
 import "react-toastify/dist/ReactToastify.css";
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -26,7 +25,6 @@ import Blog from './components/Blog';
 function App() {
   return (
     <div>
-      <HelmetProvider />
       <ToastContainer />
       <Routes>
         <Route
