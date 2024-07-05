@@ -76,15 +76,15 @@ const Blog = () => {
         
         <title>{blogPost.title || "Join Merged 2024 Fil-Chi Job Fair!"}</title>
         <meta name="title" content={blogPost.title || "Join Merged 2024 Fil-Chi Job Fair!"} />
-        <meta name="description" content={blogPost.description || ""} />
+        <meta name="description" content={blogPost.description || " "} />
 
-        <meta property="og:url" content={`https://filchi-jobfair-blog.netlify.app/blog/${blogPost._id}/${blogPost.titleDesc || blogPost.title || "https://filchi-jobfair-blog.netlify.app"}`} />
+        <meta property="og:url" content={`https://filchi-jobfair-blog.netlify.app/blog/${blogPost._id}/${blogPost.titleDesc || "https://filchi-jobfair-blog.netlify.app"}`} />
         <meta property="og:title" content={blogPost.title || "Join Merged 2024 Fil-Chi Job Fair!"} />
-        <meta property="og:description" content={blogPost.description || ""} />
+        <meta property="og:description" content={blogPost.description || " "} />
         <meta property="og:image" content={blogPost.thumbnail.link || "https://drive.google.com/file/d/18o8iy71j-GL1ESwFp6d_YRLcWQj2k_7d/view?usp=sharing"} />
 
         <meta name="twitter:title" content={blogPost.title || "Join Merged 2024 Fil-Chi Job Fair!"} />
-        <meta name="twitter:description" content={blogPost.description || ""} />
+        <meta name="twitter:description" content={blogPost.description || " "} />
         <meta name="twitter:image" content={blogPost.thumbnail.link || "https://drive.google.com/file/d/18o8iy71j-GL1ESwFp6d_YRLcWQj2k_7d/view?usp=sharing"} />
         <meta name="twitter:card" content="summary_large_image" />
 
