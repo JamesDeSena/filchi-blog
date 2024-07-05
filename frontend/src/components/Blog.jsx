@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./style.css";
 import { Spinner } from "react-bootstrap";
+import { Helmet } from "react-helmet-async";
 
 import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
@@ -68,12 +69,34 @@ const Blog = () => {
 
   return (
     <div className="container my-5">
+      <Helmet>
+        <meta charset="UTF-8" />
+        <link rel="icon" type="image/svg+xml" href="./src/assets/icon.png" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        
+        <title>{blogPost.title}</title>
+        <meta name="title" content={blogPost.title} />
+        <meta name="description" content={blogPost.description || ""} />
+
+        <meta property="og:url" content={`https://filchi-jobfair-blog.netlify.app/blog/${blogPost._id}/${blogPost.titleDesc || blogPost.title}`} />
+        <meta property="og:title" content={blogPost.title} />
+        <meta property="og:description" content={blogPost.description || ""} />
+        <meta property="og:image" content={blogPost.thumbnail.link || "https://drive.google.com/thumbnail?id=18o8iy71j-GL1ESwFp6d_YRLcWQj2k_7d"} />
+
+        <meta name="twitter:title" content={blogPost.title} />
+        <meta name="twitter:description" content={blogPost.description || ""} />
+        <meta name="twitter:image" content={blogPost.thumbnail.link || "https://drive.google.com/thumbnail?id=18o8iy71j-GL1ESwFp6d_YRLcWQj2k_7d"} />
+        <meta name="twitter:card" content="summary_large_image" />
+
+      </Helmet>
+
       <button
         className="btn btn-outline-primary mb-3"
         onClick={handleClick}
       >
         <FontAwesomeIcon icon={faArrowLeft} className="mr-2" /> Back
       </button>
+
       <div className="row justify-content-center">
         <div className="col-md-15">
           <div className="card shadow-lg">
