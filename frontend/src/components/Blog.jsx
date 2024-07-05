@@ -1,18 +1,11 @@
 import React, { useEffect, useState } from "react";
 import "./style.css";
-
 import { Spinner } from "react-bootstrap";
 import { Helmet } from "react-helmet";
-
 import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faCalendarAlt,
-  faTag,
-  faUser,
-  faArrowLeft,
-} from "@fortawesome/free-solid-svg-icons";
+import { faCalendarAlt, faTag, faUser, faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { format } from "date-fns";
 
 const Blog = () => {
@@ -77,31 +70,21 @@ const Blog = () => {
 
   return (
     <div className="container my-5">
-       <Helmet>
-        {/* <title>{blogPost.title}</title> */}
+      <Helmet>
+        <title>{blogPost.title}</title>
         <meta property="og:title" content={blogPost.title} />
-        <meta property="og:description" content={blogPost.description} />
+        <meta property="og:description" content={blogPost.description || "No description available"} />
         <meta property="og:image" content={blogPost.thumbnail.link} />
-        <meta property="og:url" content={`https://filchi-jobfair-blog.netlify.app/blog/${blogPost._id}/${blogPost.titleDesc || blogPost.title}`}/>
+        <meta property="og:url" content={`https://filchi-jobfair-blog.netlify.app/blog/${blogPost._id}/${blogPost.titleDesc || blogPost.title}`} />
       </Helmet>
-      <button
-        className="btn btn-outline-primary mb-3"
-        onClick={handleClick}
-      >
+      <button className="btn btn-outline-primary mb-3" onClick={handleClick}>
         <FontAwesomeIcon icon={faArrowLeft} className="mr-2" /> Back
       </button>
       <div className="row justify-content-center">
         <div className="col-md-15">
           <div className="card shadow-lg">
             <div className="card-body">
-              <h6
-                className="card-title m-4 font-weight-bolder text-center"
-                style={{
-                  color: "#0071FD",
-                  fontSize: fontZ,
-                  whiteSpace: "pre-wrap",
-                }}
-              >
+              <h6 className="card-title m-4 font-weight-bolder text-center" style={{ color: "#0071FD", fontSize: fontZ, whiteSpace: "pre-wrap" }}>
                 {blogPost.title}
               </h6>
               <img
