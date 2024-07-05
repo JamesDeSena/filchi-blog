@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./style.css";
 import { Spinner } from "react-bootstrap";
-import { Helmet } from "react-helmet-async";
+
 import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -68,14 +68,10 @@ const Blog = () => {
 
   return (
     <div className="container my-5">
-      <Helmet>
-        <title>{blogPost.title}</title>
-        <meta property="og:title" content={blogPost.title} />
-        <meta property="og:description" content={blogPost.description || "No description available"} />
-        <meta property="og:image" content={blogPost.thumbnail.link} />
-        <meta property="og:url" content={`https://filchi-jobfair-blog.netlify.app/blog/${blogPost._id}/${blogPost.titleDesc || blogPost.title}`} />
-      </Helmet>
-      <button className="btn btn-outline-primary mb-3" onClick={handleClick}>
+      <button
+        className="btn btn-outline-primary mb-3"
+        onClick={handleClick}
+      >
         <FontAwesomeIcon icon={faArrowLeft} className="mr-2" /> Back
       </button>
       <div className="row justify-content-center">
