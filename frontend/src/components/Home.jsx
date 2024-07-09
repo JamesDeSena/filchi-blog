@@ -4,7 +4,6 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import { formatDistanceToNow } from "date-fns";
 import { Carousel, Spinner, Button, Card } from "react-bootstrap";
-import { Helmet } from "react-helmet-async";
 import image1 from "../assets/carouselimg/Job Fair 2023-157.jpg";
 import image2 from "../assets/carouselimg/Job Fair 2023-331.jpg";
 import image3 from "../assets/carouselimg/Job Fair 2023-504.jpg";
@@ -73,7 +72,11 @@ const Home = () => {
         );
 
         if (response.status === 200) {
-          setBlog(response.data);
+          // Sort the data by dateCreated in descending order
+          const sortedData = response.data.sort(
+            (a, b) => new Date(b.dateCreated) - new Date(a.dateCreated)
+          );
+          setBlog(sortedData);
         } else {
           console.error("Did not get data", response.status);
         }
@@ -142,22 +145,6 @@ const Home = () => {
 
   return (
     <>
-        <Helmet>
-            
-          <title>Join Merged 2024 Fil-Chi Job Fair!</title>
-          <meta name="title" content="Join Merged 2024 Fil-Chi Job Fair!" />
-          <meta name="description" content="" />
-
-          <meta property="og:title" content="Join Merged 2024 Fil-Chi Job Fair!" />
-          <meta property="og:description" content="" />
-          <meta property="og:image" content="https://lh3.googleusercontent.com/d/18o8iy71j-GL1ESwFp6d_YRLcWQj2k_7d=w1000?authuser=0" />
-
-          <meta name="twitter:title" content="Join Merged 2024 Fil-Chi Job Fair!" />
-          <meta name="twitter:description" content="" />
-          <meta name="twitter:image" content="https://lh3.googleusercontent.com/d/18o8iy71j-GL1ESwFp6d_YRLcWQj2k_7d=w1000?authuser=0" />
-          <meta name="twitter:card" content="summary_large_image" />
-
-      </Helmet>
       <div className="about wow fadeIn" data-wow-delay="0.1s">
         <div className="image-container1" style={{ width: imageContainer }}>
           <Carousel activeIndex={index} onSelect={handleSelect} interval={3000}>
@@ -392,9 +379,7 @@ const Home = () => {
                                 style={{ fontWeight: "bold", fontSize: "18px" }}
                               >
                                 <Link
-                                  to={`/blog/${link._id}/${
-                                    link.titleDesc || link.title
-                                  }`}
+                                  to={`/admin/editblog/${link._id}`}
                                   className="link-card"
                                   style={{ textDecoration: "none" }}
                                 >
