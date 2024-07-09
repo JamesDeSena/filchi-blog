@@ -369,8 +369,8 @@ const Home = () => {
                   .slice(0, visibleCount)
                   .filter((link) => link.tier === "Normal")
                   .map((link) => (
-                    <div key={link._id} className="col-md-4 mb-4 mt-4">
-                      <div className="card position-relative border-0 shadow d-flex">
+                    <div key={link._id} className="col-md-4 mb-4 mt-4 d-flex">
+                      <div className="card position-relative border-0 shadow flex-column">
                         <div className="card-body d-flex flex-column justify-content-between">
                           <div>
                             <div className="card-body">
@@ -415,7 +415,6 @@ const Home = () => {
                     </div>
                   ))}
               </div>
-              
             </div>
           )}
 
