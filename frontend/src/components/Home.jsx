@@ -145,17 +145,17 @@ const Home = () => {
         <Helmet>
             
           <title>Join Merged 2024 Fil-Chi Job Fair!</title>
-          <meta name="title" content="Join Merged 2024 Fil-Chi Job Fair!" />
-          <meta name="description" content="" />
+          <meta name="title" content="Join Merged 2024 Fil-Chi Job Fair!" data-react-helmet="true"/>
+          <meta name="description" content="" data-react-helmet="true"/>
 
-          <meta property="og:title" content="Join Merged 2024 Fil-Chi Job Fair!" />
-          <meta property="og:description" content="" />
-          <meta property="og:image" content="https://lh3.googleusercontent.com/d/18o8iy71j-GL1ESwFp6d_YRLcWQj2k_7d=w1000?authuser=0" />
+          <meta property="og:title" content="Join Merged 2024 Fil-Chi Job Fair!" data-react-helmet="true"/>
+          <meta property="og:description" content="" data-react-helmet="true"/>
+          <meta property="og:image" content="https://lh3.googleusercontent.com/d/18o8iy71j-GL1ESwFp6d_YRLcWQj2k_7d=w1000?authuser=0" data-react-helmet="true"/>
 
-          <meta name="twitter:title" content="Join Merged 2024 Fil-Chi Job Fair!"/>
-          <meta name="twitter:description" content=""/>
-          <meta name="twitter:image" content="https://lh3.googleusercontent.com/d/18o8iy71j-GL1ESwFp6d_YRLcWQj2k_7d=w1000?authuser=0"/>
-          <meta name="twitter:card" content="summary_large_image"/>
+          <meta name="twitter:title" content="Join Merged 2024 Fil-Chi Job Fair!" data-react-helmet="true"/>
+          <meta name="twitter:description" content="" data-react-helmet="true"/>
+          <meta name="twitter:image" content="https://lh3.googleusercontent.com/d/18o8iy71j-GL1ESwFp6d_YRLcWQj2k_7d=w1000?authuser=0" data-react-helmet="true"/>
+          <meta name="twitter:card" content="summary_large_image" data-react-helmet="true"/>
 
       </Helmet>
       <div className="about wow fadeIn" data-wow-delay="0.1s">
