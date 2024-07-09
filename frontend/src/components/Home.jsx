@@ -379,7 +379,9 @@ const Home = () => {
                                 style={{ fontWeight: "bold", fontSize: "18px" }}
                               >
                                 <Link
-                                  to={`/admin/editblog/${link._id}`}
+                                  to={`/blog/${link._id}/${
+                                    link.titleDesc || link.title
+                                  }`}
                                   className="link-card"
                                   style={{ textDecoration: "none" }}
                                 >
