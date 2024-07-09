@@ -40,7 +40,6 @@ const Blog = () => {
     fetchBlogPost();
   }, [id]);
 
-  
   useEffect(() => {
     if (blogPost && blogPost.thumbnail && blogPost.thumbnail.link) {
       const thumbnailId = extractIdFromUrl(blogPost.thumbnail.link);
@@ -84,30 +83,23 @@ const Blog = () => {
   return (
     <div className="container my-5">
       <Helmet>
-        <meta charset="UTF-8" />
-        <link rel="icon" type="image/svg+xml" href="./src/assets/icon.png" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>{blogPost.title || "Join Merged 2024 Fil-Chi Job Fair!"}</title>
+
+        <meta name="title" content={blogPost.title || "Join Merged 2024 Fil-Chi Job Fair!"} />
+        <meta name="description" content={blogPost.description || ""} />
+
+        <meta property="og:url" content={`https://filchi-jobfair-blog.netlify.app/blog/${blogPost._id}/${blogPost.titleDesc}` || "https://filchi-jobfair-blog.netlify.app"} />
+        <meta property="og:title" content={blogPost.title || "Join Merged 2024 Fil-Chi Job Fair!"} />
+        <meta property="og:description" content={blogPost.description || ""} />
+        <meta property="og:image" content={`https://lh3.googleusercontent.com/d/${thumbnailId}=w1000?authuser=0` || `https://lh3.googleusercontent.com/d/18o8iy71j-GL1ESwFp6d_YRLcWQj2k_7d=w1000?authuser=0`} />
         
-        <title>{`${blogPost.title }` || "Join Merged 2024 Fil-Chi Job Fair!"}</title>
-        <meta name="title" content={`${blogPost.title }`|| "Join Merged 2024 Fil-Chi Job Fair!"} />
-        <meta name="description" content={`${blogPost.description}` || " "} />
-
-        <meta property="og:url" content={`https://filchi-jobfair-blog.netlify.app/blog/${blogPost._id}/${blogPost.titleDesc}`|| "https://filchi-jobfair-blog.netlify.app"} />
-        <meta property="og:title" content={`${blogPost.title }`|| "Join Merged 2024 Fil-Chi Job Fair!"} />
-        <meta property="og:description" content={`${blogPost.description}` || " "} />
-        <meta property="og:image" content={ `https://lh3.googleusercontent.com/d/${thumbnailId}=w1000?authuser=0` || `https://lh3.googleusercontent.com/d/18o8iy71j-GL1ESwFp6d_YRLcWQj2k_7d=w1000?authuser=0` } />
-
-        <meta name="twitter:title" content={`${blogPost.title}` || "Join Merged 2024 Fil-Chi Job Fair!"} />
-        <meta name="twitter:description" content={`${blogPost.description}` || " "} />
-        <meta name="twitter:image" content={ `https://lh3.googleusercontent.com/d/${thumbnailId}=w1000?authuser=0` || `https://lh3.googleusercontent.com/d/18o8iy71j-GL1ESwFp6d_YRLcWQj2k_7d=w1000?authuser=0` } />
+        <meta name="twitter:title" content={blogPost.title || "Join Merged 2024 Fil-Chi Job Fair!"} />
+        <meta name="twitter:description" content={blogPost.description || ""} />
+        <meta name="twitter:image" content={`https://lh3.googleusercontent.com/d/${thumbnailId}=w1000?authuser=0` || `https://lh3.googleusercontent.com/d/18o8iy71j-GL1ESwFp6d_YRLcWQj2k_7d=w1000?authuser=0`} />
         <meta name="twitter:card" content="summary_large_image" />
-
       </Helmet>
 
-      <button
-        className="btn btn-outline-primary mb-3"
-        onClick={handleClick}
-      >
+      <button className="btn btn-outline-primary mb-3" onClick={handleClick}>
         <FontAwesomeIcon icon={faArrowLeft} className="mr-2" /> Back
       </button>
 
@@ -134,9 +126,7 @@ const Blog = () => {
               <div
                 className="card-text text-justify"
                 style={{ margin: "8%" }}
-                dangerouslySetInnerHTML={{
-                  __html: processContent(blogPost.content),
-                }}
+                dangerouslySetInnerHTML={{ __html: processContent(blogPost.content) }}
               />
               <div className="card-text text-capitalize">
                 <div className="row justify-content-center">

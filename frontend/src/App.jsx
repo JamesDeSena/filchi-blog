@@ -11,12 +11,11 @@ import 'font-awesome/css/font-awesome.min.css';
 import "./components/lib/animate/animate.min.css";
 import "./components/lib/owlcarousel/assets/owl.carousel.min.css";
 
-import AdminLogin from './admin/AdminLogin'
-import AdminDashboard from './admin/AdminDashboard'
+import AdminLogin from './admin/AdminLogin';
+import AdminDashboard from './admin/AdminDashboard';
 import NavBar from "./admin/adminComponents/NavBar";
 import BlogForm from "./admin/adminComponents/BlogForm";
 import BlogEdit from "./admin/adminComponents/BlogEdit";
-
 
 import Home from './components/Home';
 import Header from './components/Header';
@@ -25,71 +24,72 @@ import Blog from './components/Blog';
 
 function App() {
   return (
-    <div>
-      <HelmetProvider/>
-      <ToastContainer />
-      <Routes>
-        <Route
-          exact
-          path="/"
-          element={
-            <>
-              <Header/>
-              <Home/>
-              <Footer/>
-            </>
-          }
-        />
-        <Route
-          exact
-          path="/blog/:id/:title"
-          element={
-            <>
-              <Header/>
-              <Blog />
-              <Footer/>
-            </>
-          }
-        />
-        <Route
-          exact
-          path="/admin"
-          element={
-            <>
-              <AdminLogin />
-            </>
-          }
-        />
-        <Route
-          exact
-          path="/admin/dashboard"
-          element={
-            <>
-              <NavBar/>
-              <AdminDashboard/>
-            </>
-          }
-        />
-        <Route
-          exact
-          path="/admin/newblog"
-          element={
-            <>
-              <BlogForm/>
-            </>
-          }
-        />
-        <Route
-          exact
-          path="/admin/editblog/:id"
-          element={
-            <>
-              <BlogEdit/>
-            </>
-          }
-        />
-      </Routes>
-    </div>
+    <HelmetProvider>
+      <div>
+        <ToastContainer />
+        <Routes>
+          <Route
+            exact
+            path="/"
+            element={
+              <>
+                <Header />
+                <Home />
+                <Footer />
+              </>
+            }
+          />
+          <Route
+            exact
+            path="/blog/:id/:title"
+            element={
+              <>
+                <Header />
+                <Blog />
+                <Footer />
+              </>
+            }
+          />
+          <Route
+            exact
+            path="/admin"
+            element={
+              <>
+                <AdminLogin />
+              </>
+            }
+          />
+          <Route
+            exact
+            path="/admin/dashboard"
+            element={
+              <>
+                <NavBar />
+                <AdminDashboard />
+              </>
+            }
+          />
+          <Route
+            exact
+            path="/admin/newblog"
+            element={
+              <>
+                <BlogForm />
+              </>
+            }
+          />
+          <Route
+            exact
+            path="/admin/editblog/:id"
+            element={
+              <>
+                <BlogEdit />
+              </>
+            }
+          />
+        </Routes>
+      </div>
+    </HelmetProvider>
   );
 }
 
