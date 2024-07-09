@@ -13,6 +13,7 @@ const Blog = () => {
   const { id } = useParams();
   const [blogPost, setBlogPost] = useState(null);
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
+  const [thumbnailId, setThumbnailId] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -38,6 +39,19 @@ const Blog = () => {
     };
     fetchBlogPost();
   }, [id]);
+
+  
+  useEffect(() => {
+    if (blogPost && blogPost.thumbnail && blogPost.thumbnail.link) {
+      const thumbnailId = extractIdFromUrl(blogPost.thumbnail.link);
+      setThumbnailId(thumbnailId);
+    }
+  }, [blogPost]);
+
+  const extractIdFromUrl = (url) => {
+    const urlParams = new URLSearchParams(new URL(url).search);
+    return urlParams.get('id');
+  };
 
   if (!blogPost) {
     return (
@@ -81,11 +95,11 @@ const Blog = () => {
         <meta property="og:url" content={`https://filchi-jobfair-blog.netlify.app/blog/${blogPost._id}/${blogPost.titleDesc}`|| "https://filchi-jobfair-blog.netlify.app"} />
         <meta property="og:title" content={`${blogPost.title }`|| "Join Merged 2024 Fil-Chi Job Fair!"} />
         <meta property="og:description" content={`${blogPost.description}` || " "} />
-        <meta property="og:image" content={`${blogPost.thumbnail.link}`  || "https://lh3.googleusercontent.com/d/18o8iy71j-GL1ESwFp6d_YRLcWQj2k_7d=w1000?authuser=0"} />
+        <meta property="og:image" content={`${blogPost.thumbnail.link}`  || `https://lh3.googleusercontent.com/d/${thumbnailId}=w1000?authuser=0`} />
 
         <meta name="twitter:title" content={`${blogPost.title}` || "Join Merged 2024 Fil-Chi Job Fair!"} />
         <meta name="twitter:description" content={`${blogPost.description}` || " "} />
-        <meta name="twitter:image" content={`${blogPost.thumbnail.link}` || "https://lh3.googleusercontent.com/d/18o8iy71j-GL1ESwFp6d_YRLcWQj2k_7d=w1000?authuser=0"} />
+        <meta name="twitter:image" content={`${blogPost.thumbnail.link}` || `https://lh3.googleusercontent.com/d/${thumbnailId}=w1000?authuser=0`} />
         <meta name="twitter:card" content="summary_large_image" />
 
       </Helmet>
