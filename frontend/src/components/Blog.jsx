@@ -85,18 +85,18 @@ const Blog = () => {
       <Helmet>
         <title>{blogPost.title || "Join Merged 2024 Fil-Chi Job Fair!"}</title>
 
-        <meta name="title" content={blogPost.title || "Join Merged 2024 Fil-Chi Job Fair!"} data-react-helmet="true"/>
-        <meta name="description" content={blogPost.description || ""} data-react-helmet="true"/>
+        <meta name="title" content={blogPost.title || "Join Merged 2024 Fil-Chi Job Fair!"} data-rh="true"/>
+        <meta name="description" content={blogPost.description || ""} data-rh="true"/>
 
-        <meta property="og:url" content={`https://filchi-jobfair-blog.netlify.app/blog/${blogPost._id}/${blogPost.titleDesc}` || "https://filchi-jobfair-blog.netlify.app"} data-react-helmet="true"/>
-        <meta property="og:title" content={blogPost.title || "Join Merged 2024 Fil-Chi Job Fair!"} data-react-helmet="true"/>
-        <meta property="og:description" content={blogPost.description || ""} data-react-helmet="true"/>
-        <meta property="og:image" content={`https://lh3.googleusercontent.com/d/${thumbnailId}=w1000?authuser=0` || `https://lh3.googleusercontent.com/d/18o8iy71j-GL1ESwFp6d_YRLcWQj2k_7d=w1000?authuser=0`} data-react-helmet="true"/>
+        <meta property="og:url" content={`https://filchi-jobfair-blog.netlify.app/blog/${blogPost._id}/${blogPost.titleDesc}` || "https://filchi-jobfair-blog.netlify.app"} data-rh="true"/>
+        <meta property="og:title" content={blogPost.title || "Join Merged 2024 Fil-Chi Job Fair!"} data-rh="true"/>
+        <meta property="og:description" content={blogPost.description || ""} data-rh="true"/>
+        <meta property="og:image" content={`https://lh3.googleusercontent.com/d/${thumbnailId}=w1000?authuser=0` || `https://lh3.googleusercontent.com/d/18o8iy71j-GL1ESwFp6d_YRLcWQj2k_7d=w1000?authuser=0`} data-rh="true"/>
         
-        <meta name="twitter:title" content={blogPost.title || "Join Merged 2024 Fil-Chi Job Fair!"} data-react-helmet="true"/>
-        <meta name="twitter:description" content={blogPost.description || ""} data-react-helmet="true"/>
-        <meta name="twitter:image" content={`https://lh3.googleusercontent.com/d/${thumbnailId}=w1000?authuser=0` || `https://lh3.googleusercontent.com/d/18o8iy71j-GL1ESwFp6d_YRLcWQj2k_7d=w1000?authuser=0`} data-react-helmet="true"/>
-        <meta name="twitter:card" content="summary_large_image" data-react-helmet="true"/>
+        <meta name="twitter:title" content={blogPost.title || "Join Merged 2024 Fil-Chi Job Fair!"} data-rh="true"/>
+        <meta name="twitter:description" content={blogPost.description || ""} data-rh="true"/>
+        <meta name="twitter:image" content={`https://lh3.googleusercontent.com/d/${thumbnailId}=w1000?authuser=0` || `https://lh3.googleusercontent.com/d/18o8iy71j-GL1ESwFp6d_YRLcWQj2k_7d=w1000?authuser=0`} data-rh="true"/>
+        <meta name="twitter:card" content="summary_large_image" data-rh="true"/>
       </Helmet>
 
       <button className="btn btn-outline-primary mb-3" onClick={handleClick}>
