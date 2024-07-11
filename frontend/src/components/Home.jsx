@@ -364,56 +364,128 @@ const Home = () => {
                   ))}
               </div>
 
-              <div className="row">
-                {blogData
-                  .slice(0, visibleCount)
-                  .filter((link) => link.tier === "Normal")
-                  .map((link) => (
-                    <div key={link._id} className="col-md-4 mb-4">
-                      <div className="card position-relative border-0 shadow d-flex h-100">
-                        <div className="card-body d-flex flex-column justify-content-between">
-                          <div>
-                            <div className="card-body">
-                              <h4
-                                className="card-title"
-                                style={{ fontWeight: "bold", fontSize: "18px" }}
-                              >
-                                <Link
-                                  to={`/blog/${link._id}/${
-                                    link.titleDesc || link.title
-                                  }`}
-                                  className="link-card"
-                                  style={{ textDecoration: "none" }}
+              <div>
+                <div className="row">
+                  {blogData
+                    .slice(0, visibleCount)
+                    .filter(
+                      (link) =>
+                        link.tier === "Normal" &&
+                        new Date(link.dateCreated).getFullYear() === 2024
+                    )
+                    .map((link) => (
+                      <div key={link._id} className="col-md-4 mb-4">
+                        <div className="card position-relative border-0 shadow d-flex h-100">
+                          <div className="card-body d-flex flex-column justify-content-between">
+                            <div>
+                              <div className="card-body">
+                                <h4
+                                  className="card-title"
+                                  style={{
+                                    fontWeight: "bold",
+                                    fontSize: "18px",
+                                  }}
                                 >
-                                  {link.title}
-                                </Link>
-                              </h4>
+                                  <Link
+                                    to={`/blog/${link._id}/${
+                                      link.titleDesc || link.title
+                                    }`}
+                                    className="link-card"
+                                    style={{ textDecoration: "none" }}
+                                  >
+                                    {link.title}
+                                  </Link>
+                                </h4>
+                              </div>
                             </div>
-                          </div>
-                          <img
-                            src={link.thumbnail.link}
-                            className="card-img-top img-thumbnail"
-                            alt="Blog Post"
-                            style={{
-                              objectFit: "contain",
-                              width: "100%",
-                              height: "200px",
-                            }}
-                          />
-                          <div className="text-center mt-3">
-                            <Link
-                              to={`/blog/${link._id}/${
-                                link.titleDesc || link.title
-                              }`}
-                              className="btn btn--primary"
-                            >
-                              Continue Reading
-                            </Link>
+                            <img
+                              src={link.thumbnail.link}
+                              className="card-img-top img-thumbnail"
+                              alt="Blog Post"
+                              style={{
+                                objectFit: "contain",
+                                width: "100%",
+                                height: "200px",
+                              }}
+                            />
+                            <div className="text-center mt-3">
+                              <Link
+                                to={`/blog/${link._id}/${
+                                  link.titleDesc || link.title
+                                }`}
+                                className="btn btn--primary"
+                              >
+                                Continue Reading
+                              </Link>
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                  ))}
+                    ))}
+                </div>
+
+                <h3 className="section-title text-center py-4" style={{ fontWeight: "700" }}>
+                  2023 Blogs
+                </h3>
+
+                <div className="row">
+                  {blogData
+                    .slice(0, visibleCount)
+                    .filter(
+                      (link) =>
+                        link.tier === "Normal" &&
+                        new Date(link.dateCreated).getFullYear() === 2023
+                    )
+                    .map((link) => (
+                      <div key={link._id} className="col-md-4 mb-4">
+                        <div className="card position-relative border-0 shadow d-flex h-100">
+                          <div className="card-body d-flex flex-column justify-content-between">
+                            <div>
+                              <div className="card-body">
+                                <h4
+                                  className="card-title"
+                                  style={{
+                                    fontWeight: "bold",
+                                    fontSize: "18px",
+                                  }}
+                                >
+                                  <Link
+                                    to={`/blog/${link._id}/${
+                                      link.titleDesc || link.title
+                                    }`}
+                                    className="link-card"
+                                    style={{ textDecoration: "none" }}
+                                  >
+                                    {link.title}
+                                  </Link>
+                                </h4>
+                              </div>
+                            </div>
+                            <img
+                              src={link.thumbnail.link}
+                              className="card-img-top img-thumbnail"
+                              alt="Blog Post"
+                              style={{
+                                objectFit: "contain",
+                                width: "100%",
+                                height: "200px",
+                              }}
+                            />
+                            <div className="text-center mt-3">
+                              <Link
+                                to={`/blog/${link._id}/${
+                                  link.titleDesc || link.title
+                                }`}
+                                className="btn btn--primary"
+                              >
+                                Continue Reading
+                              </Link>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                </div>
               </div>
             </div>
           )}
