@@ -227,9 +227,7 @@ const Home = () => {
           ) : (
             <div className="row mt-5">
               <div className="row">
-                {blogData
-                  .slice(0, visibleCount)
-                  .filter((link) => link.tier === "Gold")
+                {blogData.filter((link) => link.tier === "Gold")
                   .map((link) => (
                     <section key={link._id} className="mb-2">
                       <div className="bg-white p-5">
@@ -296,9 +294,7 @@ const Home = () => {
               </div>
 
               <div className="row">
-                {blogData
-                  .slice(0, visibleCount)
-                  .filter((link) => link.tier === "Silver")
+                {blogData.filter((link) => link.tier === "Silver")
                   .map((link) => (
                     <section key={link._id} className="mb-2">
                       <div className="bg-white p-5">
