@@ -17,6 +17,6 @@ export function render(url, context) {
 
   return {
     html: appHtml,
-    helmet,
+    helmet: helmetContext.helmet,
   };
 }

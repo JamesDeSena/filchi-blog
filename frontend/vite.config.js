@@ -4,11 +4,10 @@ import react from '@vitejs/plugin-react';
 export default defineConfig({
   plugins: [react()],
   build: {
-    outDir: 'dist',
-    rollupOptions: {
-      input: {
-        main: 'index.html',
-      },
-    },
+    ssr: 'src/entry-server.jsx',
+    outDir: 'dist-ssr',
   },
+  ssr: {
+    noExternal: /react-helmet-async/
+  }
 });

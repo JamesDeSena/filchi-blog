@@ -4,7 +4,7 @@ import path from 'path';
 import { render } from './dist-ssr/entry-server.js';
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 
 const __dirname = path.resolve();
 const template = fs.readFileSync(path.resolve(__dirname, 'dist/index.html'), 'utf-8');
@@ -18,7 +18,7 @@ app.get('*', (req, res) => {
   const responseHtml = template
     .replace(`<!--app-html-->`, html)
     .replace(`<!--helmet-title-->`, helmet.title.toString())
-    .replace(`<!--helmet-meta-->`, helmet.meta.toString());
+    .replace(`<!--helmet-meta-->`, `${helmet.meta.toString()}${helmet.link.toString()}`);
 
   res.send(responseHtml);
 });
