@@ -304,7 +304,7 @@ const Home = () => {
                       <div className="bg-white p-5">
                         <article className="snippet">
                           <img
-                            src={link.thumbnail.link}
+                            src={link.thumbnail?.link}
                             alt={link.imageCaption}
                             className="snippet__image"
                           />
@@ -424,9 +424,18 @@ const Home = () => {
                     ))}
                 </div>
 
-                <h3 className="section-title text-center py-4" style={{ fontWeight: "700" }}>
-                  2023 Blogs
-                </h3>
+                {blogData.some(
+                  (link) =>
+                    link.tier === "Normal" &&
+                    new Date(link.dateCreated).getFullYear() === 2023
+                ) && (
+                  <h3
+                    className="section-title text-center py-4"
+                    style={{ fontWeight: "700" }}
+                  >
+                    2023 Blogs
+                  </h3>
+                )}
 
                 <div className="row">
                   {blogData
