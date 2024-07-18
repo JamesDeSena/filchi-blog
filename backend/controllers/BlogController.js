@@ -5,7 +5,7 @@ const requireAuth = require('../utils/authToken');
 
 const GetAllBlog = async (req, res) => {
   try {
-    const result = await BlogModel.find({}).sort({ dateCreated: -1 });;
+    const result = await BlogModel.find({}).sort({ dateCreated: -1 }).allowDiskUse(true);
     res.status(200).json(result);
   } catch (err) {
     res.status(500).json({ message: err.message });
