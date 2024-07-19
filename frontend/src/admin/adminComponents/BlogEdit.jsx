@@ -2,12 +2,17 @@ import React, { useState, useRef, useEffect } from "react";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import ReactQuill from "react-quill";
+import ReactQuill, { Quill } from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { Navbar, Nav, Button, NavDropdown } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPaperPlane as faPaperPlaneTop } from "@fortawesome/free-solid-svg-icons";
+import {
+  faLessThanEqual,
+  faPaperPlane as faPaperPlaneTop,
+} from "@fortawesome/free-solid-svg-icons";
 import { useNavigate, useParams } from "react-router-dom";
+import WithAuth from "../../auth/WithAuth";
+import { VscAccount } from "react-icons/vsc";
 
 const BlogEdit = () => {
   const { id } = useParams();
@@ -21,6 +26,7 @@ const BlogEdit = () => {
     content: "",
     author: "",
     tags: "",
+    tier: "",
     dateCreated: new Date().toISOString(),
   });
   const [formData, setFormData] = useState({
@@ -28,17 +34,20 @@ const BlogEdit = () => {
     title: "",
     description: "",
     tags: "",
+    tier: "",
     content: "",
     dateUpdated: new Date().toISOString(),
   });
   const [invalidFields, setInvalidFields] = useState({});
   const [thumbnail, setThumbnail] = useState();
+  const [loading, setLoading] = useState(false);
+  const [loading2, setLoading2] = useState(false);
 
   useEffect(() => {
     const fetchViewLink = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:8080/api/blog/${id}`
+          `https://filchi-blog-1.onrender.com/api/blog/${id}`
         );
         if (response.status === 200) {
           setViewLink(response.data);
@@ -47,6 +56,7 @@ const BlogEdit = () => {
             title: response.data.title,
             description: response.data.description,
             tags: response.data.tags,
+            tier: response.data.tier,
             content: response.data.content,
             dateUpdated: new Date().toISOString(),
           });
@@ -60,9 +70,21 @@ const BlogEdit = () => {
     fetchViewLink();
   }, [id]);
 
+  useEffect(() => {
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      imageCaption: viewLink.imageCaption,
+      title: viewLink.title,
+      titleDesc: viewLink.titleDesc,
+      description: viewLink.description,
+      tags: viewLink.tags,
+      tier: viewLink.tier,
+      content: viewLink.content,
+    }));
+  }, [viewLink]);
+
   const handleSignOut = () => {
-    // Your logout logic here
-    console.log("User signed out");
+    localStorage.clear();
   };
 
   const handleImage = (e) => {
@@ -72,71 +94,74 @@ const BlogEdit = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+    let newValue;
+    if (name === 'titleDesc') {
+      newValue = value.replace(/\s+/g, '-').replace(/[^a-zA-Z0-9-]/g, '');
+    } else {
+      newValue = value;
+    }
 
-    // Update the form data and include the updated date
     setFormData((prevData) => ({
       ...prevData,
-      [name]: value,
-      dateUpdated: Date.toISOString(), // Update dateUpdated with current timestamp
+      [name]: newValue,
+      dateUpdated: new Date().toISOString(), // Update dateUpdated with current timestamp
     }));
   };
 
   const handleContentChange = (content) => {
-    setFormData({ ...formData, content });
+    setFormData({
+      ...formData,
+      content,
+      dateUpdated: new Date().toISOString(),
+    });
   };
 
   const handleBack = () => {
-    // Navigate back to the previous page or route
-    navigate(-1); // This will navigate back one step in the history stack
+    navigate(-1);
   };
 
   const handleSubmit = async (e) => {
+    setLoading(true);
     e.preventDefault();
 
     setInvalidFields({});
 
     const isFormDataChanged =
-      formData.imageCaption !== viewLink.title ||
+      formData.imageCaption !== viewLink.imageCaption ||
       formData.title !== viewLink.title ||
       formData.description !== viewLink.description ||
       formData.tags !== viewLink.tags ||
-      formData.content !== viewLink.content;
+      formData.content !== viewLink.content ||
+      (formData.titleDesc !== viewLink.titleDesc &&
+        (formData.titleDesc || viewLink.titleDesc));
 
     const errors = {};
     if (!isFormDataChanged) {
       toast.error("No changes have been made");
+      setLoading(false);
       return;
-    }
-    if (formData.imageCaption.length === 0) {
-      errors.imageCaption = "Please input your image caption";
     }
     if (formData.title.length === 0) {
       errors.title = "Please input your title";
     } else if (formData.title.length < 5) {
       errors.title = "Title must be at least 5 characters long";
     }
-    if (formData.description.length === 0) {
-      errors.description = "Please input your description";
-    } else if (formData.description.length < 5) {
-      errors.description = "Description must be at least 5 characters long";
-    }
     if (formData.tags.length === 0) {
-      errors.description = "Please input your description";
+      errors.description = "Please input your tags";
     }
     if (formData.content.length === 0) {
       errors.content = "Please input your content";
-    } else if (formData.content.length < 20) {
-      errors.content = "Content must be at least 20 characters long";
     }
 
-    const maxSizeInBytes = 1 * 1024 * 1024; // 1MB
+    const maxSizeInBytes = 5 * 1024 * 1024; // 5MB
     if (thumbnail?.size > maxSizeInBytes) {
-      errors.thumbnail = "Image size exceeds the maximum allowed size (1MB)";
+      errors.thumbnail = "Image size exceeds the maximum allowed size (5MB)";
     }
 
     setInvalidFields(errors);
 
     if (Object.keys(errors).length > 0) {
+      setLoading(false);
       return;
     }
 
@@ -154,8 +179,10 @@ const BlogEdit = () => {
           ...viewLink,
           imageCaption: formData.imageCaption,
           title: formData.title,
+          titleDesc: formData.titleDesc,
           description: formData.description,
           tags: formData.tags,
+          tier: formData.tier,
           content: formData.content,
           dateUpdated: formData.dateUpdated,
         })
@@ -163,7 +190,7 @@ const BlogEdit = () => {
       formObject.append("file", thumbnail);
 
       const response = await axios.patch(
-        `http://localhost:8080/api/blog/edit/${id}`,
+        `https://filchi-blog-1.onrender.com/api/blog/edit/${id}`,
         formObject,
         {
           headers,
@@ -171,14 +198,190 @@ const BlogEdit = () => {
       );
 
       if (response && response.data) {
-        toast.success("Blog updated successfully");
+        toast.success("Blog updated successfully", {
+          autoClose: 1500,
+          pauseOnFocusLoss: false,
+          onClose: () => navigate("/admin"),
+        });
+        setLoading(false);
+        setBack(false);
       } else {
         console.log("Response data not available");
         toast.error("Failed to update blog");
+        setLoading(false);
+        setBack(false);
       }
     } catch (error) {
       console.error("Error during form update:", error.message);
+      setLoading(false);
     }
+  };
+
+  const [showConfirmationModal, setShowConfirmationModal] = useState(false); // State to control visibility of confirmation modal
+  const [showBack, setBack] = useState(false); // State to control visibility of confirmation modal
+  const deleteUser = async () => {
+    try {
+      setLoading2(true);
+      const token = localStorage.getItem("token");
+      const headers = {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "multipart/form-data",
+      };
+      const response = await axios.delete(
+        `https://filchi-blog-1.onrender.com/api/blog/delete/${id}`,
+        { headers }
+      );
+      if (response.status === 200) {
+        toast.success("Blog deleted successfully", {
+          autoClose: 1500,
+          pauseOnFocusLoss: false,
+          onClose: () => navigate("/admin"),
+        });
+        setLoading2(false);
+        setShowConfirmationModal(false);
+      }
+    } catch (error) {
+      console.error("Error deleting blog:", error);
+      setLoading2(false);
+    }
+  };
+
+  const handleDeleteConfirmation = () => {
+    setShowConfirmationModal(true);
+  };
+
+  const handleBackCon = () => {
+    const isFormDataChanged =
+      formData.imageCaption !== viewLink.imageCaption ||
+      formData.title !== viewLink.title ||
+      formData.description !== viewLink.description ||
+      formData.tags !== viewLink.tags ||
+      formData.tier !== viewLink.tier ||
+      formData.content !== viewLink.content ||
+      (formData.titleDesc !== viewLink.titleDesc &&
+        (formData.titleDesc || viewLink.titleDesc));
+
+    if (!isFormDataChanged) {
+      navigate(-1);
+    } else {
+      setBack(true);
+    }
+  };
+
+  const handleDeleteCancel = () => {
+    setShowConfirmationModal(false);
+  };
+
+  const handleBackCan = () => {
+    setBack(false);
+  };
+
+  const formats = [
+    "header",
+    "font",
+    "size",
+    "color",
+    "bold",
+    "italic",
+    "underline",
+    "strike",
+    "blockquote",
+    "list",
+    "bullet",
+    "indent",
+    "link",
+    "image",
+    "video",
+    "align",
+  ];
+
+  const fontSizeArr = [
+    "8px",
+    "9px",
+    "10px",
+    "12px",
+    "14px",
+    "16px",
+    "20px",
+    "24px",
+    "32px",
+    "42px",
+    "54px",
+    "68px",
+    "84px",
+    "98px",
+  ];
+
+  var Size = Quill.import("attributors/style/size");
+  Size.whitelist = fontSizeArr;
+  Quill.register(Size, true);
+
+  const modules = {
+    toolbar: [
+      [{ size: fontSizeArr }],
+      ["bold", "italic", "underline", "strike"],
+      [{ list: "ordered" }, { list: "bullet" }],
+      ["link", "image", "video"],
+      [
+        { align: "" },
+        { align: "center" },
+        { align: "right" },
+        { align: "justify" },
+      ],
+      [
+        {
+          color: [
+            { value: "color-picker", title: "Color Picker" },
+            "#000000",
+            "#e60000",
+            "#ff9900",
+            "#ffff00",
+            "#008a00",
+            "#006699",
+            "#1a1ae0",
+            "#990099",
+            "#ffffff",
+            "#facccc",
+            "#ffebcc",
+            "#ffffcc",
+            "#cce8cc",
+            "#cce0f5",
+            "#ebd6ff",
+            "#bbbbbb",
+            "#f06666",
+            "#ffc266",
+            "#ffff66",
+            "#66b966",
+            "#66a3e0",
+            "#c285ff",
+            "#888888",
+            "#a10000",
+            "#b26b00",
+            "#b2b200",
+            "#006100",
+            "#0047b2",
+            "#6b24b2",
+            "#444444",
+            "#5c0000",
+            "#663d00",
+            "#666600",
+            "#003700",
+            "#002966",
+            "#3d1466",
+          ],
+        },
+      ],
+
+      ["clean"],
+    ],
+  };
+
+  const processContent = (content) => {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(content, "text/html");
+    const images = doc.querySelectorAll("img");
+    images.forEach((img) => img.classList.add("center-image"));
+    return doc.body.innerHTML;
   };
 
   return (
@@ -191,18 +394,60 @@ const BlogEdit = () => {
           className="justify-content-around"
         >
           <Nav>
-            <Button variant="primary" onClick={handleBack}>
+            <Button variant="primary" onClick={handleBackCon}>
               <span>Back</span>
             </Button>
           </Nav>
           <Nav>
-            <Button variant="primary" onClick={handleSubmit}>
-              <span>Submit</span>
+            <Button
+              variant="danger"
+              onClick={handleDeleteConfirmation}
+              style={{ marginRight: "20px" }}
+              disabled={loading2}
+            >
+              {loading2 ? (
+                <div className="d-flex align-items-center">
+                  <div
+                    className="spinner-grow"
+                    role="status"
+                    style={{
+                      width: "1rem",
+                      height: "1rem",
+                      marginRight: "0.5rem",
+                    }}
+                  >
+                    <span className="sr-only">Loading...</span>
+                  </div>
+                  <span>Loading...</span>
+                </div>
+              ) : (
+                <span>Delete</span>
+              )}
+            </Button>
+            <Button variant="primary" onClick={handleSubmit} disabled={loading}>
+              {loading ? (
+                <div className="d-flex align-items-center">
+                  <div
+                    className="spinner-grow"
+                    role="status"
+                    style={{
+                      width: "1rem",
+                      height: "1rem",
+                      marginRight: "0.5rem",
+                    }}
+                  >
+                    <span className="sr-only">Loading...</span>
+                  </div>
+                  <span>Loading...</span>
+                </div>
+              ) : (
+                <span>Submit</span>
+              )}
             </Button>
           </Nav>
           <Nav>
             <NavDropdown
-              title={<FontAwesomeIcon icon={faPaperPlaneTop} />}
+              title={<VscAccount size={24} />}
               id="basic-nav-dropdown"
             >
               <NavDropdown.Item onClick={handleSignOut}>
@@ -212,7 +457,6 @@ const BlogEdit = () => {
           </Nav>
         </Navbar.Collapse>
       </Navbar>
-
       <div className="container mt-5">
         <div className="row">
           <div className="preview-pane col-md-6">
@@ -224,8 +468,7 @@ const BlogEdit = () => {
             >
               <div className="form-group">
                 <label htmlFor="title">Title</label>
-                <input
-                  type="text"
+                <textarea
                   className={`form-control ${
                     invalidFields.title ? "is-invalid" : ""
                   }`}
@@ -241,24 +484,28 @@ const BlogEdit = () => {
                 )}
               </div>
               <div className="form-group">
+                <label htmlFor="titleDesc">Preview Link</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="titleDesc"
+                  name="titleDesc"
+                  value={formData.titleDesc}
+                  onChange={handleChange}
+                  placeholder="Enter Preview Link"
+                />
+              </div>
+              <div className="form-group">
                 <label htmlFor="description">Description</label>
                 <input
                   type="text"
-                  className={`form-control ${
-                    invalidFields.description ? "is-invalid" : ""
-                  }`}
+                  className="form-control"
                   id="description"
                   name="description"
                   value={formData.description}
                   onChange={handleChange}
                   placeholder="Enter description"
-                  required
                 />
-                {invalidFields.description && (
-                  <div className="invalid-feedback">
-                    {invalidFields.description}
-                  </div>
-                )}
               </div>
               <div className="form-group">
                 <label htmlFor="thumbnail">Thumbnail</label>
@@ -284,39 +531,24 @@ const BlogEdit = () => {
                 <label htmlFor="imageCaption">Image Caption</label>
                 <input
                   type="text"
-                  className={`form-control ${
-                    invalidFields.imageCaption ? "is-invalid" : ""
-                  }`}
+                  className={`form-control`}
                   id="imageCaption"
                   name="imageCaption"
                   value={formData.imageCaption}
                   onChange={handleChange}
                   placeholder="Enter image caption"
-                  required
                 />
-                {invalidFields.imageCaption && (
-                  <div className="invalid-feedback">
-                    {invalidFields.imageCaption}
-                  </div>
-                )}
               </div>
               <div className="form-group">
                 <label htmlFor="author">Author</label>
                 <input
                   type="text"
-                  className={`form-control ${
-                    invalidFields.author ? "is-invalid" : ""
-                  }`}
+                  className="form-control"
                   id="author"
                   name="author"
-                  value={viewLink.author}
-                  onChange={handleChange}
-                  placeholder="Enter author name"
-                  required
+                  value={viewLink?.author}
+                  disabled
                 />
-                {invalidFields.author && (
-                  <div className="invalid-feedback">{invalidFields.author}</div>
-                )}
               </div>
               <div className="form-group">
                 <label htmlFor="tags">Tags</label>
@@ -335,6 +567,24 @@ const BlogEdit = () => {
                 {invalidFields.tags && (
                   <div className="invalid-feedback">{invalidFields.tags}</div>
                 )}
+              </div>
+              <div className="form-group">
+                <label htmlFor="tier">Tier</label>
+
+                <select
+                  className={`form-control ${
+                    invalidFields.tier ? "is-invalid" : ""
+                  }`}
+                  id="tier"
+                  name="tier"
+                  value={formData.tier}
+                  onChange={handleChange}
+                  required
+                  >
+                  <option value="Gold">Gold</option>
+                  <option value="Silver">Silver</option>
+                  <option value="Normal">Normal</option>
+                </select>
               </div>
               <div className="form-group">
                 <label htmlFor="dateCreated">Date Published</label>
@@ -374,22 +624,11 @@ const BlogEdit = () => {
                   theme="snow"
                   value={formData.content}
                   onChange={handleContentChange}
-                  modules={{
-                    toolbar: [
-                      [{ header: "1" }, { header: "2" }],
-                      [{ size: [] }],
-                      ["bold", "italic", "underline", "strike", "blockquote"],
-                      [
-                        { list: "ordered" },
-                        { list: "bullet" },
-                        { indent: "-1" },
-                        { indent: "+1" },
-                      ],
-                      ["link", "image", "video"],
-                      ["clean"],
-                    ],
-                  }}
-                  className={invalidFields.content ? "is-invalid" : ""}
+                  modules={modules}
+                  formats={formats}
+                  className={`form-control ${
+                    invalidFields.tags ? "is-invalid" : ""
+                  }`}
                   placeholder="Enter content"
                 />
                 {invalidFields.content && (
@@ -404,10 +643,12 @@ const BlogEdit = () => {
             {/* Preview Section */}
             <div className="preview-pane">
               <div className="preview-details">
-                <h3>{formData.title}</h3>
-                {formData.author && (
+                <h2 style={{ color: "#000000", whiteSpace: "pre-wrap" }}>
+                  {formData.title}
+                </h2>
+                {viewLink.author && (
                   <p className="author">
-                    <strong>By: </strong> {formData.author}
+                    <strong>By: </strong> {viewLink.author}
                   </p>
                 )}
                 <div className="preview-thumbnail">
@@ -435,7 +676,9 @@ const BlogEdit = () => {
                 {formData.content && (
                   <div
                     className="content"
-                    dangerouslySetInnerHTML={{ __html: formData.content }}
+                    dangerouslySetInnerHTML={{
+                      __html: processContent(formData.content),
+                    }}
                   ></div>
                 )}
               </div>
@@ -443,8 +686,59 @@ const BlogEdit = () => {
           </div>
         </div>
       </div>
+      {showConfirmationModal && (
+        <div className="confirmation-modal">
+          <h2>Are you sure you want to delete this blog?</h2>
+          <div className="button-container">
+            <button
+              className="mx-2"
+              style={{ backgroundColor: "#DC3545" }}
+              onClick={deleteUser}
+              disabled={loading2}
+            >
+              Yes, Delete
+            </button>
+            <button
+              className="mx-2"
+              style={{ backgroundColor: "#0D6EFD" }}
+              onClick={handleDeleteCancel}
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      )}
+      {showBack && (
+        <div className="confirmation-modal">
+          <h2>There are still unsaved changes!</h2>
+          <div className="button-container">
+            <button
+              className="mx-2"
+              style={{ backgroundColor: "#0D6EFD" }}
+              onClick={handleSubmit}
+              disabled={loading}
+            >
+              Save and Go Back
+            </button>
+            <button
+              className="mx-2"
+              style={{ backgroundColor: "#DC3545" }}
+              onClick={handleBack}
+            >
+              Discard
+            </button>
+            <button
+              className="mx-2"
+              style={{ backgroundColor: "#0D6EFD" }}
+              onClick={handleBackCan}
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      )}
     </>
   );
 };
 
-export default BlogEdit;
+export default WithAuth(BlogEdit);

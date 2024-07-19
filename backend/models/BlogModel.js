@@ -11,17 +11,19 @@ const BlogSchema = new Schema({
   imageCaption: {
     type: String,
     default: "",
-    required: true
   },
   title: {
     type: String,
     default: "",
     required: true
   },
+  titleDesc: {
+    type: String,
+    default: ""
+  },
   description: {
     type: String,
     default: "",
-    required: true
   },
   content: {
     type: String,
@@ -31,12 +33,15 @@ const BlogSchema = new Schema({
   author: {
     type: String,
     default: "",
-    required: true
   },
   tags: {
     type: String,
     default: "",
     required: true
+  },
+  tier: {
+    type: String,
+    default: ""
   },
   dateCreated:{
     type: Date,

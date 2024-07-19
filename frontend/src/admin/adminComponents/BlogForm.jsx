@@ -2,12 +2,14 @@ import React, { useState, useRef } from "react";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import ReactQuill from "react-quill";
+import ReactQuill, { Quill } from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { Navbar, Nav, Button, NavDropdown } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPaperPlane as faPaperPlaneTop } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
+import WithAuth from "../../auth/WithAuth";
+import { VscAccount } from "react-icons/vsc";
 
 const BlogForm = () => {
   const formRef = useRef(null);
@@ -15,18 +17,21 @@ const BlogForm = () => {
   const [formData, setFormData] = useState({
     imageCaption: "",
     title: "",
+    titleDesc: "",
     description: "",
     content: "",
-    author: "",
+    author: "Fil-Chi Job Fair Team",
     tags: "post",
+    tier: "Normal",
     dateCreated: new Date().toLocaleDateString(),
   });
   const [thumbnail, setThumbnail] = useState();
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
 
   const handleSignOut = () => {
-    // Your logout logic here
-    console.log("User signed out");
+    localStorage.clear();
+    navigate("/admin");
   };
 
   const handleImage = (e) => {
@@ -36,59 +41,46 @@ const BlogForm = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    let newValue;
+    if (name === 'titleDesc') {
+      newValue = value.replace(/\s+/g, '-').replace(/[^a-zA-Z0-9-]/g, '');
+    } else {
+      newValue = value;
+    }
+    setFormData({ ...formData, [name]: newValue });
   };
+  
 
   const handleContentChange = (content) => {
     setFormData({ ...formData, content });
   };
 
   const handleBack = () => {
-    // Navigate back to the previous page or route
-    navigate(-1); // This will navigate back one step in the history stack
+    navigate(-1);
   };
 
   const handleSubmit = async (e) => {
+    setLoading(true);
     e.preventDefault();
 
     setInvalidFields({});
     const errors = {};
-    if (formData.imageCaption.length === 0) {
-      errors.imageCaption = "Please input your image caption";
-    }
     if (formData.title.length === 0) {
       errors.title = "Please input your title";
     } else if (formData.title.length < 5) {
       errors.title = "Title must be at least 5 characters long";
     }
-    if (formData.description.length === 0) {
-      errors.description = "Please input your description";
-    } else if (formData.description.length < 5) {
-      errors.description = "Description must be at least 5 characters long";
+    if (formData.tags.length === 0) {
+      errors.description = "Please input your tags";
     }
     if (formData.content.length === 0) {
       errors.content = "Please input your content";
-    } else if (formData.content.length < 20) {
-      errors.content = "Content must be at least 20 characters long";
-    }
-    if (formData.author.length === 0) {
-      errors.author = "Please input your name";
-    } else if (/\d/.test(formData.author)) {
-      errors.author = "Name cannot contain numbers";
-    }
-    if (!thumbnail) {
-      errors.thumbnail = "Please upload an image";
-    } else {
-      const maxSizeInBytes = 1 * 1024 * 1024; // 1MB
-
-      if (thumbnail.size > maxSizeInBytes) {
-        errors.thumbnail = "Image size exceeds the maximum allowed size (1MB)";
-      }
     }
 
     setInvalidFields(errors);
 
     if (Object.keys(errors).length > 0) {
+      setLoading(false);
       return;
     }
 
@@ -105,7 +97,7 @@ const BlogForm = () => {
       formObject.append("dateUpdated", null);
 
       const response = await axios.post(
-        "http://localhost:8080/api/blog/create",
+        "https://filchi-blog-1.onrender.com/api/blog/create",
         formObject,
         {
           headers,
@@ -113,28 +105,142 @@ const BlogForm = () => {
       );
 
       if (response && response.data) {
-        toast.success("Uploaded successfully");
-        setFormData({
-          imageCaption: "",
-          title: "",
-          description: "",
-          content: "",
-          author: "",
-          tags: "",
-          dateCreated: new Date().toLocaleDateString(),
+        toast.success("Uploaded successfully", {
+          autoClose: 1500,
+          pauseOnFocusLoss: false,
+          onClose: () => navigate("/admin"),
         });
         formRef.current.reset();
-        console.log(response);
+        setLoading(false);
       } else {
         toast.error("Failed to upload");
+        setLoading(false);
       }
     } catch (error) {
-      console.error("Error during form submission:", error.message);
+      console.error(
+        "Error during form submission:",
+        error.response ? error.response.data : error.message
+      );
+      toast.error(
+        `Failed to upload: ${
+          error.response ? error.response.data.message : error.message
+        }`
+      );
+      setLoading(false);
     }
+  };
+
+  const formats = [
+    "header",
+    "font",
+    "size",
+    "color",
+    "bold",
+    "italic",
+    "underline",
+    "strike",
+    "blockquote",
+    "list",
+    "bullet",
+    "indent",
+    "link",
+    "image",
+    "video",
+    "align",
+  ];
+
+  const fontSizeArr = [
+    "8px",
+    "9px",
+    "10px",
+    "12px",
+    "14px",
+    "16px",
+    "20px",
+    "24px",
+    "32px",
+    "42px",
+    "54px",
+    "68px",
+    "84px",
+    "98px",
+  ];
+
+  var Size = Quill.import("attributors/style/size");
+  Size.whitelist = fontSizeArr;
+  Quill.register(Size, true);
+
+  const modules = {
+    toolbar: [
+      [{ size: fontSizeArr }],
+      ["bold", "italic", "underline", "strike"],
+      [{ list: "ordered" }, { list: "bullet" }],
+      ["link", "image", "video"],
+      [
+        { align: "" },
+        { align: "center" },
+        { align: "right" },
+        { align: "justify" },
+      ],
+      [
+        {
+          color: [
+            { value: "color-picker", title: "Color Picker" },
+            "#000000",
+            "#e60000",
+            "#ff9900",
+            "#ffff00",
+            "#008a00",
+            "#006699",
+            "#1a1ae0",
+            "#990099",
+            "#ffffff",
+            "#facccc",
+            "#ffebcc",
+            "#ffffcc",
+            "#cce8cc",
+            "#cce0f5",
+            "#ebd6ff",
+            "#bbbbbb",
+            "#f06666",
+            "#ffc266",
+            "#ffff66",
+            "#66b966",
+            "#66a3e0",
+            "#c285ff",
+            "#888888",
+            "#a10000",
+            "#b26b00",
+            "#b2b200",
+            "#006100",
+            "#0047b2",
+            "#6b24b2",
+            "#444444",
+            "#5c0000",
+            "#663d00",
+            "#666600",
+            "#003700",
+            "#002966",
+            "#3d1466",
+          ],
+        },
+      ],
+
+      ["clean"],
+    ],
+  };
+
+  const processContent = (content) => {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(content, "text/html");
+    const images = doc.querySelectorAll("img");
+    images.forEach((img) => img.classList.add("center-image"));
+    return doc.body.innerHTML;
   };
 
   return (
     <>
+      <ToastContainer />
       <Navbar bg="light" expand="lg">
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse
@@ -147,13 +253,30 @@ const BlogForm = () => {
             </Button>
           </Nav>
           <Nav>
-            <Button variant="primary" onClick={handleSubmit}>
-              <span>Submit</span>
+            <Button variant="primary" onClick={handleSubmit} disabled={loading}>
+              {loading ? (
+                <div className="d-flex align-items-center">
+                  <div
+                    className="spinner-grow"
+                    role="status"
+                    style={{
+                      width: "1rem",
+                      height: "1rem",
+                      marginRight: "0.5rem",
+                    }}
+                  >
+                    <span className="sr-only">Loading...</span>
+                  </div>
+                  <span>Loading...</span>
+                </div>
+              ) : (
+                <span>Submit</span>
+              )}
             </Button>
           </Nav>
           <Nav>
             <NavDropdown
-              title={<FontAwesomeIcon icon={faPaperPlaneTop} />}
+              title={<VscAccount size={24} />}
               id="basic-nav-dropdown"
             >
               <NavDropdown.Item onClick={handleSignOut}>
@@ -175,8 +298,7 @@ const BlogForm = () => {
             >
               <div className="form-group">
                 <label htmlFor="title">Title</label>
-                <input
-                  type="text"
+                <textarea
                   className={`form-control ${
                     invalidFields.title ? "is-invalid" : ""
                   }`}
@@ -192,24 +314,28 @@ const BlogForm = () => {
                 )}
               </div>
               <div className="form-group">
+                <label htmlFor="titleDesc">Preview Link</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="titleDesc"
+                  name="titleDesc"
+                  value={formData.titleDesc}
+                  onChange={handleChange}
+                  placeholder="Enter Preview Link"
+                />
+              </div>
+              <div className="form-group">
                 <label htmlFor="description">Description</label>
                 <input
                   type="text"
-                  className={`form-control ${
-                    invalidFields.description ? "is-invalid" : ""
-                  }`}
+                  className="form-control"
                   id="description"
                   name="description"
                   value={formData.description}
                   onChange={handleChange}
                   placeholder="Enter description"
-                  required
                 />
-                {invalidFields.description && (
-                  <div className="invalid-feedback">
-                    {invalidFields.description}
-                  </div>
-                )}
               </div>
               <div className="form-group">
                 <label htmlFor="thumbnail">Thumbnail</label>
@@ -235,39 +361,25 @@ const BlogForm = () => {
                 <label htmlFor="imageCaption">Image Caption</label>
                 <input
                   type="text"
-                  className={`form-control ${
-                    invalidFields.imageCaption ? "is-invalid" : ""
-                  }`}
+                  className={`form-control`}
                   id="imageCaption"
                   name="imageCaption"
                   value={formData.imageCaption}
                   onChange={handleChange}
                   placeholder="Enter image caption"
-                  required
                 />
-                {invalidFields.imageCaption && (
-                  <div className="invalid-feedback">
-                    {invalidFields.imageCaption}
-                  </div>
-                )}
               </div>
               <div className="form-group">
                 <label htmlFor="author">Author</label>
                 <input
                   type="text"
-                  className={`form-control ${
-                    invalidFields.author ? "is-invalid" : ""
-                  }`}
+                  className="form-control"
                   id="author"
                   name="author"
                   value={formData.author}
                   onChange={handleChange}
                   placeholder="Enter author name"
-                  required
                 />
-                {invalidFields.author && (
-                  <div className="invalid-feedback">{invalidFields.author}</div>
-                )}
               </div>
               <div className="form-group">
                 <label htmlFor="tags">Tags</label>
@@ -288,27 +400,45 @@ const BlogForm = () => {
                 )}
               </div>
               <div className="form-group">
+                <label htmlFor="tier">Tier</label>
+
+                <select
+                  className={`form-control ${
+                    invalidFields.tier ? "is-invalid" : ""
+                  }`}
+                  id="tier"
+                  name="tier"
+                  value={formData.tier}
+                  onChange={handleChange}
+                  required
+                  >
+                  <option value="Gold">Gold</option>
+                  <option value="Silver">Silver</option>
+                  <option value="Normal">Normal</option>
+                </select>
+              </div>
+              <div className="form-group">
+                <label htmlFor="dateCreated">Date Created</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="dateCreated"
+                  name="dateCreated"
+                  value={formData.dateCreated}
+                  disabled
+                />
+              </div>
+              <div className="form-group">
                 <label htmlFor="content">Content</label>
                 <ReactQuill
                   theme="snow"
                   value={formData.content}
                   onChange={handleContentChange}
-                  modules={{
-                    toolbar: [
-                      [{ header: "1" }, { header: "2" }],
-                      [{ size: [] }],
-                      ["bold", "italic", "underline", "strike", "blockquote"],
-                      [
-                        { list: "ordered" },
-                        { list: "bullet" },
-                        { indent: "-1" },
-                        { indent: "+1" },
-                      ],
-                      ["link", "image", "video"],
-                      ["clean"],
-                    ],
-                  }}
-                  className={invalidFields.content ? "is-invalid" : ""}
+                  modules={modules}
+                  formats={formats}
+                  className={`form-control ${
+                    invalidFields.content ? "is-invalid" : ""
+                  }`}
                   placeholder="Enter content"
                 />
                 {invalidFields.content && (
@@ -323,7 +453,9 @@ const BlogForm = () => {
             {/* Preview Section */}
             <div className="preview-pane">
               <div className="preview-details">
-                <h3>{formData.title}</h3>
+                <h2 style={{ color: "#000000", whiteSpace: "pre-wrap" }}>
+                  {formData.title}
+                </h2>
                 {formData.author && (
                   <p className="author">
                     <strong>By: </strong> {formData.author}
@@ -342,8 +474,9 @@ const BlogForm = () => {
                 )}
                 {formData.content && (
                   <div
-                    className="content"
-                    dangerouslySetInnerHTML={{ __html: formData.content }}
+                    dangerouslySetInnerHTML={{
+                      __html: processContent(formData.content),
+                    }}
                   ></div>
                 )}
               </div>
@@ -355,4 +488,4 @@ const BlogForm = () => {
   );
 };
 
-export default BlogForm;
+export default WithAuth(BlogForm);

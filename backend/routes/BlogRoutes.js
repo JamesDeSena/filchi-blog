@@ -8,7 +8,7 @@ const {
   GetSpecificBlog,
   CreateBlogWithAuth,
   EditBlogWithAuth,
-  DeleteBlogWithAuth
+  DeleteBlogWithAuth,
 } = require("../controllers/BlogController.js");
 
 // Routes for Service

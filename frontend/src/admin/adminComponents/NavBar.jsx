@@ -5,20 +5,20 @@ import { VscAccount } from "react-icons/vsc";
 import { IoDocumentTextOutline } from "react-icons/io5"; 
 import { GoFileMedia } from "react-icons/go"; 
 import { FaSearch } from "react-icons/fa"; // Importing Font Awesome icon
-import WithAuth from "../../../auth/WithAuth";
+import WithAuth from "../../auth/WithAuth";
 
 const NavBar = () => {
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState("");
 
   const handleSignOut = () => {
-    localStorage.removeItem("token");
+    localStorage.clear();
     navigate("/admin"); 
   };
 
   const handleSearch = (event) => {
     // Implement your search functionality here
-    console.log("Search query:", searchQuery);
+    // console.log("Search query:", searchQuery);
     // You can perform search operations using the 'searchQuery' state
   };
 
@@ -30,9 +30,9 @@ const NavBar = () => {
           <Nav.Link href="#content" className="">
             <IoDocumentTextOutline size={24} /> Content
           </Nav.Link>
-          <Nav.Link href="#media">
+          {/* <Nav.Link href="#media">
             <GoFileMedia size={24} /> Media
-          </Nav.Link>
+          </Nav.Link> */}
         </Nav>
         {/* <div style={{ display: 'flex' }}>
         <Form inline onSubmit={handleSearch} className="">

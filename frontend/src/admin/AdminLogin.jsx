@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import WithoutAuth from '../../auth/WithoutAuth';
+import WithoutAuth from '../auth/WithoutAuth';
 
 const LoginPage = () => {
   const [userName, setUsername] = useState('');
@@ -13,7 +13,7 @@ const LoginPage = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post('http://localhost:8080/api/auth/login', {
+      const response = await axios.post('https://filchi-blog-1.onrender.com/api/auth/login', {
         userName,
         passWord,
       });
