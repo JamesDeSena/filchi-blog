@@ -506,7 +506,7 @@ const Home = () => {
               </div>
             )}
           </div>
-          <a
+          {/* <a
             href="#"
             className="btn btn-lg btn-primary btn-lg-square back-to-top"
           >
@@ -529,7 +529,7 @@ const Home = () => {
             style={{ textDecoration: "none" }}
           >
             x
-          </a>
+          </a> */}
         </div>
       </section>
     </>
